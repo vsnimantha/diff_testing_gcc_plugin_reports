@@ -1,0 +1,46 @@
+image: registry.gitlab.kuleuven.be/m-group-campus-brugge/distrinet/bitflip_research/academiccasestudies:20240607
+
+stages:
+  - build
+  - test
+
+cache:
+  paths:
+    - academicCaseStudies/
+
+build:
+  stage: build
+  tags: [kuleuven]
+  script:
+    - make
+  artifacts:
+    expire_in: never
+    paths:
+      - DFED_plugin64.so
+
+test:
+  stage: test
+  tags: [kuleuven]
+  needs:
+    - job: build
+      artifacts: true
+  before_script:
+    - apt install unzip curl python3-pip -y
+    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.kuleuven.be/u0099817/academiccasestudies.git
+    - pip3 install pytest
+    - chmod +x academiccasestudies/*.sh
+  script:
+    - export DFED_PLUGIN_PATH=$CI_PROJECT_DIR
+    - source ./all_techniques.sh
+    - cd academiccasestudies
+    - python3 -m pytest ./pytest/test_dfedplugin_regression.py --junitxml=regresstionTest.xml
+    - cd ../
+  timeout: 8 hours
+  artifacts:
+    when: always
+    reports:
+      junit: academiccasestudies/regresstionTest.xml
+    paths:
+      - academiccasestudies/pytest/logs/
+
+    
