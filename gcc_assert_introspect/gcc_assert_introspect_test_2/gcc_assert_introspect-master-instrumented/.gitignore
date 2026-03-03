@@ -1,0 +1,5 @@
+*.o
+tester
+assert_introspect.so
+__pycache__
+tests/tests.log
