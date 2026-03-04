@@ -1,0 +1,14 @@
+instrument-attribute gcc plugin
+Christophe Bedard
+
+
+* GNU LGPLv3
+
+This library is distributed under the LGPLv3 license. It is intended
+to allow use of the gcc plugin from both free and proprietary software.
+See license-lgpl-v3.txt for details.
+
+* MIT
+
+The test code is distributed under the MIT license.
+See license-mit.txt for details.
