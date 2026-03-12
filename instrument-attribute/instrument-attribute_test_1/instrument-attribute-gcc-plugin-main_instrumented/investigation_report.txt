@@ -1,0 +1,824 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 LIKELY_BUG       1          34         yes   VOLATILE_RETURN
+  O2                 LIKELY_BUG       1          35         yes   VOLATILE_RETURN
+  O3                 LIKELY_BUG       4          32         yes   COMPLEXITY_CHANGE
+  O3_LOOPS           LIKELY_BUG       5          31         yes   COMPLEXITY_CHANGE
+  OS                 LIKELY_BUG       1          35         yes   VOLATILE_RETURN
+  NO_INLINE          LIKELY_BUG       1          39         yes   VOLATILE_RETURN
+  INLINE_ALL         LIKELY_BUG       4          32         yes   COMPLEXITY_CHANGE
+  NO_TREE_OPTS       LIKELY_BUG       1          35         yes   VOLATILE_RETURN
+  EXTRA_TREE_OPTS    LIKELY_BUG       1          35         yes   VOLATILE_RETURN
+  LTO                LIKELY_BUG       4          32         yes   COMPLEXITY_CHANGE
+  LTO_IPA            LIKELY_BUG       4          32         yes   COMPLEXITY_CHANGE
+  NO_VECT            LIKELY_BUG       4          32         yes   COMPLEXITY_CHANGE
+  VECT               LIKELY_BUG       4          32         yes   COMPLEXITY_CHANGE
+  STRICT_ALIAS       LIKELY_BUG       1          35         yes   VOLATILE_RETURN
+  NO_ALIAS           LIKELY_BUG       1          35         yes   VOLATILE_RETURN
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (1):
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 28
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) had branch elimination (6 branch instructions removed) 
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*): REWRITE — +50/-49 instructions changed
+      ... and 25 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (22 functions changed):
+    BRANCH_ELIM   : 20
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (1):
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 29
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) had branch elimination (6 branch instructions removed) 
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 26 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  should_instrument_function(tree_node*)
+       should_instrument_function(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+258/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle(void*, void*)
+       handle(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-101 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+147/-54 insns) + metrics
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (32):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 26
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) grew in binary size but has no if/loop — likely absorbe
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 23 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 11
+    SIZE_GROWN    : 11  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 5 bug-indicating tag(s) found: COMPLEXITY_CHANGE, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (5):
+    !! [COMPLEXITY_CHANGE]  check_verbose()
+       check_verbose() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+71/-25 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  parse_plugin_args(plugin_name_args*)
+       parse_plugin_args(plugin_name_args*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+332/-163 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  should_instrument_function(tree_node*)
+       should_instrument_function(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+258/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle(void*, void*)
+       handle(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-101 insns) + metrics
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 25
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) grew in binary size but has no if/loop — likely absorbe
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 10
+    SIZE_GROWN    : 13  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (1):
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 29
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) had branch elimination (6 branch instructions removed) 
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) had branch elimination (12 branch instruc
+      ... and 26 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 21
+    SIZE_GROWN    : 1  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (1):
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (39):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 33
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) had branch elimination (6 branch instructions removed) 
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 30 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (27 functions changed):
+    BRANCH_ELIM   : 19
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  should_instrument_function(tree_node*)
+       should_instrument_function(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+258/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle(void*, void*)
+       handle(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-101 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+147/-54 insns) + metrics
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (32):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 26
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) grew in binary size but has no if/loop — likely absorbe
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 23 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 11
+    SIZE_GROWN    : 11  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (1):
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 29
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c grew in binary size but has no if/loop — l
+      print_list(string_list*): print_list(string_list*): REWRITE — +37/-37 instructions changed
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 26 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 16
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (1):
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 29
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) had branch elimination (6 branch instructions removed) 
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 26 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  check_verbose()
+       check_verbose() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+71/-25 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  should_instrument_function(tree_node*)
+       should_instrument_function(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+258/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+147/-54 insns) + metrics
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (32):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 26
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) grew in binary size but has no if/loop — likely absorbe
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 23 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 10
+    SIZE_GROWN    : 12  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  check_verbose()
+       check_verbose() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+71/-25 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  should_instrument_function(tree_node*)
+       should_instrument_function(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+258/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+147/-54 insns) + metrics
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (32):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 26
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) grew in binary size but has no if/loop — likely absorbe
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 23 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 10
+    SIZE_GROWN    : 12  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  should_instrument_function(tree_node*)
+       should_instrument_function(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+258/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle(void*, void*)
+       handle(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-101 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+147/-54 insns) + metrics
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (32):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 26
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) grew in binary size but has no if/loop — likely absorbe
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 23 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 11
+    SIZE_GROWN    : 11  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  should_instrument_function(tree_node*)
+       should_instrument_function(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+258/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle(void*, void*)
+       handle(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-101 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+147/-54 insns) + metrics
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (32):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 26
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) grew in binary size but has no if/loop — likely absorbe
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 23 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 11
+    SIZE_GROWN    : 11  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (1):
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 29
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) had branch elimination (6 branch instructions removed) 
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 26 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (1):
+    !! [VOLATILE_RETURN]  should_instrument_function
+       should_instrument_function returned different expressions across 5 invocations: ['false', 'true']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [ALL_PATHS_COVERED] × 1
+      should_instrument_function: should_instrument_function hit 2 different return lines [93, 128] — good path co
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 201–235) but only one return path (lin
+    [INLINED_SIMPLE] × 29
+      _GLOBAL__sub_I_instrument_attribute.c: _GLOBAL__sub_I_instrument_attribute.c had branch elimination (2 branch instructi
+      print_list(string_list*): print_list(string_list*) had branch elimination (6 branch instructions removed) 
+      list_strstr(string_list*, char const*): list_strstr(string_list*, char const*) grew in binary size but has no if/loop — 
+      ... and 26 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+    [VOID_COMPLEX_FUNCTION] × 3
+      check_verbose: check_verbose has if/loop complexity (lines 187–193) but is void — internal bran
+      parse_plugin_args: parse_plugin_args has if/loop complexity (lines 152–185) but is void — internal 
+      handle: handle has if/loop complexity (lines 123–150) but is void — internal branching i
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_verbose                     1         1         [None]
+    == handle                            5         5         [None, None, None, None, None]
+    == parse_plugin_args                 1         1         [None]
+    == plugin_fini                       1         1         [None]
+    == plugin_init                       1         1         [234]
+    == register_attributes               1         1         [None]
+    == should_instrument_function        5         5         [93, 93, 128, 93, 128]
+
+  DISASM  (23 functions changed):
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_instrument_attribute.c              instrument_attribute.c:291
+    plugin_init                                        instrument_attribute.c:255
+
+================================================================================
+  15 LIKELY_BUG
+================================================================================

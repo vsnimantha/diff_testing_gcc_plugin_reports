@@ -1,18 +1,6 @@
 #include <ctime>
 #include <iostream>
 #include <fstream>
-static void log_with_timestamp(const char *msg);
-
-static void log_with_timestamp(const char *msg) {
-    time_t t = time(NULL);
-    tm *tm_info = localtime(&t);
-    char time_buf[26];
-    strftime(time_buf, 26, "%Y-%m-%d %H:%M:%S", tm_info);
-    std::ofstream log_file("/home/nimantha/FIRES/cfed_plugin_instrumented/trace_CFED_Plugin_Main.cpp.log", std::ios::app);
-    log_file << "{\"ts\":\"" << time_buf
-             << "\",\"file\":\"CFED_Plugin_Main.cpp\",\"msg\":" << msg
-             << "}" << std::endl;
-}
 /*
  * This GCC Plugin has been developed during a research grant from the Baekeland program of the Flemish Agency for Innovation and Entrepreneurship (VLAIO) in cooperation with Televic Healthcare NV, under grant agreement IWT 150696.
  * Copyright (c) 2019 Jens Vankeirsbilck & KU Leuven LRD & Televic Healthcare NV.
@@ -36,6 +24,18 @@ static void log_with_timestamp(const char *msg) {
 #include <stdio.h>
 
 #include "CFED_Plugin.h"
+static void log_with_timestamp(const char *msg);
+
+static void log_with_timestamp(const char *msg) {
+    time_t t = time(NULL);
+    tm *tm_info = localtime(&t);
+    char time_buf[26];
+    strftime(time_buf, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    std::ofstream log_file("/home/nimantha/FIRES/cfed_plugin_instrumented/trace_CFED_Plugin_Main.cpp.log", std::ios::app);
+    log_file << "{\"ts\":\"" << time_buf
+             << "\",\"file\":\"CFED_Plugin_Main.cpp\",\"msg\":" << msg
+             << "}" << std::endl;
+}
 
 
 // Mandatory variable, indicates that a GPL compatible license is applied to this GCC plugin.
@@ -74,10 +74,10 @@ int plugin_init(struct plugin_name_args *info, struct plugin_gcc_version *ver){
     log_with_timestamp(R"JSON({"event":"PARAM","function":"plugin_init","func_id":0,"name":"info","type":"struct plugin_name_args *","is_pointer":true,"is_const":false})JSON");
     log_with_timestamp(R"JSON({"event":"PARAM","function":"plugin_init","func_id":0,"name":"ver","type":"struct plugin_gcc_version *","is_pointer":true,"is_const":false})JSON");
 	if(strncmp(ver->basever,myPlugin_ver.basever, strlen("7.3"))){
+    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/FIRES/cfed_plugin_instrumented/CFED_Plugin_Main.cpp","line":55,"ret_type":"int","expr":"-1"})JSON");
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
 		return -1;
 	}
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/FIRES/cfed_plugin_instrumented/CFED_Plugin_Main.cpp","line":55,"ret_type":"int","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
 
 	struct register_pass_info pass;
 	pass.pass = new CFED_PLUGIN(g, info->argv, info->argc);

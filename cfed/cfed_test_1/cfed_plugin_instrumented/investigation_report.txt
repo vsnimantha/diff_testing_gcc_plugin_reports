@@ -1,0 +1,669 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O2                 LIKELY_BUG       1          972        yes   COMPLEXITY_CHANGE
+  O3                 LIKELY_BUG       1          971        yes   COMPLEXITY_CHANGE
+  O3_LOOPS           LIKELY_BUG       1          971        yes   COMPLEXITY_CHANGE
+  NO_INLINE          LIKELY_BUG       1          1215       yes   COMPLEXITY_CHANGE
+  INLINE_ALL         LIKELY_BUG       1          971        yes   COMPLEXITY_CHANGE
+  NO_TREE_OPTS       LIKELY_BUG       1          973        yes   COMPLEXITY_CHANGE
+  EXTRA_TREE_OPTS    LIKELY_BUG       1          972        yes   COMPLEXITY_CHANGE
+  LTO                LIKELY_BUG       1          977        yes   COMPLEXITY_CHANGE
+  LTO_IPA            LIKELY_BUG       1          977        yes   COMPLEXITY_CHANGE
+  NO_VECT            LIKELY_BUG       1          971        yes   COMPLEXITY_CHANGE
+  VECT               LIKELY_BUG       1          971        yes   COMPLEXITY_CHANGE
+  STRICT_ALIAS       LIKELY_BUG       1          972        yes   COMPLEXITY_CHANGE
+  NO_ALIAS           LIKELY_BUG       1          972        yes   COMPLEXITY_CHANGE
+  O1                 OPTIMISED_AWAY   0          941        yes   INLINED_SIMPLE
+  OS                 OPTIMISED_AWAY   0          945        yes   INLINED_SIMPLE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 941 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (941):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 939
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp: REWRITE — +9/-8 instructions changed
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 936 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (937 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 871
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 37  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 48  added: 0)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (972):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 970
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 967 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (969 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 864
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 72  <- review
+    REWRITE       : 8
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (971):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 969
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 966 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (968 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 863
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 74  <- review
+    REWRITE       : 6
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (971):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 969
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 966 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (968 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 843
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 92  <- review
+    REWRITE       : 8
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 945 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (945):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 943
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp had branch elimination (2 branch instruction
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 940 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (941 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 896
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 15  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 48  added: 0)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (1215):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 1213
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp had branch elimination (2 branch instruction
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 1210 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (1212 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 899
+    SIZE_REDUCED  : 19
+    SIZE_GROWN    : 285  <- review
+    REWRITE       : 6
+
+  SYMBOLS  (removed: 33  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+28 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (971):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 969
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 966 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (968 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 863
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 74  <- review
+    REWRITE       : 6
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (973):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 971
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 968 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (970 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 862
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 73  <- review
+    REWRITE       : 10
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (972):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 970
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 967 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (969 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 864
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 72  <- review
+    REWRITE       : 8
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (977):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 975
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp had branch elimination (2 branch instruction
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 972 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (974 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 863
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 82  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 48  added: 42)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        CFED_Plugin_Main.cpp:72
+    plugin_init.cold                                   CFED_Plugin_Main.cpp:83 (discriminator 2)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (977):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 975
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp had branch elimination (2 branch instruction
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 972 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (974 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 863
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 82  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 48  added: 42)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        CFED_Plugin_Main.cpp:72
+    plugin_init.cold                                   CFED_Plugin_Main.cpp:83 (discriminator 2)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (971):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 969
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 966 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (968 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 862
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 74  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (971):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 969
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 966 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (968 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 863
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 74  <- review
+    REWRITE       : 6
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (972):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 970
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 967 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (969 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 864
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 72  <- review
+    REWRITE       : 8
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (972):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 53–68) but only one return path (line 
+    [INLINED_SIMPLE] × 970
+      _GLOBAL__sub_I_CFED_Plugin_Main.cpp: _GLOBAL__sub_I_CFED_Plugin_Main.cpp grew in binary size but has no if/loop — lik
+      _GLOBAL__sub_I_ECCA.cpp: _GLOBAL__sub_I_ECCA.cpp had branch elimination (2 branch instructions removed) —
+      _GLOBAL__sub_I_RSCFC.cpp: _GLOBAL__sub_I_RSCFC.cpp had branch elimination (2 branch instructions removed) 
+      ... and 967 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [67]
+    == register_attributes               1         1         [None]
+
+  DISASM  (969 functions changed):
+    INLINED       : 7
+    BRANCH_ELIM   : 864
+    SIZE_REDUCED  : 18
+    SIZE_GROWN    : 72  <- review
+    REWRITE       : 8
+
+  SYMBOLS  (removed: 48  added: 1)
+    removed: ['ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)', 'ei_container(edge_iterator)']  (+43 more)
+
+  SOURCE LOCATIONS (7 resolved):
+    _GLOBAL__sub_I_CFED_Plugin_Main.cpp                CFED_Plugin_Main.cpp:94
+    _GLOBAL__sub_I_ECCA.cpp                            ECCA.cpp:199
+    _GLOBAL__sub_I_RSCFC.cpp                           RSCFC.cpp:333
+    _GLOBAL__sub_I_YACCA.cpp                           YACCA.cpp:233
+    ... (+3 more)
+
+================================================================================
+  13 LIKELY_BUG  |  2 OPTIMISED_AWAY
+================================================================================

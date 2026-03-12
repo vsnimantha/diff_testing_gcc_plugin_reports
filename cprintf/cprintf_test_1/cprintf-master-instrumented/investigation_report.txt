@@ -1,0 +1,801 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 LIKELY_BUG       2          704        yes   INLINED_COMPLEX_LOGIC
+  O2                 LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  O3                 LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  O3_LOOPS           LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  OS                 LIKELY_BUG       2          719        yes   INLINED_COMPLEX_LOGIC
+  NO_INLINE          LIKELY_BUG       2          910        yes   COMPLEXITY_CHANGE
+  INLINE_ALL         LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  NO_TREE_OPTS       LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  EXTRA_TREE_OPTS    LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  LTO                LIKELY_BUG       3          741        yes   INLINED_COMPLEX_LOGIC
+  LTO_IPA            LIKELY_BUG       3          741        yes   INLINED_COMPLEX_LOGIC
+  NO_VECT            LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  VECT               LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  STRICT_ALIAS       LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+  NO_ALIAS           LIKELY_BUG       3          730        yes   INLINED_COMPLEX_LOGIC
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+337/-133 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (704):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 699
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      _GLOBAL__sub_I_printfun.cpp: _GLOBAL__sub_I_printfun.cpp grew in binary size but has no if/loop — likely abso
+      ... and 696 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (699 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 655
+    SIZE_GROWN    : 26  <- review
+    REWRITE       : 16
+
+  SYMBOLS  (removed: 2  added: 0)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (4 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    plugin_init                                        cprintf.cpp:83
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+327/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+86/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 665
+    SIZE_GROWN    : 52  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+116/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 670
+    SIZE_GROWN    : 47  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+329/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+116/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 669
+    SIZE_GROWN    : 47  <- review
+    REWRITE       : 8
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+256/-133 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (719):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 714
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      _GLOBAL__sub_I_printfun.cpp: _GLOBAL__sub_I_printfun.cpp grew in binary size but has no if/loop — likely abso
+      ... and 711 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (714 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 682
+    SIZE_GROWN    : 23  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 0)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (4 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    plugin_init                                        cprintf.cpp:83
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (2):
+    !! [COMPLEXITY_CHANGE]  parse_parameters(plugin_name_args*) [clone .cold]
+       parse_parameters(plugin_name_args*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+60/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+7/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (910):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 905
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp had branch elimination (2 branch instructions removed
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp had branch elimination (2 branch instructions removed) — 
+      _GLOBAL__sub_I_printfun.cpp: _GLOBAL__sub_I_printfun.cpp had branch elimination (2 branch instructions remove
+      ... and 902 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (905 functions changed):
+    BRANCH_ELIM   : 665
+    SIZE_GROWN    : 213  <- review
+    REWRITE       : 27
+
+  SYMBOLS  (removed: 0  added: 1)
+
+  SOURCE LOCATIONS (5 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    plugin_init                                        cprintf.cpp:83
+    ... (+1 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+116/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 670
+    SIZE_GROWN    : 47  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+333/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+86/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 663
+    SIZE_GROWN    : 53  <- review
+    REWRITE       : 8
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+327/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+86/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 665
+    SIZE_GROWN    : 52  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+320/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+87/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (741):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 736
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp had branch elimination (2 branch instructions removed
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp had branch elimination (2 branch instructions removed) — 
+      _GLOBAL__sub_I_printfun.cpp: _GLOBAL__sub_I_printfun.cpp had branch elimination (2 branch instructions remove
+      ... and 733 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (737 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 679
+    SIZE_GROWN    : 50  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 3  added: 7)
+    removed: ['cprintf_args_create()', 'log::log_level_map_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        cprintf.cpp:83
+    plugin_init.cold                                   basic_string.h:804
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+320/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+87/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (741):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 736
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp had branch elimination (2 branch instructions removed
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp had branch elimination (2 branch instructions removed) — 
+      _GLOBAL__sub_I_printfun.cpp: _GLOBAL__sub_I_printfun.cpp had branch elimination (2 branch instructions remove
+      ... and 733 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (737 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 679
+    SIZE_GROWN    : 50  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 3  added: 7)
+    removed: ['cprintf_args_create()', 'log::log_level_map_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        cprintf.cpp:83
+    plugin_init.cold                                   basic_string.h:804
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+116/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 670
+    SIZE_GROWN    : 47  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+116/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 670
+    SIZE_GROWN    : 47  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+327/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+86/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 665
+    SIZE_GROWN    : 52  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  parse_parameters(plugin_name_args*)
+       parse_parameters(plugin_name_args*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+327/-133 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+86/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (730):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 54–91) but only one return path (line 
+      parse_parameters: parse_parameters has if/switch branches (lines 28–52) but only one return path (
+    [INLINED_SIMPLE] × 725
+      _GLOBAL__sub_I_cprintf.cpp: _GLOBAL__sub_I_cprintf.cpp grew in binary size but has no if/loop — likely absor
+      _GLOBAL__sub_I_cprintf.cpp.cold: _GLOBAL__sub_I_cprintf.cpp.cold grew in binary size but has no if/loop — likely 
+      _GLOBAL__sub_I_log.cpp: _GLOBAL__sub_I_log.cpp grew in binary size but has no if/loop — likely absorbed 
+      ... and 722 more
+    [RETURN_CONSISTENT] × 3
+      cprintf_args_create: cprintf_args_create returned the same expression across all 1 invocation(s): 're
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      parse_parameters: parse_parameters returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == cprintf_args_create               1         1         [23]
+    == parse_parameters                  1         1         [51]
+    == plugin_init                       1         1         [90]
+
+  DISASM  (726 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 665
+    SIZE_GROWN    : 52  <- review
+    REWRITE       : 7
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['cprintf_args_create()', 'parse_parameters(plugin_name_args*)']
+
+  SOURCE LOCATIONS (6 resolved):
+    _GLOBAL__sub_I_cprintf.cpp                         cprintf.cpp:127
+    _GLOBAL__sub_I_cprintf.cpp.cold                    basic_string.h:804
+    _GLOBAL__sub_I_log.cpp                             log.cpp:88
+    _GLOBAL__sub_I_printfun.cpp                        printfun.cpp:190
+    ... (+2 more)
+
+================================================================================
+  15 LIKELY_BUG
+================================================================================

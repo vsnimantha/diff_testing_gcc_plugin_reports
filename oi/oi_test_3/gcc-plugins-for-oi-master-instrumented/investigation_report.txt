@@ -1,0 +1,648 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 LIKELY_BUG       1          27         yes   INLINED_COMPLEX_LOGIC
+  O2                 LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  O3                 LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  O3_LOOPS           LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  OS                 LIKELY_BUG       1          28         yes   INLINED_COMPLEX_LOGIC
+  INLINE_ALL         LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  NO_TREE_OPTS       LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  EXTRA_TREE_OPTS    LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  LTO                LIKELY_BUG       1          30         yes   INLINED_COMPLEX_LOGIC
+  LTO_IPA            LIKELY_BUG       1          30         yes   INLINED_COMPLEX_LOGIC
+  NO_VECT            LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  VECT               LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  STRICT_ALIAS       LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  NO_ALIAS           LIKELY_BUG       1          31         yes   INLINED_COMPLEX_LOGIC
+  NO_INLINE          OPTIMISED_AWAY   0          36         yes   INLINED_SIMPLE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 23
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc had branch elimination (2 branch instructio
+      make_no_opt_attr_pass(): make_no_opt_attr_pass(): REWRITE — +23/-21 instructions changed
+      __static_initialization_and_destruction_0(int, int): __static_initialization_and_destruction_0(int, int) had branch elimination (2 br
+      ... and 20 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (22 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (28):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 24
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc had branch elimination (2 branch instructio
+      make_no_opt_attr_pass(): make_no_opt_attr_pass(): REWRITE — +22/-21 instructions changed
+      __static_initialization_and_destruction_0(int, int): __static_initialization_and_destruction_0(int, int) had branch elimination (4 br
+      ... and 21 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (23 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 19
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 36 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (36):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 32
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc had branch elimination (2 branch instructio
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 29 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (30 functions changed):
+    BRANCH_ELIM   : 21
+    SIZE_GROWN    : 8  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc grew in binary size but has no if/loop — li
+      make_no_opt_attr_pass(): make_no_opt_attr_pass(): REWRITE — +23/-21 instructions changed
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 17
+    SIZE_GROWN    : 7  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (30):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 26
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass(): REWRITE — +23/-21 instructions changed
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 23 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (25 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 17
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (30):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 26
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass(): REWRITE — +23/-21 instructions changed
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 23 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (25 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 17
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (1):
+    !! [INLINED_COMPLEX_LOGIC]  no_opt_attr_execute()
+       no_opt_attr_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (31):
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 30–46) but only one return path (line 
+      no_opt_attr_execute: no_opt_attr_execute has if/switch branches (lines 17–24) but only one return pat
+    [INLINED_SIMPLE] × 27
+      _GLOBAL__sub_I_no_opt_attr_plugin.cc: _GLOBAL__sub_I_no_opt_attr_plugin.cc: REWRITE — +10/-9 instructions changed
+      make_no_opt_attr_pass(): make_no_opt_attr_pass() had branch elimination (3 branch instructions removed) —
+      make_no_opt_attr_pass() [clone .cold]: make_no_opt_attr_pass() [clone .cold] grew in binary size but has no if/loop — l
+      ... and 24 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      no_opt_attr_execute: no_opt_attr_execute returned the same expression across all 195 invocation(s): '
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == no_opt_attr_execute               195       195       [23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23]
+    == plugin_init                       1         1         [45]
+
+  DISASM  (26 functions changed):
+    INLINED       : 1
+    BRANCH_ELIM   : 18
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 1  added: 0)
+    removed: ['no_opt_attr_execute()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_no_opt_attr_plugin.cc               no_opt_attr_plugin.cc:73
+    plugin_init                                        no_opt_attr_plugin.cc:52
+
+================================================================================
+  14 LIKELY_BUG  |  1 OPTIMISED_AWAY
+================================================================================

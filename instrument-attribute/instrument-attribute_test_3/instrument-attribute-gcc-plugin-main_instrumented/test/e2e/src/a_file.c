@@ -39,21 +39,21 @@ static void log_with_timestamp(const char *msg) {
 
 void myawesomelib_function_a()
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/test/e2e/src/a_file.c","function":"myawesomelib_function_a","func_id":2,"num_params":0,"start_line":25,"end_line":28,"metrics":{"num_params":0,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[]})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/test/e2e/src/a_file.c\",\"function\":\"myawesomelib_function_a\",\"func_id\":2,\"num_params\":0,\"start_line\":25,\"end_line\":28,\"metrics\":{\"num_params\":0,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[]}");
   printf("instrumented via include-function-list with 'myawesomelib_' prefix\n");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"myawesomelib_function_a","func_id":2})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"myawesomelib_function_a\",\"func_id\":2}");
 }
 
 void myawesomelib_function_b()
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/test/e2e/src/a_file.c","function":"myawesomelib_function_b","func_id":1,"num_params":0,"start_line":30,"end_line":33,"metrics":{"num_params":0,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[]})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/test/e2e/src/a_file.c\",\"function\":\"myawesomelib_function_b\",\"func_id\":1,\"num_params\":0,\"start_line\":30,\"end_line\":33,\"metrics\":{\"num_params\":0,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[]}");
   printf("instrumented via include-function-list with 'myawesomelib_' prefix\n");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"myawesomelib_function_b","func_id":1})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"myawesomelib_function_b\",\"func_id\":1}");
 }
 
 void mynotawesomelib_function_c()
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/test/e2e/src/a_file.c","function":"mynotawesomelib_function_c","func_id":0,"num_params":0,"start_line":35,"end_line":38,"metrics":{"num_params":0,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[]})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/test/e2e/src/a_file.c\",\"function\":\"mynotawesomelib_function_c\",\"func_id\":0,\"num_params\":0,\"start_line\":35,\"end_line\":38,\"metrics\":{\"num_params\":0,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[]}");
   printf("not instrumented\n");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"mynotawesomelib_function_c","func_id":0})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"mynotawesomelib_function_c\",\"func_id\":0}");
 }

@@ -1,0 +1,599 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  INLINE_ALL         LIKELY_BUG       1          34         yes   COMPLEXITY_CHANGE
+  LTO                LIKELY_BUG       1          34         yes   COMPLEXITY_CHANGE
+  LTO_IPA            LIKELY_BUG       1          34         yes   COMPLEXITY_CHANGE
+  NO_VECT            LIKELY_BUG       1          34         yes   COMPLEXITY_CHANGE
+  O3                 LIKELY_BUG       1          34         yes   COMPLEXITY_CHANGE
+  O3_LOOPS           LIKELY_BUG       1          34         yes   COMPLEXITY_CHANGE
+  VECT               LIKELY_BUG       1          34         yes   COMPLEXITY_CHANGE
+  EXTRA_TREE_OPTS    OPTIMISED_AWAY   0          35         yes   INLINED_SIMPLE
+  NO_ALIAS           OPTIMISED_AWAY   0          35         yes   INLINED_SIMPLE
+  NO_INLINE          OPTIMISED_AWAY   0          39         yes   INLINED_SIMPLE
+  NO_TREE_OPTS       OPTIMISED_AWAY   0          35         yes   INLINED_SIMPLE
+  O1                 OPTIMISED_AWAY   0          33         yes   INLINED_SIMPLE
+  O2                 OPTIMISED_AWAY   0          35         yes   INLINED_SIMPLE
+  OS                 OPTIMISED_AWAY   0          34         yes   INLINED_SIMPLE
+  STRICT_ALIAS       OPTIMISED_AWAY   0          35         yes   INLINED_SIMPLE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 35 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 32
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 29 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+320/-156 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 31
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 28 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+320/-156 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 31
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 28 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+320/-156 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 31
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 28 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 35 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 32
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 29 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 39 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (39):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 36
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass() had branch elimination (3 branch instructions re
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 33 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (35 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 27
+    SIZE_GROWN    : 6  <- review
+
+  SYMBOLS  (removed: 2  added: 0)
+    removed: ['get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 35 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 32
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c grew in binary size but has no if/loop 
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 29 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+320/-156 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 31
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 28 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 33 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (33):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 30
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      __static_initialization_and_destruction_0(int, int): __static_initialization_and_destruction_0(int, int) had branch elimination (4 br
+      ... and 27 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (29 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 1  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 35 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 32
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 29 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+320/-156 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 31
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 28 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+321/-156 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 31
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 28 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 34 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 31
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +22/-21 instructions changed
+      __static_initialization_and_destruction_0(int, int): __static_initialization_and_destruction_0(int, int) had branch elimination (4 br
+      ... and 28 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (30 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 35 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (35):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 32
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 29 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+320/-156 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (34):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 88–137) but only one return path (line
+    [INLINED_SIMPLE] × 31
+      _GLOBAL__sub_I_arm_ssp_per_task_plugin.c: _GLOBAL__sub_I_arm_ssp_per_task_plugin.c had branch elimination (2 branch instru
+      make_arm_pertask_ssp_rtl_pass(): make_arm_pertask_ssp_rtl_pass(): REWRITE — +23/-21 instructions changed
+      make_arm_pertask_ssp_rtl_pass() [clone .cold]: make_arm_pertask_ssp_rtl_pass() [clone .cold] grew in binary size but has no if/
+      ... and 28 more
+    [RETURN_CONSISTENT] × 2
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): ''
+      arm_pertask_ssp_rtl_execute: arm_pertask_ssp_rtl_execute returned the same expression across all 3 invocation
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == arm_pertask_ssp_rtl_execute       3         3         [67, 67, 67]
+    == plugin_init                       1         1         [123]
+
+  DISASM  (31 functions changed):
+    INLINED       : 3
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 3  added: 0)
+    removed: ['arm_pertask_ssp_rtl_execute()', 'get_current_sequence()', 'get_insns()']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_arm_ssp_per_task_plugin.c           arm_ssp_per_task_plugin.c:170
+    plugin_init                                        arm_ssp_per_task_plugin.c:110
+
+================================================================================
+  7 LIKELY_BUG  |  8 OPTIMISED_AWAY
+================================================================================

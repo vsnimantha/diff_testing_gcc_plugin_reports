@@ -95,11 +95,12 @@ static const char *parse_get_specifier(const char *printfun_def,
     log_with_timestamp(R"JSON({"event":"PARAM","function":"parse_get_specifier","func_id":1,"name":"printfun_def","type":"const char *","is_pointer":true,"is_const":false})JSON");
     log_with_timestamp(R"JSON({"event":"PARAM","function":"parse_get_specifier","func_id":1,"name":"out","type":"std::string *","is_pointer":true,"is_const":false})JSON");
 	while (ISBLANK(*printfun_def)) printfun_def++;
-	if (*printfun_def == '\0')
-		return printfun_def;
+	if (*printfun_def == '\0') {
+	    log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_get_specifier","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/printfun.cpp","line":70,"ret_type":"const char *","expr":"printfun_def"})JSON");
+	    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_get_specifier","func_id":1})JSON");
+	    return printfun_def;
+	}
 	if (*printfun_def != '%') {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_get_specifier","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/printfun.cpp","line":70,"ret_type":"const char *","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_get_specifier","func_id":1})JSON");
 		std::string err("Expected %-specifier, but got: `");
 		while (*printfun_def != '\0' && !ISBLANK(*printfun_def))
 			err += *printfun_def++;

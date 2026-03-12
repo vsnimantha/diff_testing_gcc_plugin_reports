@@ -1,0 +1,47 @@
+name: Test
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    # Schedule twice a month, on the 1st and the 15th
+    - cron: '0 0 1,15 * *'
+jobs:
+  gcc:
+    strategy:
+      matrix:
+        include:
+          - ubuntu: ubuntu-18.04
+            gcc: gcc-7
+            gxx: g++-7
+          - ubuntu: ubuntu-20.04
+            gcc: gcc-8
+            gxx: g++-8
+          - ubuntu: ubuntu-20.04
+            gcc: gcc-9
+            gxx: g++-9
+          - ubuntu: ubuntu-20.04
+            gcc: gcc-10
+            gxx: g++-10
+    runs-on: ${{ matrix.ubuntu }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get update && sudo apt-get install -q -y ${{ matrix.gcc }} ${{ matrix.gxx }} ${{ matrix.gcc }}-plugin-dev
+        ${{ matrix.gcc }} --version
+        ${{ matrix.gxx }} --version
+    - name: Install test dependencies
+      run: |
+        sudo apt-get install -q -y lttng-tools liblttng-ust-dev babeltrace
+        lttng --version
+        babeltrace
+    - name: Build
+      run: |
+        make TARGET_GCC=${{ matrix.gcc }} CXX=${{ matrix.gxx }}
+    - name: Test
+      run: |
+        make TARGET_GCC=${{ matrix.gcc }} CXX=${{ matrix.gxx }} verify
+        make TARGET_GCC=${{ matrix.gcc }} CXX=${{ matrix.gxx }} test
+        make TARGET_GCC=${{ matrix.gcc }} CXX=${{ matrix.gxx }} test_utils

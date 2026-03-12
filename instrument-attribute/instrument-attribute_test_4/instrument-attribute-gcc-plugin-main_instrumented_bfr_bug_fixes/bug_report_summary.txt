@@ -1,0 +1,811 @@
+
+================================================================================
+DIFFERENTIAL TESTING REPORT
+================================================================================
+
+Summary: 17 BUG  |  0 SUSPICIOUS  |  0 NOISY  |  0 OK
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O0
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O1
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O2
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O3
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O3_LOOPS
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: OS
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii.constprop.0  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_INLINE
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii.constprop.0  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskanES_.isra.0  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv.isra.0  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    _ZNK16wide_int_bitmaskorES_.isra.0  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: INLINE_ALL
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_TREE_OPTS
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: EXTRA_TREE_OPTS
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: LTO
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: LTO_IPA
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: DEBUG
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_VECT
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: VECT
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: STRICT_ALIAS
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_ALIAS
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_instrument_attribute.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:283
+    _Z10print_listP11string_list  ->  unknown
+    _Z11list_strstrP11string_listPKc  ->  unknown
+    _Z11plugin_finiPvS_  ->  unknown
+    _Z13check_verbosev  ->  unknown
+    _Z17parse_plugin_argsP16plugin_name_args  ->  unknown
+    _Z26should_instrument_functionP9tree_node  ->  unknown
+    _Z41__static_initialization_and_destruction_0ii  ->  unknown
+    _Z5countPKcS0_  ->  unknown
+    _Z6handlePvS_  ->  unknown
+    _Z7strdup_PKc  ->  unknown
+    _Z9free_listP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list  ->  unknown
+    _Z9split_strPcPKcP11string_list.cold  ->  unknown
+    _ZL16lookup_attributePKcP9tree_node  ->  unknown
+    _ZL18log_with_timestampPKc  ->  unknown
+    _ZL19register_attributesPvS_  ->  unknown
+    _ZN16wide_int_bitmaskC1Em  ->  unknown
+    _ZN16wide_int_bitmaskC1Emm  ->  unknown
+    _ZNK16wide_int_bitmaskanES_  ->  unknown
+    _ZNK16wide_int_bitmaskcoEv  ->  unknown
+    _ZNK16wide_int_bitmaskorES_  ->  unknown
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/instrument_attribute.c:247
+
+  Log: trace_instrument_attribute.c_BASE.log
+    Base:    17 frames / 48 events
+    Variant: 17 frames / 48 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('handle', 4, 0), ('should_instrument_function', 5, 0), ('handle', 4, 1), ('should_instrument_function', 5, 1), ('handle', 4, 2), ('should_instrument_function', 5, 2), ('handle', 4, 3), ('should_instrument_function', 5, 3), ('handle', 4, 4), ('should_instrument_function', 5, 4), ('handle', 4, 5), ('should_instrument_function', 5, 5)]}
+
+  Log: trace_utils.c_BASE.log
+    Base:    11 frames / 49 events
+    Variant: 11 frames / 49 events
+    Issues:  2 real  |  0 noise-filtered
+
+    [BASE_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+    [VARIANT_INVARIANT_VIOLATION] x1
+        {'type': 'unterminated_functions', 'stack': [('split_str', 2, 0)]}
+
+================================================================================

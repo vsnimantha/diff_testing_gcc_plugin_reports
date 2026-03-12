@@ -100,13 +100,10 @@ void __putwrite(const char *str, size_t size, size_t nmemb)
 int timeval_subtract(struct timeval *result,
 		struct timeval *a, struct timeval *b)
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/test/crlog.c","function":"timeval_subtract","func_id":1,"num_params":3,"start_line":85,"end_line":107,"metrics":{"num_params":3,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"result","type":"struct timeval *","is_pointer":true,"is_const":false},{"name":"a","type":"struct timeval *","is_pointer":true,"is_const":false},{"name":"b","type":"struct timeval *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"timeval_subtract","func_id":1,"name":"result","type":"struct timeval *","is_pointer":true,"is_const":false})JSON");
-    printf("[LOG][PARAM_VALUE] result = %p\n", result);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"timeval_subtract","func_id":1,"name":"a","type":"struct timeval *","is_pointer":true,"is_const":false})JSON");
-    printf("[LOG][PARAM_VALUE] a = %p\n", a);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"timeval_subtract","func_id":1,"name":"b","type":"struct timeval *","is_pointer":true,"is_const":false})JSON");
-    printf("[LOG][PARAM_VALUE] b = %p\n", b);
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/test/crlog.c\",\"function\":\"timeval_subtract\",\"func_id\":1,\"num_params\":3,\"start_line\":85,\"end_line\":107,\"metrics\":{\"num_params\":3,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"result\",\"type\":\"struct timeval *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"a\",\"type\":\"struct timeval *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"b\",\"type\":\"struct timeval *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"timeval_subtract\",\"func_id\":1,\"name\":\"result\",\"type\":\"struct timeval *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"timeval_subtract\",\"func_id\":1,\"name\":\"a\",\"type\":\"struct timeval *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"timeval_subtract\",\"func_id\":1,\"name\":\"b\",\"type\":\"struct timeval *\",\"is_pointer\":true,\"is_const\":false}");
 	/* Perform the carry for the later subtraction by updating b. */
 	if (a->tv_usec < b->tv_usec) {
 		int nsec = (a->tv_usec - b->tv_usec) / 1000000 + 1;
@@ -125,20 +122,19 @@ int timeval_subtract(struct timeval *result,
 	result->tv_usec = a->tv_usec - b->tv_usec;
 
 	/* Return 1 if result is negative. */
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"timeval_subtract","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/test/crlog.c","line":106,"ret_type":"int","expr":"a->tv_sec < b->tv_sec"})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"timeval_subtract\",\"func_id\":1,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/test/crlog.c\",\"line\":106,\"ret_type\":\"int\",\"expr\":\"a->tv_sec < b->tv_sec\"}");
     printf("[LOG][RETURN_VALUE] %d\n", (a->tv_sec < b->tv_sec));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"timeval_subtract","func_id":1})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"timeval_subtract\",\"func_id\":1}");
 	return a->tv_sec < b->tv_sec;
 }
 
 
 int main(int argc, char **argv)
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/test/crlog.c","function":"main","func_id":0,"num_params":2,"start_line":110,"end_line":142,"metrics":{"num_params":2,"call_count":6,"has_recursion":false,"has_loop":true,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"argc","type":"int","is_pointer":false,"is_const":false},{"name":"argv","type":"char **","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"main","func_id":0,"name":"argc","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/test/crlog.c\",\"function\":\"main\",\"func_id\":0,\"num_params\":2,\"start_line\":110,\"end_line\":142,\"metrics\":{\"num_params\":2,\"call_count\":6,\"has_recursion\":false,\"has_loop\":true,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"argc\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"argv\",\"type\":\"char **\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"main\",\"func_id\":0,\"name\":\"argc\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] argc = %d\n", argc);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"main","func_id":0,"name":"argv","type":"char **","is_pointer":true,"is_const":false})JSON");
-    printf("[LOG][PARAM_VALUE] argv = %s\n", argv);
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"main\",\"func_id\":0,\"name\":\"argv\",\"type\":\"char **\",\"is_pointer\":true,\"is_const\":false}");
 	size_t niter = 10000000;
 	size_t i;
 	static const char str1[] = "String1 String1";
@@ -168,8 +164,8 @@ int main(int argc, char **argv)
 			user.tv_sec, user.tv_usec,
 			sys.tv_sec, sys.tv_usec);
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"main","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/test/crlog.c","line":141,"ret_type":"int","expr":"0"})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"main\",\"func_id\":0,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/test/crlog.c\",\"line\":141,\"ret_type\":\"int\",\"expr\":\"0\"}");
     printf("[LOG][RETURN_VALUE] %d\n", (0));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"main","func_id":0})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"main\",\"func_id\":0}");
 	return 0;
 }

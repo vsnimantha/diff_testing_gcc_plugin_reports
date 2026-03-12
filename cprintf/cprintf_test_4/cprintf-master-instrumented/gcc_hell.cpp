@@ -49,8 +49,9 @@ static tree create_string_param(tree string)
 	TREE_CONSTANT(string) = 1;
 	TREE_READONLY(string) = 1;
 
+	log_with_timestamp(R"JSON({"event":"RETURN","function":"create_string_param","func_id":8,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":37,"ret_type":"int","expr":"build1(ADDR_EXPR, ptr_type_node, string)"})JSON");
+	log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"create_string_param","func_id":8})JSON");
 	return build1(ADDR_EXPR, ptr_type_node, string);
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"create_string_param","func_id":8})JSON");
 }
 
 cprintf_pass::cprintf_pass(gcc::context *ctx)
@@ -95,14 +96,18 @@ static tree get_string_cst(tree var)
 {
     log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","function":"get_string_cst","func_id":6,"num_params":1,"start_line":72,"end_line":99,"metrics":{"num_params":1,"call_count":3,"has_recursion":false,"has_loop":true,"has_if":true,"has_switch":true,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"var","type":"int","is_pointer":false,"is_const":false}]})JSON");
     log_with_timestamp(R"JSON({"event":"PARAM","function":"get_string_cst","func_id":6,"name":"var","type":"int","is_pointer":false,"is_const":false})JSON");
-	if (var == NULL_TREE)
-		return NULL_TREE;
+	if (var == NULL_TREE) {
+	    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_string_cst","func_id":6,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":77,"ret_type":"int","expr":"NULL_TREE"})JSON");
+	    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_string_cst","func_id":6})JSON");
+	    return NULL_TREE;
+	}
 
-	if (TREE_CODE(var) == STRING_CST)
-		return var;
+	if (TREE_CODE(var) == STRING_CST) {
+	    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_string_cst","func_id":6,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":78,"ret_type":"int","expr":"var"})JSON");
+	    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_string_cst","func_id":6})JSON");
+	    return var;
+	}
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_string_cst","func_id":6,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":78,"ret_type":"int","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_string_cst","func_id":6})JSON");
 	switch (TREE_CODE_CLASS(TREE_CODE(var))) {
 	case tcc_expression:
 	case tcc_reference: {
@@ -112,10 +117,11 @@ static tree get_string_cst(tree var)
 				tree ret = TREE_OPERAND(var, i);
 
 				ret = get_string_cst(ret);
-				if (ret != NULL_TREE)
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_string_cst","func_id":6,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":90,"ret_type":"int","expr":"ret"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_string_cst","func_id":6})JSON");
-					return ret;
+				if (ret != NULL_TREE) {
+				    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_string_cst","func_id":6,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":90,"ret_type":"int","expr":"ret"})JSON");
+				    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_string_cst","func_id":6})JSON");
+				    return ret;
+				}
 			}
 			break;
 		}
@@ -123,6 +129,8 @@ static tree get_string_cst(tree var)
 		break;
 	}
 
+	log_with_timestamp(R"JSON({"event":"RETURN","function":"get_string_cst","func_id":6,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":109,"ret_type":"int","expr":"NULL_TREE"})JSON");
+	log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_string_cst","func_id":6})JSON");
 	return NULL_TREE;
 }
 
@@ -134,17 +142,26 @@ static inline tree printfun_get_const_fmt(gcall *stmt, const char *func_name)
 	tree fmt_str;
 	printfun::printfun_t &pf = printfun::printfuns.at(func_name);
 
-	if (gimple_call_num_args(stmt) <= pf.fmt_pos)
-		return NULL_TREE;
+	if (gimple_call_num_args(stmt) <= pf.fmt_pos) {
+	    log_with_timestamp(R"JSON({"event":"RETURN","function":"printfun_get_const_fmt","func_id":5,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":110,"ret_type":"int","expr":"NULL_TREE"})JSON");
+	    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"printfun_get_const_fmt","func_id":5})JSON");
+	    return NULL_TREE;
+	}
 
 	fmt_str = gimple_call_arg(stmt, pf.fmt_pos);
 	fmt_str = get_string_cst(fmt_str);
 
-	if (fmt_str == NULL_TREE)
-		return NULL_TREE;
+	if (fmt_str == NULL_TREE) {
+	    log_with_timestamp(R"JSON({"event":"RETURN","function":"printfun_get_const_fmt","func_id":5,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":119,"ret_type":"int","expr":"NULL_TREE"})JSON");
+	    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"printfun_get_const_fmt","func_id":5})JSON");
+	    return NULL_TREE;
+	}
 
-	if (!TREE_CONSTANT(fmt_str))
-		return NULL_TREE;
+	if (!TREE_CONSTANT(fmt_str)) {
+	    log_with_timestamp(R"JSON({"event":"RETURN","function":"printfun_get_const_fmt","func_id":5,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":125,"ret_type":"int","expr":"NULL_TREE"})JSON");
+	    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"printfun_get_const_fmt","func_id":5})JSON");
+	    return NULL_TREE;
+	}
 
     log_with_timestamp(R"JSON({"event":"RETURN","function":"printfun_get_const_fmt","func_id":5,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":118,"ret_type":"int","expr":"fmt_str"})JSON");
     log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"printfun_get_const_fmt","func_id":5})JSON");
@@ -283,6 +300,8 @@ tokens_create(const char *fmt, const printfun::printfun_t &pf)
 	return ret;
 
 ret_empty_str:
+	log_with_timestamp(R"JSON({"event":"RETURN","function":"tokens_create","func_id":3,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/gcc_hell.cpp","line":248,"ret_type":"int","expr":"std::vector<std::pair<std::string,bool>>()"})JSON");
+	log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"tokens_create","func_id":3})JSON");
 	return std::vector<std::pair<std::string,bool>>();
 }
 
@@ -338,6 +357,7 @@ static void handle_printfunc(gimple_stmt_iterator *gsi,
 		insert_spec_func(pf, stmt, gsi, specs, tokens[i]);
 	}
 	gsi_remove(gsi, true);
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"handle_printfunc","func_id":2})JSON");
 }
 
 static void build_spec_function(printfun::printfun_t &pf,

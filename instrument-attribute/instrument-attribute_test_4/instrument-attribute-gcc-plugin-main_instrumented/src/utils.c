@@ -36,21 +36,21 @@ static void log_with_timestamp(const char *msg) {
 
 char * strdup_(const char * str)
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","function":"strdup_","func_id":4,"num_params":1,"start_line":22,"end_line":28,"metrics":{"num_params":1,"call_count":2,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"str","type":"const char *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"strdup_","func_id":4,"name":"str","type":"const char *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"function\":\"strdup_\",\"func_id\":4,\"num_params\":1,\"start_line\":22,\"end_line\":28,\"metrics\":{\"num_params\":1,\"call_count\":2,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"str\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"strdup_\",\"func_id\":4,\"name\":\"str\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
   size_t len = strlen(str) + 1;
   char * dup_str = new char[len];
   memcpy(dup_str, str, len);
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"strdup_","func_id":4,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","line":27,"ret_type":"char *","expr":"dup_str"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"strdup_","func_id":4})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"strdup_\",\"func_id\":4,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"line\":27,\"ret_type\":\"char *\",\"expr\":\"dup_str\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"strdup_\",\"func_id\":4}");
   return dup_str;
 }
 
 size_t count(const char * str, const char * character)
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","function":"count","func_id":3,"num_params":2,"start_line":30,"end_line":41,"metrics":{"num_params":2,"call_count":3,"has_recursion":false,"has_loop":true,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"str","type":"const char *","is_pointer":true,"is_const":false},{"name":"character","type":"const char *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"count","func_id":3,"name":"str","type":"const char *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"count","func_id":3,"name":"character","type":"const char *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"function\":\"count\",\"func_id\":3,\"num_params\":2,\"start_line\":30,\"end_line\":41,\"metrics\":{\"num_params\":2,\"call_count\":3,\"has_recursion\":false,\"has_loop\":true,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"str\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"character\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"count\",\"func_id\":3,\"name\":\"str\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"count\",\"func_id\":3,\"name\":\"character\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
   assert(1 == strlen(character));
   const char * p = str;
   size_t count = 0;
@@ -59,23 +59,23 @@ size_t count(const char * str, const char * character)
     if(*p == *character) count++;
   } while (*(p++));
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"count","func_id":3,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","line":40,"ret_type":"size_t","expr":"count"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"count","func_id":3})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"count\",\"func_id\":3,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"line\":40,\"ret_type\":\"size_t\",\"expr\":\"count\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"count\",\"func_id\":3}");
   return count;
 }
 
 void split_str(char * str, const char * sep, struct string_list * list)
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","function":"split_str","func_id":2,"num_params":3,"start_line":43,"end_line":69,"metrics":{"num_params":3,"call_count":9,"has_recursion":false,"has_loop":true,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"str","type":"char *","is_pointer":true,"is_const":false},{"name":"sep","type":"const char *","is_pointer":true,"is_const":false},{"name":"list","type":"struct string_list *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"split_str","func_id":2,"name":"str","type":"char *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"split_str","func_id":2,"name":"sep","type":"const char *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"split_str","func_id":2,"name":"list","type":"struct string_list *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"function\":\"split_str\",\"func_id\":2,\"num_params\":3,\"start_line\":43,\"end_line\":69,\"metrics\":{\"num_params\":3,\"call_count\":9,\"has_recursion\":false,\"has_loop\":true,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"str\",\"type\":\"char *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"sep\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"list\",\"type\":\"struct string_list *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"split_str\",\"func_id\":2,\"name\":\"str\",\"type\":\"char *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"split_str\",\"func_id\":2,\"name\":\"sep\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"split_str\",\"func_id\":2,\"name\":\"list\",\"type\":\"struct string_list *\",\"is_pointer\":true,\"is_const\":false}");
   assert(0 < strlen(sep));
   if (0 == strlen(str)) {
     list->len = 0u;
     list->data_len = 0u;
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"split_str","func_id":2,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","line":49,"ret_type":"void","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"split_str","func_id":2})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"split_str\",\"func_id\":2,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"line\":49,\"ret_type\":\"void\",\"expr\":\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"split_str\",\"func_id\":2}");
     return;
   }
 
@@ -96,32 +96,35 @@ void split_str(char * str, const char * sep, struct string_list * list)
 
   list->len = len;
   list->data_len = data_len;
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"split_str\",\"func_id\":2}");
 }
 
 void free_list(struct string_list * list)
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","function":"free_list","func_id":1,"num_params":1,"start_line":71,"end_line":79,"metrics":{"num_params":1,"call_count":2,"has_recursion":false,"has_loop":true,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"list","type":"struct string_list *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"free_list","func_id":1,"name":"list","type":"struct string_list *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"function\":\"free_list\",\"func_id\":1,\"num_params\":1,\"start_line\":71,\"end_line\":79,\"metrics\":{\"num_params\":1,\"call_count\":2,\"has_recursion\":false,\"has_loop\":true,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"list\",\"type\":\"struct string_list *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"free_list\",\"func_id\":1,\"name\":\"list\",\"type\":\"struct string_list *\",\"is_pointer\":true,\"is_const\":false}");
   for (size_t i = 0; i < list->data_len; i++) {
     free(list->data[i]);
   }
   free(list->data);
   list->len = 0;
   list->data_len = 0;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"free_list","func_id":1})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"free_list\",\"func_id\":1}");
 }
 
 const char * list_strstr(struct string_list * list, const char * str1)
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","function":"list_strstr","func_id":0,"num_params":2,"start_line":81,"end_line":89,"metrics":{"num_params":2,"call_count":1,"has_recursion":false,"has_loop":true,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"list","type":"struct string_list *","is_pointer":true,"is_const":false},{"name":"str1","type":"const char *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"list_strstr","func_id":0,"name":"list","type":"struct string_list *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"list_strstr","func_id":0,"name":"str1","type":"const char *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"function\":\"list_strstr\",\"func_id\":0,\"num_params\":2,\"start_line\":81,\"end_line\":89,\"metrics\":{\"num_params\":2,\"call_count\":1,\"has_recursion\":false,\"has_loop\":true,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"list\",\"type\":\"struct string_list *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"str1\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"list_strstr\",\"func_id\":0,\"name\":\"list\",\"type\":\"struct string_list *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"list_strstr\",\"func_id\":0,\"name\":\"str1\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
   for (size_t i = 0; i < list->len; i++) {
     if (NULL != strstr(str1, list->data[i])) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"list_strstr\",\"func_id\":0,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"line\":85,\"ret_type\":\"const char *\",\"expr\":\"list->data[i]\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"list_strstr\",\"func_id\":0}");
       return list->data[i];
     }
   }
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"list_strstr","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c","line":88,"ret_type":"const char *","expr":"NULL"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"list_strstr","func_id":0})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"list_strstr\",\"func_id\":0,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/instrument-attribute/instrument-attribute-gcc-plugin-main_instrumented/src/utils.c\",\"line\":88,\"ret_type\":\"const char *\",\"expr\":\"NULL\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"list_strstr\",\"func_id\":0}");
   return NULL;
 }

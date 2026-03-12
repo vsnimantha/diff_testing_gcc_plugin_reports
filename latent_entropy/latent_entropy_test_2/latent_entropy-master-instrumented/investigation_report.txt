@@ -1,0 +1,1219 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 LIKELY_BUG       3          120        yes   INLINED_COMPLEX_LOGIC
+  O2                 LIKELY_BUG       4          123        yes   INLINED_COMPLEX_LOGIC
+  O3                 LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  O3_LOOPS           LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  OS                 LIKELY_BUG       3          122        yes   INLINED_COMPLEX_LOGIC
+  NO_INLINE          LIKELY_BUG       5          152        yes   COMPLEXITY_CHANGE
+  INLINE_ALL         LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  NO_TREE_OPTS       LIKELY_BUG       4          123        yes   INLINED_COMPLEX_LOGIC
+  EXTRA_TREE_OPTS    LIKELY_BUG       4          123        yes   INLINED_COMPLEX_LOGIC
+  LTO                LIKELY_BUG       9          119        yes   COMPLEXITY_CHANGE
+  LTO_IPA            LIKELY_BUG       9          119        yes   COMPLEXITY_CHANGE
+  NO_VECT            LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  VECT               LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  STRICT_ALIAS       LIKELY_BUG       4          123        yes   INLINED_COMPLEX_LOGIC
+  NO_ALIAS           LIKELY_BUG       4          123        yes   INLINED_COMPLEX_LOGIC
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (120):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 105
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 102 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (101 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 75
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+15 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+92/-59 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (123):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 108
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 105 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 21
+    BRANCH_ELIM   : 72
+    SIZE_GROWN    : 7  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 21  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+16 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  tree_get_random_const(tree_node*)
+       tree_get_random_const(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+198/-70 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+288/-59 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  latent_entropy_start_unit(void*, void*)
+       latent_entropy_start_unit(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-112 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+431/-200 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  get_op(tree_node**)
+       get_op(tree_node**) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+242/-120 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 100 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 22
+    BRANCH_ELIM   : 67
+    SIZE_GROWN    : 16  <- review
+
+  SYMBOLS  (removed: 22  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+17 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  tree_get_random_const(tree_node*)
+       tree_get_random_const(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+325/-70 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+354/-59 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  latent_entropy_start_unit(void*, void*)
+       latent_entropy_start_unit(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-112 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+505/-259 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  get_op(tree_node**)
+       get_op(tree_node**) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+358/-120 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 100 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 22
+    BRANCH_ELIM   : 67
+    SIZE_GROWN    : 15  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 22  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+17 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (122):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 107
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 104 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (103 functions changed):
+    INLINED       : 18
+    BRANCH_ELIM   : 78
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 18  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+13 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 5 bug-indicating tag(s) found: COMPLEXITY_CHANGE, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (5):
+    !! [COMPLEXITY_CHANGE]  latent_entropy_execute() [clone .cold]
+       latent_entropy_execute() [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+9/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  perturb_latent_entropy(tree_node*) [clone .cold]
+       perturb_latent_entropy(tree_node*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  latent_entropy_start_unit(void*, void*)
+       latent_entropy_start_unit(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+73/-16 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+538/-258 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (152):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 137
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 134 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (135 functions changed):
+    INLINED       : 6
+    BRANCH_ELIM   : 86
+    SIZE_GROWN    : 40  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 6  added: 0)
+    removed: ['builtin_decl_implicit(built_in_function)', 'ei_container(edge_iterator)', 'ei_edge(edge_iterator)', 'ei_end_p(edge_iterator)', 'gsi_end_p(gimple_stmt_iterator)']  (+1 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  tree_get_random_const(tree_node*)
+       tree_get_random_const(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+198/-70 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+288/-59 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  latent_entropy_start_unit(void*, void*)
+       latent_entropy_start_unit(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-112 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+431/-200 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  get_op(tree_node**)
+       get_op(tree_node**) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+242/-120 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 100 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 22
+    BRANCH_ELIM   : 67
+    SIZE_GROWN    : 16  <- review
+
+  SYMBOLS  (removed: 22  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+17 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+77/-59 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (123):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 108
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c grew in binary size but has no if/loop — 
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 105 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 21
+    BRANCH_ELIM   : 71
+    SIZE_GROWN    : 8  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 21  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+16 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+92/-59 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (123):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 108
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 105 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 21
+    BRANCH_ELIM   : 72
+    SIZE_GROWN    : 7  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 21  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+16 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  tree_get_random_const(tree_node*)
+       tree_get_random_const(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+198/-70 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+288/-59 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  latent_entropy_start_unit(void*, void*)
+       latent_entropy_start_unit(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-112 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+433/-259 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  get_op(tree_node**)
+       get_op(tree_node**) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+242/-92 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (119):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 104
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 101 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (106 functions changed):
+    INLINED       : 22
+    BRANCH_ELIM   : 66
+    SIZE_GROWN    : 17  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 22  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+17 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  tree_get_random_const(tree_node*)
+       tree_get_random_const(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+198/-70 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+288/-59 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  latent_entropy_start_unit(void*, void*)
+       latent_entropy_start_unit(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-112 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+433/-259 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  get_op(tree_node**)
+       get_op(tree_node**) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+242/-92 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (119):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 104
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 101 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (106 functions changed):
+    INLINED       : 22
+    BRANCH_ELIM   : 66
+    SIZE_GROWN    : 17  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 22  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+17 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  tree_get_random_const(tree_node*)
+       tree_get_random_const(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+198/-70 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+288/-59 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  latent_entropy_start_unit(void*, void*)
+       latent_entropy_start_unit(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-112 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+435/-259 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  get_op(tree_node**)
+       get_op(tree_node**) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+242/-120 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 100 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 22
+    BRANCH_ELIM   : 66
+    SIZE_GROWN    : 16  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 22  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+17 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  tree_get_random_const(tree_node*)
+       tree_get_random_const(tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+198/-70 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+288/-59 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  latent_entropy_start_unit(void*, void*)
+       latent_entropy_start_unit(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-112 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_latent_entropy_attribute(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+431/-200 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  get_op(tree_node**)
+       get_op(tree_node**) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+242/-120 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 100 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 22
+    BRANCH_ELIM   : 67
+    SIZE_GROWN    : 16  <- review
+
+  SYMBOLS  (removed: 22  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+17 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+92/-59 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (123):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 108
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 105 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 21
+    BRANCH_ELIM   : 72
+    SIZE_GROWN    : 7  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 21  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+16 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC, VOLATILE_RETURN
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  latent_entropy_execute()
+       latent_entropy_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  perturb_latent_entropy(tree_node*)
+       perturb_latent_entropy(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*)
+       __perturb_latent_entropy(gimple_stmt_iterator*, tree_node*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+92/-59 insns) + metrics
+    !! [VOLATILE_RETURN]  tree_get_random_const
+       tree_get_random_const returned different expressions across 14 invocations: ['build_int_cst(type, mask & get_random_const())', 'build_int_cstu(type, mask & get_random_const())']
+       evidence: execution log: multiple distinct return exprs
+
+  BENIGN / EXPLANATORY TAGS (123):
+    [ALL_PATHS_COVERED] × 1
+      tree_get_random_const: tree_get_random_const hit 2 different return lines [118, 119] — good path covera
+    [BRANCH_NOT_TAKEN] × 4
+      plugin_init: plugin_init has if/switch branches (lines 564–607) but only one return path (lin
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute has if/switch branches (lines 122–242) but only 
+      latent_entropy_execute: latent_entropy_execute has if/switch branches (lines 500–534) but only one retur
+      ... and 1 more
+    [INLINED_SIMPLE] × 108
+      _GLOBAL__sub_I_latent_entropy_plugin.c: _GLOBAL__sub_I_latent_entropy_plugin.c had branch elimination (2 branch instruct
+      gcall* GIMPLE_CHECK2<gcall*>(gimple*): gcall* GIMPLE_CHECK2<gcall*>(gimple*) had branch elimination (1 branch instructi
+      constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_gc, vl_embed>*&, constructor_elt const&): constructor_elt* vec_safe_push<constructor_elt, va_gc>(vec<constructor_elt, va_g
+      ... and 105 more
+    [RETURN_CONSISTENT] × 8
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_latent_entropy_attribute: handle_latent_entropy_attribute returned the same expression across all 6 invoca
+      latent_entropy_gate: latent_entropy_gate returned the same expression across all 4 invocation(s): 'lo
+      ... and 5 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      latent_entropy_start_unit: latent_entropy_start_unit has if/loop complexity (lines 536–557) but is void — i
+      perturb_latent_entropy: perturb_latent_entropy has if/loop complexity (lines 408–432) but is void — inte
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == create_a_tmp_var                  8         8         [300, 300, 300, 300, 300, 300, 300, 300]
+    == create_latent_entropy_decl        2         2         [484, 484]
+    == get_op                            9         9         [341, 341, 341, 341, 341, 341, 341, 341, 341]
+    == handle_latent_entropy_attribute   6         6         [247, 247, 247, 247, 247, 247]
+    == handle_tail_calls                 4         4         [412, 412, 412, 412]
+    == init_local_entropy                2         2         [None, None]
+    == latent_entropy_execute            2         2         [533, 533]
+    == latent_entropy_gate               4         4         [293, 293, 293, 293]
+    == latent_entropy_start_unit         1         1         [None]
+    == perturb_latent_entropy            2         2         [None, None]
+    == perturb_local_entropy             5         5         [None, None, None, None, None]
+    == plugin_init                       1         1         [606]
+    == register_attributes               1         1         [None]
+    == tree_get_random_const             14        14        [118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 118, 119]
+
+  DISASM  (105 functions changed):
+    INLINED       : 21
+    BRANCH_ELIM   : 73
+    SIZE_GROWN    : 7  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 21  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'builtin_decl_implicit(built_in_function)', 'create_latent_entropy_decl()', 'ei_container(edge_iterator)']  (+16 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_latent_entropy_plugin.c             latent_entropy_plugin.c:714
+    main                                               test.c:56
+    plugin_init                                        latent_entropy_plugin.c:665
+
+================================================================================
+  15 LIKELY_BUG
+================================================================================

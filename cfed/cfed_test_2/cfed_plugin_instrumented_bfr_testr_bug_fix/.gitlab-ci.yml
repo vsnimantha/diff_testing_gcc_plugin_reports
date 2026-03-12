@@ -1,0 +1,27 @@
+stages:
+  - build
+  - test
+
+build_plugin_academiccasestudies_container:
+  image: registry.gitlab.kuleuven.be/m-group-campus-brugge/distrinet/bitflip_research/academiccasestudies:20240607
+  stage: build
+  tags:
+    - kuleuven
+  only:
+    refs:
+      - schedules
+    variables:
+      - $SCHEDULE_TYPE == "weekly"
+  script:
+    - make
+  artifacts:
+    expire_in: never
+    paths:
+      - CFED_plugin64.so
+
+#plugin_test:
+#  stage: test
+#  trigger:
+#    project: u0099817/academiccasestudies
+#    branch: main
+#    strategy: depend

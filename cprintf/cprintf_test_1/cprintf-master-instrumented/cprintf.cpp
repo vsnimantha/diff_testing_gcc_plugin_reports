@@ -53,25 +53,25 @@ static int parse_parameters(struct plugin_name_args *info)
 		} catch (const std::out_of_range &oor) {
 			log::err << "Unknown parameter `" << info->argv[i].key
 				<< "', terminating\n";
+    log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_parameters","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":37,"ret_type":"int","expr":"1"})JSON");
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_parameters","func_id":1})JSON");
 			return 1;
 		} catch (const std::logic_error &le) {
 			log::err << "Parse parameter `" << info->argv[i].key
 				<< "' failed:\n" << le.what() << std::endl;
+    log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_parameters","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":41,"ret_type":"int","expr":"1"})JSON");
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_parameters","func_id":1})JSON");
 			return 1;
 		}
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_parameters","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":37,"ret_type":"int","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_parameters","func_id":1})JSON");
 	}
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_parameters","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":41,"ret_type":"int","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_parameters","func_id":1})JSON");
 	if (printfun::printfuns.size() == 0) {
 		/* no printf arg */
 		log::err << "Specify `printf' argument with function specification\n";
+    log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_parameters","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":48,"ret_type":"int","expr":"1"})JSON");
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_parameters","func_id":1})JSON");
 		return 1;
 	}
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_parameters","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":48,"ret_type":"int","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_parameters","func_id":1})JSON");
 
     log_with_timestamp(R"JSON({"event":"RETURN","function":"parse_parameters","func_id":1,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":51,"ret_type":"int","expr":"0"})JSON");
     log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"parse_parameters","func_id":1})JSON");
@@ -95,19 +95,19 @@ int plugin_init(struct plugin_name_args *info,
 		log::err << "This GCC plugin is for version " <<
 			GCCPLUGIN_VERSION_MAJOR << "." <<
 			GCCPLUGIN_VERSION_MINOR << std::endl;
+    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":68,"ret_type":"int","expr":"1"})JSON");
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
 		return 1;
 	}
 
 	ret = parse_parameters(info);
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":68,"ret_type":"int","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
 	if (ret) {
 		log::err << "Failed to parse plugin parameters: "
 			<< ret << std::endl;
+    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":75,"ret_type":"int","expr":"ret"})JSON");
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
 		return ret;
 	}
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/cprintf/cprintf-master-instrumented/cprintf.cpp","line":75,"ret_type":"int","expr":""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
 
 	/*
 	 * Register cprintf pass before building CFG, otherwise

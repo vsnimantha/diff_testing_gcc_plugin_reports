@@ -67,10 +67,10 @@ static tree sprintf_decl = NULL_TREE;
 // parameter type, promotions and probably more.
 tree my_build_function_call(location_t loc, tree function, tree params)
 {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"my_build_function_call","func_id":44,"num_params":3,"start_line":53,"end_line":72,"metrics":{"num_params":3,"call_count":2,"has_recursion":false,"has_loop":true,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"loc","type":"int","is_pointer":false,"is_const":false},{"name":"function","type":"int","is_pointer":false,"is_const":false},{"name":"params","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"my_build_function_call","func_id":44,"name":"loc","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"my_build_function_call","func_id":44,"name":"function","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"my_build_function_call","func_id":44,"name":"params","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"my_build_function_call\",\"func_id\":44,\"num_params\":3,\"start_line\":53,\"end_line\":72,\"metrics\":{\"num_params\":3,\"call_count\":2,\"has_recursion\":false,\"has_loop\":true,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"loc\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"function\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"params\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"my_build_function_call\",\"func_id\":44,\"name\":\"loc\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"my_build_function_call\",\"func_id\":44,\"name\":\"function\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"my_build_function_call\",\"func_id\":44,\"name\":\"params\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     const int len = list_length(params);
 
     vec<tree, va_gc> *v;
@@ -87,15 +87,17 @@ tree my_build_function_call(location_t loc, tree function, tree params)
     ret = c_build_function_call_vec(loc, argloc, function, v, NULL);
     vec_free(v);
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"my_build_function_call\",\"func_id\":44,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":75,\"ret_type\":\"int\",\"expr\":\"ret\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"my_build_function_call\",\"func_id\":44}");
     return ret;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"my_build_function_call","func_id":44})JSON");
 }
 
 static bool assert_fail_in_then(tree cond_expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"assert_fail_in_then","func_id":43,"num_params":1,"start_line":74,"end_line":76,"metrics":{"num_params":1,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"cond_expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"assert_fail_in_then","func_id":43,"name":"cond_expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"assert_fail_in_then\",\"func_id\":43,\"num_params\":1,\"start_line\":74,\"end_line\":76,\"metrics\":{\"num_params\":1,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"cond_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"assert_fail_in_then\",\"func_id\":43,\"name\":\"cond_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"assert_fail_in_then\",\"func_id\":43,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":77,\"ret_type\":\"int\",\"expr\":\"TREE_CODE(COND_EXPR_THEN(cond_expr)) == CALL_EXPR\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"assert_fail_in_then\",\"func_id\":43}");
     return TREE_CODE(COND_EXPR_THEN(cond_expr)) == CALL_EXPR;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"assert_fail_in_then","func_id":43})JSON");
 }
 
 // heuristic to check if cond_expr is the expression generated by glibc's "assert" macro, which is:
@@ -105,9 +107,11 @@ static bool assert_fail_in_then(tree cond_expr) {
 // in certain compilation I've seen GCC uses CONVERT_EXPR instead of NOP_EXPR so I accept it as well.
 // also, sometimes the then & else are swapped - this is handled here as well.
 static bool is_assert_fail_cond_expr(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"is_assert_fail_cond_expr","func_id":42,"num_params":1,"start_line":84,"end_line":108,"metrics":{"num_params":1,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"is_assert_fail_cond_expr","func_id":42,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"is_assert_fail_cond_expr\",\"func_id\":42,\"num_params\":1,\"start_line\":84,\"end_line\":108,\"metrics\":{\"num_params\":1,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"is_assert_fail_cond_expr\",\"func_id\":42,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     if (TREE_CODE(expr) != COND_EXPR) {
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"is_assert_fail_cond_expr\",\"func_id\":42,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":88,\"ret_type\":\"int\",\"expr\":\"false\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"is_assert_fail_cond_expr\",\"func_id\":42}");
         return false;
     }
 
@@ -120,6 +124,8 @@ static bool is_assert_fail_cond_expr(tree expr) {
         call = COND_EXPR_ELSE(expr);
     }
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"is_assert_fail_cond_expr\",\"func_id\":42,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":102,\"ret_type\":\"int\",\"expr\":\"( nop != NULL_TREE && call != NULL_TREE &&\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"is_assert_fail_cond_expr\",\"func_id\":42}");
     return (
         nop != NULL_TREE && call != NULL_TREE && // sometimes these are NULL
         CONVERT_EXPR_P(nop) &&
@@ -130,63 +136,67 @@ static bool is_assert_fail_cond_expr(tree expr) {
         TREE_CODE(TREE_OPERAND(CALL_EXPR_FN(call), 0)) == FUNCTION_DECL &&
         0 == strcmp("__assert_fail", IDENTIFIER_POINTER(DECL_NAME(TREE_OPERAND(CALL_EXPR_FN(call), 0))))
     );
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"is_assert_fail_cond_expr","func_id":42})JSON");
 }
 
 // lol
 #define build_string_literal_from_literal(here, s) build_string_literal_here((here), sizeof(s), (s))
 
 static tree build_string_literal_here(location_t here, int len, const char *str) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"build_string_literal_here","func_id":41,"num_params":3,"start_line":113,"end_line":117,"metrics":{"num_params":3,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"len","type":"int","is_pointer":false,"is_const":false},{"name":"str","type":"const char *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"build_string_literal_here","func_id":41,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"build_string_literal_here","func_id":41,"name":"len","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"build_string_literal_here","func_id":41,"name":"str","type":"const char *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"build_string_literal_here\",\"func_id\":41,\"num_params\":3,\"start_line\":113,\"end_line\":117,\"metrics\":{\"num_params\":3,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"len\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"str\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"build_string_literal_here\",\"func_id\":41,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"build_string_literal_here\",\"func_id\":41,\"name\":\"len\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"build_string_literal_here\",\"func_id\":41,\"name\":\"str\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
     tree t = build_string_literal(len, str);
     SET_EXPR_LOCATION(t, here);
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"build_string_literal_here\",\"func_id\":41,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":120,\"ret_type\":\"int\",\"expr\":\"t\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"build_string_literal_here\",\"func_id\":41}");
     return t;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"build_string_literal_here","func_id":41})JSON");
 }
 
 static inline tree _build_conditional_expr(location_t colon_loc, tree ifexp,
     tree op1, tree op1_original_type, tree op2, tree op2_original_type) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"_build_conditional_expr","func_id":40,"num_params":6,"start_line":119,"end_line":129,"metrics":{"num_params":6,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"colon_loc","type":"int","is_pointer":false,"is_const":false},{"name":"ifexp","type":"int","is_pointer":false,"is_const":false},{"name":"op1","type":"int","is_pointer":false,"is_const":false},{"name":"op1_original_type","type":"int","is_pointer":false,"is_const":false},{"name":"op2","type":"int","is_pointer":false,"is_const":false},{"name":"op2_original_type","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"_build_conditional_expr","func_id":40,"name":"colon_loc","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"num_params\":6,\"start_line\":119,\"end_line\":129,\"metrics\":{\"num_params\":6,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"colon_loc\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"ifexp\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"op1\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"op1_original_type\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"op2\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"op2_original_type\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"name\":\"colon_loc\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] colon_loc = %d\n", colon_loc);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"_build_conditional_expr","func_id":40,"name":"ifexp","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"name\":\"ifexp\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] ifexp = %d\n", ifexp);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"_build_conditional_expr","func_id":40,"name":"op1","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"name\":\"op1\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] op1 = %d\n", op1);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"_build_conditional_expr","func_id":40,"name":"op1_original_type","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"name\":\"op1_original_type\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] op1_original_type = %d\n", op1_original_type);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"_build_conditional_expr","func_id":40,"name":"op2","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"name\":\"op2\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] op2 = %d\n", op2);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"_build_conditional_expr","func_id":40,"name":"op2_original_type","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"name\":\"op2_original_type\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] op2_original_type = %d\n", op2_original_type);
 
 #if GCCPLUGIN_VERSION >= 8001 // a32c8316ff282ec
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":136,\"ret_type\":\"int\",\"expr\":\"build_conditional_expr(colon_loc, ifexp, false, op1, op1_original_type, colon_loc, op2, op2_original_type, colon_loc)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_build_conditional_expr\",\"func_id\":40}");
     return build_conditional_expr(colon_loc, ifexp, false, op1, op1_original_type,
         colon_loc, op2, op2_original_type, colon_loc);
 #else
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_build_conditional_expr\",\"func_id\":40,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":141,\"ret_type\":\"int\",\"expr\":\"build_conditional_expr(colon_loc, ifexp, false, op1, op1_original_type, op2, op2_original_type)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_build_conditional_expr\",\"func_id\":40}");
     return build_conditional_expr(colon_loc, ifexp, false, op1, op1_original_type,
         op2, op2_original_type);
 #endif
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"_build_conditional_expr","func_id":40})JSON");
 }
 
 static tree simple_nop_void(location_t here, tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"simple_nop_void","func_id":39,"num_params":2,"start_line":131,"end_line":133,"metrics":{"num_params":2,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"simple_nop_void","func_id":39,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"simple_nop_void\",\"func_id\":39,\"num_params\":2,\"start_line\":131,\"end_line\":133,\"metrics\":{\"num_params\":2,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"simple_nop_void\",\"func_id\":39,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] here = %d\n", here);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"simple_nop_void","func_id":39,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"simple_nop_void\",\"func_id\":39,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] expr = %d\n", expr);
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"simple_nop_void\",\"func_id\":39,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":137,\"ret_type\":\"int\",\"expr\":\"build1_loc(here, NOP_EXPR, void_type_node, expr)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"simple_nop_void\",\"func_id\":39}");
     return build1_loc(here, NOP_EXPR, void_type_node, expr);
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"simple_nop_void","func_id":39})JSON");
 }
 
 // get textual repr of expr's operation, if it's a logical / mathematical operation.
 static const char *get_expr_op_repr(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_expr_op_repr","func_id":38,"num_params":1,"start_line":136,"end_line":168,"metrics":{"num_params":1,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":true,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_expr_op_repr","func_id":38,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_expr_op_repr\",\"func_id\":38,\"num_params\":1,\"start_line\":136,\"end_line\":168,\"metrics\":{\"num_params\":1,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":true,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_expr_op_repr\",\"func_id\":38,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     const char *op;
 
     switch (TREE_CODE(expr)) {
@@ -217,8 +227,8 @@ static const char *get_expr_op_repr(tree expr) {
     default: op = NULL; break;
     }
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_expr_op_repr","func_id":38,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":167,"ret_type":"const char *","expr":"op"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_expr_op_repr","func_id":38})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_expr_op_repr\",\"func_id\":38,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":167,\"ret_type\":\"const char *\",\"expr\":\"op\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_expr_op_repr\",\"func_id\":38}");
     return op;
 }
 
@@ -227,8 +237,8 @@ static const char *get_expr_op_repr(tree expr) {
 // real casts.
 // it's used to check the inner type & access its other fields.
 static tree strip_nop_and_convert(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"strip_nop_and_convert","func_id":37,"num_params":1,"start_line":174,"end_line":183,"metrics":{"num_params":1,"call_count":3,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"strip_nop_and_convert","func_id":37,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"strip_nop_and_convert\",\"func_id\":37,\"num_params\":1,\"start_line\":174,\"end_line\":183,\"metrics\":{\"num_params\":1,\"call_count\":3,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"strip_nop_and_convert\",\"func_id\":37,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     if (TREE_CODE(expr) == NOP_EXPR) {
         expr = TREE_OPERAND(expr, 0);
     }
@@ -236,15 +246,15 @@ static tree strip_nop_and_convert(tree expr) {
         expr = TREE_OPERAND(expr, 0);
     }
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"strip_nop_and_convert","func_id":37,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":182,"ret_type":"int","expr":"expr"})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"strip_nop_and_convert\",\"func_id\":37,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":182,\"ret_type\":\"int\",\"expr\":\"expr\"}");
     printf("[LOG][RETURN_VALUE] %d\n", (expr));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"strip_nop_and_convert","func_id":37})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"strip_nop_and_convert\",\"func_id\":37}");
     return expr;
 }
 
 static void wrap_in_save_expr(tree *expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"wrap_in_save_expr","func_id":36,"num_params":1,"start_line":185,"end_line":203,"metrics":{"num_params":1,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"wrap_in_save_expr","func_id":36,"name":"expr","type":"int *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"wrap_in_save_expr\",\"func_id\":36,\"num_params\":1,\"start_line\":185,\"end_line\":203,\"metrics\":{\"num_params\":1,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"wrap_in_save_expr\",\"func_id\":36,\"name\":\"expr\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
     // use get_expr_op_repr as a predicate: "is it a binary expression with 2 args"
     // TODO this probably doesn't catch all cases + doesn't catch unary ops (whose inner value
     // should be made a SAVE_EXPR as well)
@@ -262,14 +272,14 @@ static void wrap_in_save_expr(tree *expr) {
 
     // however, expression with the cast is the one we save.
     *expr = save_expr(*expr);
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"wrap_in_save_expr","func_id":36})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"wrap_in_save_expr\",\"func_id\":36}");
 }
 
 // gets the STRING_CST tree of argument 'n' passed to 'function'.
 static tree get_string_cst_arg(tree function, int n) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_string_cst_arg","func_id":35,"num_params":2,"start_line":206,"end_line":220,"metrics":{"num_params":2,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"function","type":"int","is_pointer":false,"is_const":false},{"name":"n","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_string_cst_arg","func_id":35,"name":"function","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_string_cst_arg","func_id":35,"name":"n","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_string_cst_arg\",\"func_id\":35,\"num_params\":2,\"start_line\":206,\"end_line\":220,\"metrics\":{\"num_params\":2,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"function\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"n\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_string_cst_arg\",\"func_id\":35,\"name\":\"function\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_string_cst_arg\",\"func_id\":35,\"name\":\"n\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     tree arg = CALL_EXPR_ARG(function, n);
     if (CONVERT_EXPR_P(arg)) {
         arg = TREE_OPERAND(arg, 0);
@@ -282,16 +292,17 @@ static tree get_string_cst_arg(tree function, int n) {
     // TREE_STRING_LENGTH should include the null terminator
     gcc_assert(TREE_STRING_POINTER(arg)[TREE_STRING_LENGTH(arg) - 1] == '\0');
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_string_cst_arg\",\"func_id\":35,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":222,\"ret_type\":\"int\",\"expr\":\"arg\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_string_cst_arg\",\"func_id\":35}");
     return arg;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_string_cst_arg","func_id":35})JSON");
 }
 
 // create a printf("> assert(EXPR)\n") call (for the original assert() expression)
 static void make_assert_expr_printf(location_t here, tree call__assert_fail, tree *stmts) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_assert_expr_printf","func_id":34,"num_params":3,"start_line":223,"end_line":248,"metrics":{"num_params":3,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"call__assert_fail","type":"int","is_pointer":false,"is_const":false},{"name":"stmts","type":"int *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_expr_printf","func_id":34,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_expr_printf","func_id":34,"name":"call__assert_fail","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_expr_printf","func_id":34,"name":"stmts","type":"int *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_assert_expr_printf\",\"func_id\":34,\"num_params\":3,\"start_line\":223,\"end_line\":248,\"metrics\":{\"num_params\":3,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"call__assert_fail\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_expr_printf\",\"func_id\":34,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_expr_printf\",\"func_id\":34,\"name\":\"call__assert_fail\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_expr_printf\",\"func_id\":34,\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
     tree file_arg = get_string_cst_arg(call__assert_fail, 1);
     tree function_arg = CALL_EXPR_ARG(call__assert_fail, 3);
     tree line_arg = CALL_EXPR_ARG(call__assert_fail, 2);
@@ -316,19 +327,19 @@ static void make_assert_expr_printf(location_t here, tree call__assert_fail, tre
         tree_cons(NULL_TREE, format_str,
         // can just use the original argument directly in our call..
         tree_cons(NULL_TREE, CALL_EXPR_ARG(call__assert_fail, 0), NULL_TREE))), stmts);
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_assert_expr_printf","func_id":34})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_assert_expr_printf\",\"func_id\":34}");
 }
 
 // sets up the repr buffer we'll use later as a variable and registers it to the scope of "block".
 // also initializes it.
 // this is essentialy: `char repr_buf[1024]; repr_buf[0] = 0;`
 static void set_up_repr_buf(location_t here, tree stmts, tree block, tree *buf_param, tree *buf_pos) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"set_up_repr_buf","func_id":33,"num_params":5,"start_line":253,"end_line":285,"metrics":{"num_params":5,"call_count":0,"has_recursion":false,"has_loop":true,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"stmts","type":"int","is_pointer":false,"is_const":false},{"name":"block","type":"int","is_pointer":false,"is_const":false},{"name":"buf_param","type":"int *","is_pointer":true,"is_const":false},{"name":"buf_pos","type":"int *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"set_up_repr_buf","func_id":33,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"set_up_repr_buf","func_id":33,"name":"stmts","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"set_up_repr_buf","func_id":33,"name":"block","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"set_up_repr_buf","func_id":33,"name":"buf_param","type":"int *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"set_up_repr_buf","func_id":33,"name":"buf_pos","type":"int *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"set_up_repr_buf\",\"func_id\":33,\"num_params\":5,\"start_line\":253,\"end_line\":285,\"metrics\":{\"num_params\":5,\"call_count\":0,\"has_recursion\":false,\"has_loop\":true,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"stmts\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"block\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"buf_param\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"buf_pos\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"set_up_repr_buf\",\"func_id\":33,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"set_up_repr_buf\",\"func_id\":33,\"name\":\"stmts\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"set_up_repr_buf\",\"func_id\":33,\"name\":\"block\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"set_up_repr_buf\",\"func_id\":33,\"name\":\"buf_param\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"set_up_repr_buf\",\"func_id\":33,\"name\":\"buf_pos\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
     const int REPR_BUF_SIZE = 1024;
 
     tree buf_type = build_array_type(char_type_node,
@@ -360,106 +371,114 @@ static void set_up_repr_buf(location_t here, tree stmts, tree block, tree *buf_p
 
     BLOCK_VARS(block) = chainon(BLOCK_VARS(block), buf);
     BLOCK_VARS(block) = chainon(BLOCK_VARS(block), pos);
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"set_up_repr_buf","func_id":33})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"set_up_repr_buf\",\"func_id\":33}");
 }
 
 static tree from_save(tree save_expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"from_save","func_id":32,"num_params":1,"start_line":287,"end_line":290,"metrics":{"num_params":1,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"save_expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"from_save","func_id":32,"name":"save_expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"from_save\",\"func_id\":32,\"num_params\":1,\"start_line\":287,\"end_line\":290,\"metrics\":{\"num_params\":1,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"save_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"from_save\",\"func_id\":32,\"name\":\"save_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     gcc_assert(TREE_CODE(save_expr) == SAVE_EXPR);
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"from_save","func_id":32,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":289,"ret_type":"int","expr":"TREE_OPERAND(save_expr, 0)"})JSON");
-    printf("[LOG][RETURN_VALUE] %d\n", (TREE_OPERAND(save_expr, 0)));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"from_save","func_id":32})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"from_save\",\"func_id\":32,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":289,\"ret_type\":\"int\",\"expr\":\"TREE_OPERAND(save_expr, 0)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"from_save\",\"func_id\":32}");
     return TREE_OPERAND(save_expr, 0);
 }
 
 static bool is_save_equivalent(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"is_save_equivalent","func_id":31,"num_params":1,"start_line":292,"end_line":299,"metrics":{"num_params":1,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"is_save_equivalent","func_id":31,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"is_save_equivalent\",\"func_id\":31,\"num_params\":1,\"start_line\":292,\"end_line\":299,\"metrics\":{\"num_params\":1,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"is_save_equivalent\",\"func_id\":31,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] expr = %d\n", expr);
     // save_expr() has some rules: it doesn't wrap constants, doesn't wrap read-only expressions
     // without side effects, ...
     // easiest way to check if `expr` is compatible to a SAVE_EXPR is to call save_expr
     // and see if it returns a new result. if the expression is compatible, it just returns
     // the expression.
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"is_save_equivalent","func_id":31,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":298,"ret_type":"int","expr":"save_expr(expr) == expr"})JSON");
-    printf("[LOG][RETURN_VALUE] %d\n", (save_expr(expr) == expr));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"is_save_equivalent","func_id":31})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"is_save_equivalent\",\"func_id\":31,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":298,\"ret_type\":\"int\",\"expr\":\"save_expr(expr) == expr\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"is_save_equivalent\",\"func_id\":31}");
     return save_expr(expr) == expr;
 }
 
 static tree from_save_maybe(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"from_save_maybe","func_id":30,"num_params":1,"start_line":301,"end_line":308,"metrics":{"num_params":1,"call_count":3,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"from_save_maybe","func_id":30,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"from_save_maybe\",\"func_id\":30,\"num_params\":1,\"start_line\":301,\"end_line\":308,\"metrics\":{\"num_params\":1,\"call_count\":3,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"from_save_maybe\",\"func_id\":30,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     if (TREE_CODE(expr) == SAVE_EXPR) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"from_save_maybe\",\"func_id\":30,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":303,\"ret_type\":\"int\",\"expr\":\"from_save(expr)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"from_save_maybe\",\"func_id\":30}");
         return from_save(expr);
     }
 
     gcc_assert(is_save_equivalent(expr));
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"from_save_maybe","func_id":30,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":307,"ret_type":"int","expr":"expr"})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"from_save_maybe\",\"func_id\":30,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":307,\"ret_type\":\"int\",\"expr\":\"expr\"}");
     printf("[LOG][RETURN_VALUE] %d\n", (expr));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"from_save_maybe","func_id":30})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"from_save_maybe\",\"func_id\":30}");
     return expr;
 }
 
 static void assert_tree_is_save(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"assert_tree_is_save","func_id":29,"num_params":1,"start_line":310,"end_line":312,"metrics":{"num_params":1,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"assert_tree_is_save","func_id":29,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"assert_tree_is_save\",\"func_id\":29,\"num_params\":1,\"start_line\":310,\"end_line\":312,\"metrics\":{\"num_params\":1,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"assert_tree_is_save\",\"func_id\":29,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     gcc_assert(TREE_CODE(expr) == SAVE_EXPR || is_save_equivalent(expr));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"assert_tree_is_save","func_id":29})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"assert_tree_is_save\",\"func_id\":29}");
 }
 
 static const char *get_int_type_name(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_int_type_name","func_id":28,"num_params":1,"start_line":314,"end_line":325,"metrics":{"num_params":1,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_int_type_name","func_id":28,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_int_type_name\",\"func_id\":28,\"num_params\":1,\"start_line\":314,\"end_line\":325,\"metrics\":{\"num_params\":1,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_int_type_name\",\"func_id\":28,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     tree type = TREE_TYPE(expr);
     gcc_assert(INTEGRAL_TYPE_P(type));
 
     if (TYPE_IDENTIFIER(type) != NULL_TREE) {
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_int_type_name\",\"func_id\":28,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":321,\"ret_type\":\"const char *\",\"expr\":\"IDENTIFIER_POINTER(TYPE_IDENTIFIER(type))\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_int_type_name\",\"func_id\":28}");
         return IDENTIFIER_POINTER(TYPE_IDENTIFIER(type));
     } else if (TYPE_UNSIGNED(type)) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_int_type_name\",\"func_id\":28,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":321,\"ret_type\":\"const char *\",\"expr\":\"\\\"unsigned\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_int_type_name\",\"func_id\":28}");
         return "unsigned";
     } else {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_int_type_name","func_id":28,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":323,"ret_type":"const char *","expr":"\"int\""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_int_type_name","func_id":28})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_int_type_name\",\"func_id\":28,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":323,\"ret_type\":\"const char *\",\"expr\":\"\\\"int\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_int_type_name\",\"func_id\":28}");
         return "int";
     }
 }
 
 static const char *get_real_type_name(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_real_type_name","func_id":27,"num_params":1,"start_line":327,"end_line":336,"metrics":{"num_params":1,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_real_type_name","func_id":27,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_real_type_name\",\"func_id\":27,\"num_params\":1,\"start_line\":327,\"end_line\":336,\"metrics\":{\"num_params\":1,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_real_type_name\",\"func_id\":27,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     tree type = TREE_TYPE(expr);
     gcc_assert(SCALAR_FLOAT_TYPE_P(type));
 
     if (TYPE_IDENTIFIER(type) != NULL_TREE) {
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_real_type_name\",\"func_id\":27,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":334,\"ret_type\":\"const char *\",\"expr\":\"IDENTIFIER_POINTER(TYPE_IDENTIFIER(type))\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_real_type_name\",\"func_id\":27}");
         return IDENTIFIER_POINTER(TYPE_IDENTIFIER(type));
     } else {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_real_type_name","func_id":27,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":334,"ret_type":"const char *","expr":"\"float\""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_real_type_name","func_id":27})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_real_type_name\",\"func_id\":27,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":334,\"ret_type\":\"const char *\",\"expr\":\"\\\"float\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_real_type_name\",\"func_id\":27}");
         return "float";
     }
 }
 
 static const char *get_type_name(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_type_name","func_id":26,"num_params":1,"start_line":338,"end_line":346,"metrics":{"num_params":1,"call_count":6,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_type_name","func_id":26,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_type_name\",\"func_id\":26,\"num_params\":1,\"start_line\":338,\"end_line\":346,\"metrics\":{\"num_params\":1,\"call_count\":6,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_type_name\",\"func_id\":26,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     if (INTEGRAL_TYPE_P(TREE_TYPE(expr))) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_type_name\",\"func_id\":26,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":340,\"ret_type\":\"const char *\",\"expr\":\"get_int_type_name(expr)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_type_name\",\"func_id\":26}");
         return get_int_type_name(expr);
     } else if (SCALAR_FLOAT_TYPE_P(TREE_TYPE(expr))) {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_type_name","func_id":26,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":340,"ret_type":"const char *","expr":"get_real_type_name(expr)"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_type_name","func_id":26})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_type_name\",\"func_id\":26,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":342,\"ret_type\":\"const char *\",\"expr\":\"get_real_type_name(expr)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_type_name\",\"func_id\":26}");
         return get_real_type_name(expr);
     } else {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_type_name","func_id":26,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":344,"ret_type":"const char *","expr":"\"...\";"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_type_name","func_id":26})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_type_name\",\"func_id\":26,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":344,\"ret_type\":\"const char *\",\"expr\":\"\\\"...\\\";\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_type_name\",\"func_id\":26}");
         return "..."; // dots for unknown
     }
 }
 
 static char *get_cast_repr(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_cast_repr","func_id":25,"num_params":1,"start_line":348,"end_line":362,"metrics":{"num_params":1,"call_count":7,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_cast_repr","func_id":25,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_cast_repr\",\"func_id\":25,\"num_params\":1,\"start_line\":348,\"end_line\":362,\"metrics\":{\"num_params\":1,\"call_count\":7,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_cast_repr\",\"func_id\":25,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     char buf[1024];
     int n = 0;
 
@@ -472,8 +491,8 @@ static char *get_cast_repr(tree expr) {
         n += snprintf(buf + n, sizeof(buf) - n, "(%s)", get_type_name(expr));
     }
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_cast_repr","func_id":25,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":361,"ret_type":"char *","expr":"n ? xstrdup(buf) : NULL"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_cast_repr","func_id":25})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_cast_repr\",\"func_id\":25,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":361,\"ret_type\":\"char *\",\"expr\":\"n ? xstrdup(buf) : NULL\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_cast_repr\",\"func_id\":25}");
     return n ? xstrdup(buf) : NULL;
 }
 
@@ -487,10 +506,10 @@ struct expr_list {
 };
 
 static struct expr_list *get_expr_list_item(tree expr, struct expr_list *list) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_expr_list_item","func_id":24,"num_params":2,"start_line":373,"end_line":394,"metrics":{"num_params":2,"call_count":3,"has_recursion":false,"has_loop":true,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false},{"name":"list","type":"struct expr_list *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_expr_list_item","func_id":24,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_expr_list_item\",\"func_id\":24,\"num_params\":2,\"start_line\":373,\"end_line\":394,\"metrics\":{\"num_params\":2,\"call_count\":3,\"has_recursion\":false,\"has_loop\":true,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"list\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_expr_list_item\",\"func_id\":24,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] expr = %d\n", expr);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_expr_list_item","func_id":24,"name":"list","type":"struct expr_list *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_expr_list_item\",\"func_id\":24,\"name\":\"list\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}");
     gcc_assert(list);
     list = list->next; // skip dummy
 
@@ -504,50 +523,54 @@ static struct expr_list *get_expr_list_item(tree expr, struct expr_list *list) {
         // are deemed "equal" here. for others (like function calls) - the CALL_EXPR will be different
         // if it's really a different call, so we're good.
         if (from_save_maybe(list->expr) == from_save_maybe(expr)) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_expr_list_item\",\"func_id\":24,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":387,\"ret_type\":\"struct expr_list *\",\"expr\":\"list\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_expr_list_item\",\"func_id\":24}");
             return list;
         }
 
         list = list->next;
     }
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_expr_list_item","func_id":24,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":393,"ret_type":"struct expr_list *","expr":"NULL"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_expr_list_item","func_id":24})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_expr_list_item\",\"func_id\":24,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":393,\"ret_type\":\"struct expr_list *\",\"expr\":\"NULL\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_expr_list_item\",\"func_id\":24}");
     return NULL;
 }
 
 static const char *get_subexpr_color(tree expr, struct expr_list *ec) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_subexpr_color","func_id":23,"num_params":2,"start_line":396,"end_line":403,"metrics":{"num_params":2,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false},{"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_subexpr_color","func_id":23,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_subexpr_color\",\"func_id\":23,\"num_params\":2,\"start_line\":396,\"end_line\":403,\"metrics\":{\"num_params\":2,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_subexpr_color\",\"func_id\":23,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] expr = %d\n", expr);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_subexpr_color","func_id":23,"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_subexpr_color\",\"func_id\":23,\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}");
     struct expr_list *list = get_expr_list_item(expr, ec);
     if (list) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_subexpr_color\",\"func_id\":23,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":399,\"ret_type\":\"const char *\",\"expr\":\"list->color\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_subexpr_color\",\"func_id\":23}");
         return list->color;
     }
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_subexpr_color","func_id":23,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":402,"ret_type":"const char *","expr":"NULL"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_subexpr_color","func_id":23})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_subexpr_color\",\"func_id\":23,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":402,\"ret_type\":\"const char *\",\"expr\":\"NULL\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_subexpr_color\",\"func_id\":23}");
     return NULL;
 }
 
 static void add_subexpr_color(tree expr, const char *color, struct expr_list *ec) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"add_subexpr_color","func_id":22,"num_params":3,"start_line":405,"end_line":412,"metrics":{"num_params":3,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false},{"name":"color","type":"const char *","is_pointer":true,"is_const":false},{"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"add_subexpr_color","func_id":22,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"add_subexpr_color\",\"func_id\":22,\"num_params\":3,\"start_line\":405,\"end_line\":412,\"metrics\":{\"num_params\":3,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"color\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"add_subexpr_color\",\"func_id\":22,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] expr = %d\n", expr);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"add_subexpr_color","func_id":22,"name":"color","type":"const char *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"add_subexpr_color","func_id":22,"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"add_subexpr_color\",\"func_id\":22,\"name\":\"color\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"add_subexpr_color\",\"func_id\":22,\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}");
     struct expr_list *new_ec = (struct expr_list*)xmalloc(sizeof(*new_ec));
     new_ec->expr = expr;
     new_ec->color = color;
     // order doesn't really matter in this list.
     new_ec->next = ec->next;
     ec->next = new_ec;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"add_subexpr_color","func_id":22})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"add_subexpr_color\",\"func_id\":22}");
 }
 
 static void free_expr_list(struct expr_list *ec) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"free_expr_list","func_id":21,"num_params":1,"start_line":414,"end_line":422,"metrics":{"num_params":1,"call_count":1,"has_recursion":false,"has_loop":true,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"free_expr_list","func_id":21,"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"free_expr_list\",\"func_id\":21,\"num_params\":1,\"start_line\":414,\"end_line\":422,\"metrics\":{\"num_params\":1,\"call_count\":1,\"has_recursion\":false,\"has_loop\":true,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"free_expr_list\",\"func_id\":21,\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}");
     ec = ec->next; // skip dummy
 
     while (ec) {
@@ -555,26 +578,25 @@ static void free_expr_list(struct expr_list *ec) {
         free(ec);
         ec = next;
     }
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"free_expr_list","func_id":21})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"free_expr_list\",\"func_id\":21}");
 }
 
 // NULL, defined as `(void*)0`, is an INTEGER_CST with type as POINTER_TYPE,
 // pointing to "char" with string-flag set. I couldn't find a way to separate those
 // from real string pointers, so this function comes in help.
 static bool is_NULL(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"is_NULL","func_id":20,"num_params":1,"start_line":427,"end_line":431,"metrics":{"num_params":1,"call_count":6,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"is_NULL","func_id":20,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"is_NULL","func_id":20,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":428,"ret_type":"int","expr":"integer_zerop(expr) && POINTER_TYPE_P(TREE_TYPE(expr)) && TYPE_STRING_FLAG(TREE_TYPE(TREE_TYPE(expr)))"})JSON");
-    printf("[LOG][RETURN_VALUE] %d\n", (integer_zerop(expr) && POINTER_TYPE_P(TREE_TYPE(expr)) && TYPE_STRING_FLAG(TREE_TYPE(TREE_TYPE(expr)))));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"is_NULL","func_id":20})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"is_NULL\",\"func_id\":20,\"num_params\":1,\"start_line\":427,\"end_line\":431,\"metrics\":{\"num_params\":1,\"call_count\":6,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"is_NULL\",\"func_id\":20,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"is_NULL\",\"func_id\":20,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":428,\"ret_type\":\"int\",\"expr\":\"integer_zerop(expr) && POINTER_TYPE_P(TREE_TYPE(expr)) && TYPE_STRING_FLAG(TREE_TYPE(TREE_TYPE(expr)))\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"is_NULL\",\"func_id\":20}");
     return integer_zerop(expr) &&
         POINTER_TYPE_P(TREE_TYPE(expr)) &&
         TYPE_STRING_FLAG(TREE_TYPE(TREE_TYPE(expr)));
 }
 
 static const char *get_format_for_expr(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_format_for_expr","func_id":19,"num_params":1,"start_line":433,"end_line":499,"metrics":{"num_params":1,"call_count":13,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":true,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_format_for_expr","func_id":19,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"num_params\":1,\"start_line\":433,\"end_line\":499,\"metrics\":{\"num_params\":1,\"call_count\":13,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":true,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     // this helps asserting we use the outer expression here, not the inner one (after e.g strip_nop_and_convert)
     // beause we should pick a specifier for *after* the casts.
     assert_tree_is_save(expr);
@@ -586,11 +608,17 @@ static const char *get_format_for_expr(tree expr) {
         tree pointed_type = TREE_TYPE(type);
         if (TYPE_STRING_FLAG(pointed_type) && !is_NULL(expr)) {
             // assume it's also null terminated :) and a valid string, anyway.
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":445,\"ret_type\":\"const char *\",\"expr\":\"\\\"\\\\\\\"%s\\\\\\\"\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
             return "\"%s\"";
         } else {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":447,\"ret_type\":\"const char *\",\"expr\":\"\\\"%p\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
             return "%p";
         }
     } else if (TREE_CODE(type) == BOOLEAN_TYPE) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":450,\"ret_type\":\"const char *\",\"expr\":\"\\\"%d\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
         return "%d";
     } else if (INTEGRAL_TYPE_P(type)) {
 
@@ -598,20 +626,28 @@ static const char *get_format_for_expr(tree expr) {
             const char *type_name = IDENTIFIER_POINTER(TYPE_IDENTIFIER(type));
 
             if (0 == strcmp(type_name, "int")) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":457,\"ret_type\":\"const char *\",\"expr\":\"\\\"%d\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
                 return "%d";
             } else if (0 == strcmp(type_name, "unsigned int")) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":459,\"ret_type\":\"const char *\",\"expr\":\"\\\"%u\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
                 return "%u";
             } else if (0 == strcmp(type_name, "long int")) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":461,\"ret_type\":\"const char *\",\"expr\":\"\\\"%ld\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
                 return "%ld";
             } else if (0 == strcmp(type_name, "long unsigned int")) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":463,\"ret_type\":\"const char *\",\"expr\":\"\\\"%lu\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
                 return "%lu";
             } else if (0 == strcmp(type_name, "short int")) {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_format_for_expr","func_id":19,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":459,"ret_type":"const char *","expr":"\"%hd\""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_format_for_expr","func_id":19})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":465,\"ret_type\":\"const char *\",\"expr\":\"\\\"%hd\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
                 return "%hd";
             } else if (0 == strcmp(type_name, "short unsigned int")) {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_format_for_expr","func_id":19,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":463,"ret_type":"const char *","expr":"\"%hu\""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_format_for_expr","func_id":19})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":467,\"ret_type\":\"const char *\",\"expr\":\"\\\"%hu\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
                 return "%hu";
             }
         }
@@ -633,14 +669,16 @@ static const char *get_format_for_expr(tree expr) {
         // %f adds annoying trailing zeros, but %g for larger numbers prints in scientific notation (6e+7)
         // and truncates precision. so I went with %f.
         if (0 == strcmp(type_name, "float")) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":488,\"ret_type\":\"const char *\",\"expr\":\"\\\"%f\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
             return "%f";
         } else if (0 == strcmp(type_name, "double")) {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_format_for_expr","func_id":19,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":488,"ret_type":"const char *","expr":"\"%f\""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_format_for_expr","func_id":19})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":490,\"ret_type\":\"const char *\",\"expr\":\"\\\"%f\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
             return "%f";
         } else if (0 == strcmp(type_name, "long double")) {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_format_for_expr","func_id":19,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":492,"ret_type":"const char *","expr":"\"%Lf\""})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_format_for_expr","func_id":19})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_format_for_expr\",\"func_id\":19,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":492,\"ret_type\":\"const char *\",\"expr\":\"\\\"%Lf\\\"\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_format_for_expr\",\"func_id\":19}");
             return "%Lf";
         } else {
             printf("unknown float type name '%s'\n", type_name);
@@ -651,9 +689,9 @@ static const char *get_format_for_expr(tree expr) {
 }
 
 static char *_make_assert_expr_printf_from_ast(tree expr, struct expr_list *ec) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"_make_assert_expr_printf_from_ast","func_id":18,"num_params":2,"start_line":501,"end_line":583,"metrics":{"num_params":2,"call_count":21,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false},{"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"_make_assert_expr_printf_from_ast","func_id":18,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"_make_assert_expr_printf_from_ast","func_id":18,"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"num_params\":2,\"start_line\":501,\"end_line\":583,\"metrics\":{\"num_params\":2,\"call_count\":21,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}");
     char buf[1024];
 
     tree unsaved = from_save_maybe(expr);
@@ -672,6 +710,8 @@ static char *_make_assert_expr_printf_from_ast(tree expr, struct expr_list *ec) 
 
         free(left);
         free(right);
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":520,\"ret_type\":\"char *\",\"expr\":\"xstrdup(buf)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
         return xstrdup(buf);
     } else {
         if (DECL_P(inner)) {
@@ -680,12 +720,16 @@ static char *_make_assert_expr_printf_from_ast(tree expr, struct expr_list *ec) 
             (void)snprintf(buf, sizeof(buf), "%s%s%s%s", color ?: "", cast ?: "",
                 IDENTIFIER_POINTER(DECL_NAME(inner)), color ? RESET_COLOR : "");
             free(cast);
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":528,\"ret_type\":\"char *\",\"expr\":\"xstrdup(buf)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
             return xstrdup(buf);
         } else if (TREE_CODE(inner) == CALL_EXPR) {
             // TODO show casts on function calls
             tree fn = get_callee_fndecl(inner);
             if (NULL_TREE == fn) {
                 // see comment on the second call site of get_callee_fndecl
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":534,\"ret_type\":\"char *\",\"expr\":\"xstrdup(\\\"<unknown>(..)\\\")\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
                 return xstrdup("<unknown>(..)");
             }
             const char *fn_name = IDENTIFIER_POINTER(DECL_NAME(fn));
@@ -707,28 +751,38 @@ static char *_make_assert_expr_printf_from_ast(tree expr, struct expr_list *ec) 
             n -= call_expr_nargs(inner) ? 2 : 0; // (remove last ", " if we had any)
             (void)snprintf(buf + n, sizeof(buf) - n, ")%s", color ? RESET_COLOR : "");
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":555,\"ret_type\":\"char *\",\"expr\":\"xstrdup(buf)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
             return xstrdup(buf);
         } else if (is_NULL(unsaved)) { // before INTEGER_CST, "NULL" is INTEGER_CST itself.
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"_make_assert_expr_printf_from_ast","func_id":18,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":555,"ret_type":"char *","expr":"xstrdup(\"NULL\")"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"_make_assert_expr_printf_from_ast","func_id":18})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":557,\"ret_type\":\"char *\",\"expr\":\"xstrdup(\\\"NULL\\\")\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
             return xstrdup("NULL");
         } else if (TREE_CODE(inner) == INTEGER_CST) {
             gcc_assert(TREE_INT_CST_NUNITS(inner) == 1); // TODO handle greater
             (void)snprintf(buf, sizeof(buf), get_format_for_expr(inner), TREE_INT_CST_LOW(inner));
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":561,\"ret_type\":\"char *\",\"expr\":\"xstrdup(buf)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
             return xstrdup(buf);
         } else if (TREE_CODE(inner) == REAL_CST) {
             (void)snprintf(buf, sizeof(buf), get_format_for_expr(expr), TREE_REAL_CST(expr));
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":564,\"ret_type\":\"char *\",\"expr\":\"xstrdup(buf)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
             return xstrdup(buf);
         } else if (TREE_CODE(inner) == ADDR_EXPR) {
             tree addr_inner = TREE_OPERAND(inner, 0);
             if (TREE_CODE(addr_inner) == STRING_CST) {
                 // can't use get_format_for_expr() here
                 (void)snprintf(buf, sizeof(buf), "\"%s\"", TREE_STRING_POINTER(addr_inner));
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":570,\"ret_type\":\"char *\",\"expr\":\"xstrdup(buf)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
                 return xstrdup(buf);
             } else {
                 // handle &variable
                 if (DECL_P(addr_inner)) {
                     (void)snprintf(buf, sizeof(buf), "&%s", IDENTIFIER_POINTER(DECL_NAME(addr_inner)));
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":575,\"ret_type\":\"char *\",\"expr\":\"xstrdup(buf)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
                     return xstrdup(buf);
                 }
             }
@@ -736,8 +790,8 @@ static char *_make_assert_expr_printf_from_ast(tree expr, struct expr_list *ec) 
     }
 
     // unknown case: print ... for this expression.
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"_make_assert_expr_printf_from_ast","func_id":18,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":582,"ret_type":"char *","expr":"xstrdup(\"...\")"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"_make_assert_expr_printf_from_ast","func_id":18})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":582,\"ret_type\":\"char *\",\"expr\":\"xstrdup(\\\"...\\\")\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"_make_assert_expr_printf_from_ast\",\"func_id\":18}");
     return xstrdup("...");
 }
 
@@ -745,12 +799,12 @@ static char *_make_assert_expr_printf_from_ast(tree expr, struct expr_list *ec) 
 // this prints the "expression text" without evaluation anything (like make_assert_expr_printf),
 // but it generates this text from AST (like make_conditional_expr_repr)
 static void make_assert_expr_printf_from_ast(location_t here, tree cond_expr, struct expr_list *ec, tree *stmts, bool swapped) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_assert_expr_printf_from_ast","func_id":17,"num_params":5,"start_line":588,"end_line":598,"metrics":{"num_params":5,"call_count":3,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"cond_expr","type":"int","is_pointer":false,"is_const":false},{"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false},{"name":"stmts","type":"int *","is_pointer":true,"is_const":false},{"name":"swapped","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_expr_printf_from_ast","func_id":17,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_expr_printf_from_ast","func_id":17,"name":"cond_expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_expr_printf_from_ast","func_id":17,"name":"ec","type":"struct expr_list *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_expr_printf_from_ast","func_id":17,"name":"stmts","type":"int *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_expr_printf_from_ast","func_id":17,"name":"swapped","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_assert_expr_printf_from_ast\",\"func_id\":17,\"num_params\":5,\"start_line\":588,\"end_line\":598,\"metrics\":{\"num_params\":5,\"call_count\":3,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"cond_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"swapped\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_expr_printf_from_ast\",\"func_id\":17,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_expr_printf_from_ast\",\"func_id\":17,\"name\":\"cond_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_expr_printf_from_ast\",\"func_id\":17,\"name\":\"ec\",\"type\":\"struct expr_list *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_expr_printf_from_ast\",\"func_id\":17,\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_expr_printf_from_ast\",\"func_id\":17,\"name\":\"swapped\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     char *expr_text = _make_assert_expr_printf_from_ast(cond_expr, ec);
 
     char buf[1024];
@@ -760,42 +814,42 @@ static void make_assert_expr_printf_from_ast(location_t here, tree cond_expr, st
     append_to_statement_list(my_build_function_call(here, printf_decl,
         tree_cons(NULL_TREE, build_string_literal_here(here, strlen(buf) + 1, buf), NULL_TREE)),
         stmts);
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_assert_expr_printf_from_ast","func_id":17})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_assert_expr_printf_from_ast\",\"func_id\":17}");
 }
 
 static tree make_buf_ref_addr(location_t here, tree buf_param, tree buf_pos) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_buf_ref_addr","func_id":16,"num_params":3,"start_line":600,"end_line":602,"metrics":{"num_params":3,"call_count":2,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"buf_param","type":"int","is_pointer":false,"is_const":false},{"name":"buf_pos","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_buf_ref_addr","func_id":16,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_buf_ref_addr\",\"func_id\":16,\"num_params\":3,\"start_line\":600,\"end_line\":602,\"metrics\":{\"num_params\":3,\"call_count\":2,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"buf_param\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"buf_pos\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_buf_ref_addr\",\"func_id\":16,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] here = %d\n", here);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_buf_ref_addr","func_id":16,"name":"buf_param","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_buf_ref_addr\",\"func_id\":16,\"name\":\"buf_param\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] buf_param = %d\n", buf_param);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_buf_ref_addr","func_id":16,"name":"buf_pos","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_buf_ref_addr\",\"func_id\":16,\"name\":\"buf_pos\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] buf_pos = %d\n", buf_pos);
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"make_buf_ref_addr","func_id":16,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":601,"ret_type":"int","expr":"build_addr(build_array_ref(here, buf_param, buf_pos))"})JSON");
-    printf("[LOG][RETURN_VALUE] %d\n", (build_addr(build_array_ref(here, buf_param, buf_pos))));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_buf_ref_addr","func_id":16})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_buf_ref_addr\",\"func_id\":16,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":601,\"ret_type\":\"int\",\"expr\":\"build_addr(build_array_ref(here, buf_param, buf_pos))\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_buf_ref_addr\",\"func_id\":16}");
     return build_addr(build_array_ref(here, buf_param, buf_pos));
 }
 
 // creats a `buf_pos += sprintf(...)` with given arguments.
 static tree make_repr_sprintf(location_t here, tree buf_param, tree buf_pos, const char *format, tree args) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_repr_sprintf","func_id":15,"num_params":5,"start_line":605,"end_line":612,"metrics":{"num_params":5,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"buf_param","type":"int","is_pointer":false,"is_const":false},{"name":"buf_pos","type":"int","is_pointer":false,"is_const":false},{"name":"format","type":"const char *","is_pointer":true,"is_const":false},{"name":"args","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_repr_sprintf","func_id":15,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_repr_sprintf\",\"func_id\":15,\"num_params\":5,\"start_line\":605,\"end_line\":612,\"metrics\":{\"num_params\":5,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"buf_param\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"buf_pos\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"format\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"args\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_repr_sprintf\",\"func_id\":15,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] here = %d\n", here);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_repr_sprintf","func_id":15,"name":"buf_param","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_repr_sprintf\",\"func_id\":15,\"name\":\"buf_param\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] buf_param = %d\n", buf_param);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_repr_sprintf","func_id":15,"name":"buf_pos","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_repr_sprintf\",\"func_id\":15,\"name\":\"buf_pos\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] buf_pos = %d\n", buf_pos);
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_repr_sprintf","func_id":15,"name":"format","type":"const char *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_repr_sprintf","func_id":15,"name":"args","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_repr_sprintf\",\"func_id\":15,\"name\":\"format\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_repr_sprintf\",\"func_id\":15,\"name\":\"args\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     printf("[LOG][PARAM_VALUE] args = %d\n", args);
     tree sprintf_call = my_build_function_call(here, sprintf_decl,
             tree_cons(NULL_TREE, make_buf_ref_addr(here, buf_param, buf_pos),
             tree_cons(NULL_TREE, build_string_literal_here(here, strlen(format) + 1, format), args)));
 
     // save_expr on sprintf_call required to avoid crashing on GCC 7.5.0, see commit message
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_repr_sprintf\",\"func_id\":15,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":621,\"ret_type\":\"int\",\"expr\":\"build_modify_expr(here, buf_pos, NULL_TREE, PLUS_EXPR, here, save_expr(sprintf_call), NULL_TREE)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_repr_sprintf\",\"func_id\":15}");
     return build_modify_expr(here, buf_pos, NULL_TREE, PLUS_EXPR, here, save_expr(sprintf_call), NULL_TREE);
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_repr_sprintf","func_id":15})JSON");
 }
 
 static const char *SUBEXPR_COLORS[] = {
@@ -837,24 +891,26 @@ struct make_repr_params {
 
 // returns next usable color by subexpr reprs.
 static const char *alloc_subexpr_color(struct make_repr_params *params) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"alloc_subexpr_color","func_id":14,"num_params":1,"start_line":652,"end_line":658,"metrics":{"num_params":1,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"alloc_subexpr_color","func_id":14,"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"alloc_subexpr_color\",\"func_id\":14,\"num_params\":1,\"start_line\":652,\"end_line\":658,\"metrics\":{\"num_params\":1,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"alloc_subexpr_color\",\"func_id\":14,\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}");
     if (params->color_idx < ARRAY_SIZE(SUBEXPR_COLORS)) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"alloc_subexpr_color\",\"func_id\":14,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":654,\"ret_type\":\"const char *\",\"expr\":\"SUBEXPR_COLORS[params->color_idx++]\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"alloc_subexpr_color\",\"func_id\":14}");
         return SUBEXPR_COLORS[params->color_idx++];
     }
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"alloc_subexpr_color","func_id":14,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":657,"ret_type":"const char *","expr":"NULL"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"alloc_subexpr_color","func_id":14})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"alloc_subexpr_color\",\"func_id\":14,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":657,\"ret_type\":\"const char *\",\"expr\":\"NULL\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"alloc_subexpr_color\",\"func_id\":14}");
     return NULL;
 }
 
 // creates a new _Bool variable, initialized to "false", adds it to current function vars
 // (inside our BIND_EXPR) and returns it
 static tree make_false_boolean_var(location_t here, tree block, tree *init_stmts) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_false_boolean_var","func_id":13,"num_params":3,"start_line":662,"end_line":673,"metrics":{"num_params":3,"call_count":0,"has_recursion":false,"has_loop":true,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"block","type":"int","is_pointer":false,"is_const":false},{"name":"init_stmts","type":"int *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_false_boolean_var","func_id":13,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_false_boolean_var","func_id":13,"name":"block","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_false_boolean_var","func_id":13,"name":"init_stmts","type":"int *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_false_boolean_var\",\"func_id\":13,\"num_params\":3,\"start_line\":662,\"end_line\":673,\"metrics\":{\"num_params\":3,\"call_count\":0,\"has_recursion\":false,\"has_loop\":true,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"block\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"init_stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_false_boolean_var\",\"func_id\":13,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_false_boolean_var\",\"func_id\":13,\"name\":\"block\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_false_boolean_var\",\"func_id\":13,\"name\":\"init_stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
     tree boolean_var = build_decl(here, VAR_DECL, NULL_TREE, boolean_type_node);
     COMPILER_DECL(boolean_var);
     DECL_CONTEXT(boolean_var) = current_function_decl;
@@ -864,21 +920,24 @@ static tree make_false_boolean_var(location_t here, tree block, tree *init_stmts
 
     BLOCK_VARS(block) = chainon(BLOCK_VARS(block), boolean_var);
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_false_boolean_var\",\"func_id\":13,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":676,\"ret_type\":\"int\",\"expr\":\"boolean_var\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_false_boolean_var\",\"func_id\":13}");
     return boolean_var;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_false_boolean_var","func_id":13})JSON");
 }
 
 // get (make if missing) the decl_expr_list for a given DECL
 static struct decl_expr_list *get_decl_expr_list(tree expr, tree raw_expr, struct make_repr_params *params) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"get_decl_expr_list","func_id":12,"num_params":3,"start_line":676,"end_line":700,"metrics":{"num_params":3,"call_count":7,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false},{"name":"raw_expr","type":"int","is_pointer":false,"is_const":false},{"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_decl_expr_list","func_id":12,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_decl_expr_list","func_id":12,"name":"raw_expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"get_decl_expr_list","func_id":12,"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"get_decl_expr_list\",\"func_id\":12,\"num_params\":3,\"start_line\":676,\"end_line\":700,\"metrics\":{\"num_params\":3,\"call_count\":7,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"raw_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_decl_expr_list\",\"func_id\":12,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_decl_expr_list\",\"func_id\":12,\"name\":\"raw_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"get_decl_expr_list\",\"func_id\":12,\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}");
     gcc_assert(DECL_P(raw_expr));
 
     // don't add if found
     struct expr_list *list = get_expr_list_item(expr, &params->decl_repr_exprs.list);
     if (list) {
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_decl_expr_list\",\"func_id\":12,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":682,\"ret_type\":\"struct decl_expr_list *\",\"expr\":\"to_decl_expr_list(list)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_decl_expr_list\",\"func_id\":12}");
         return to_decl_expr_list(list);
     }
 
@@ -896,19 +955,19 @@ static struct decl_expr_list *get_decl_expr_list(tree expr, tree raw_expr, struc
     // as they're met, they will be ordered.
     params->decl_repr_exprs.list.next = &new_list->list;
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"get_decl_expr_list","func_id":12,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":699,"ret_type":"struct decl_expr_list *","expr":"new_list"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"get_decl_expr_list","func_id":12})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"get_decl_expr_list\",\"func_id\":12,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":699,\"ret_type\":\"struct decl_expr_list *\",\"expr\":\"new_list\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"get_decl_expr_list\",\"func_id\":12}");
     return new_list;
 }
 
 // make the DECL repr code, this generated code (added to "stmts") that protects itself
 // so it runs exactly once for the same DECL.
 static const char *make_decl_subexpression_repr(tree expr, tree raw_expr, tree *stmts, struct make_repr_params *params) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_decl_subexpression_repr","func_id":11,"num_params":4,"start_line":704,"end_line":741,"metrics":{"num_params":4,"call_count":6,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false},{"name":"raw_expr","type":"int","is_pointer":false,"is_const":false},{"name":"stmts","type":"int *","is_pointer":true,"is_const":false},{"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_decl_subexpression_repr","func_id":11,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_decl_subexpression_repr","func_id":11,"name":"raw_expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_decl_subexpression_repr","func_id":11,"name":"stmts","type":"int *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_decl_subexpression_repr","func_id":11,"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_decl_subexpression_repr\",\"func_id\":11,\"num_params\":4,\"start_line\":704,\"end_line\":741,\"metrics\":{\"num_params\":4,\"call_count\":6,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"raw_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_decl_subexpression_repr\",\"func_id\":11,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_decl_subexpression_repr\",\"func_id\":11,\"name\":\"raw_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_decl_subexpression_repr\",\"func_id\":11,\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_decl_subexpression_repr\",\"func_id\":11,\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}");
     location_t here = params->here;
     struct decl_expr_list *list = get_decl_expr_list(expr, raw_expr, params);
 
@@ -944,8 +1003,8 @@ static const char *make_decl_subexpression_repr(tree expr, tree raw_expr, tree *
 
     append_to_statement_list(cond_expr, stmts);
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"make_decl_subexpression_repr","func_id":11,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":740,"ret_type":"const char *","expr":"list->list.color"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_decl_subexpression_repr","func_id":11})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_decl_subexpression_repr\",\"func_id\":11,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":740,\"ret_type\":\"const char *\",\"expr\":\"list->list.color\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_decl_subexpression_repr\",\"func_id\":11}");
     return list->list.color;
 }
 
@@ -954,11 +1013,11 @@ static const char *make_subexpressions_repr(tree expr, tree *stmts, struct make_
 // builds a sprintf into params->subexpr_buf_param in the format
 // `%result = sprintf(buf + pos, "%d = function(%d, %d, %d)", return, arg1, arg2, arg3)`
 static const char *make_call_subexpression_repr(tree expr, tree raw_expr, tree *stmts, struct make_repr_params *params) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_call_subexpression_repr","func_id":10,"num_params":4,"start_line":747,"end_line":796,"metrics":{"num_params":4,"call_count":7,"has_recursion":false,"has_loop":true,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false},{"name":"raw_expr","type":"int","is_pointer":false,"is_const":false},{"name":"stmts","type":"int *","is_pointer":true,"is_const":false},{"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_call_subexpression_repr","func_id":10,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_call_subexpression_repr","func_id":10,"name":"raw_expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_call_subexpression_repr","func_id":10,"name":"stmts","type":"int *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_call_subexpression_repr","func_id":10,"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10,\"num_params\":4,\"start_line\":747,\"end_line\":796,\"metrics\":{\"num_params\":4,\"call_count\":7,\"has_recursion\":false,\"has_loop\":true,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"raw_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10,\"name\":\"raw_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10,\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10,\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}");
     gcc_assert(TREE_CODE(raw_expr) == CALL_EXPR);
 
     char buf[1024];
@@ -972,6 +1031,8 @@ static const char *make_call_subexpression_repr(tree expr, tree raw_expr, tree *
         // TODO what should probably be done is, to get the function *type* rather than decl:
         // obviously the function decl is unknown at build time, if it's an indiret call through
         // a pointer.
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":761,\"ret_type\":\"const char *\",\"expr\":\"NULL\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10}");
         return NULL;
     }
     const char *fn_name = IDENTIFIER_POINTER(DECL_NAME(fn));
@@ -1006,21 +1067,25 @@ static const char *make_call_subexpression_repr(tree expr, tree raw_expr, tree *
     append_to_statement_list(make_repr_sprintf(params->here, params->subexpr_buf_param, params->subexpr_buf_pos,
         buf, call_params), stmts);
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"make_call_subexpression_repr","func_id":10,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":795,"ret_type":"const char *","expr":"color"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_call_subexpression_repr","func_id":10})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":795,\"ret_type\":\"const char *\",\"expr\":\"color\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_call_subexpression_repr\",\"func_id\":10}");
     return color;
 }
 
 static const char *make_subexpressions_repr(tree expr, tree *stmts, struct make_repr_params *params) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_subexpressions_repr","func_id":9,"num_params":3,"start_line":798,"end_line":817,"metrics":{"num_params":3,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false},{"name":"stmts","type":"int *","is_pointer":true,"is_const":false},{"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_subexpressions_repr","func_id":9,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_subexpressions_repr","func_id":9,"name":"stmts","type":"int *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_subexpressions_repr","func_id":9,"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_subexpressions_repr\",\"func_id\":9,\"num_params\":3,\"start_line\":798,\"end_line\":817,\"metrics\":{\"num_params\":3,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_subexpressions_repr\",\"func_id\":9,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_subexpressions_repr\",\"func_id\":9,\"name\":\"stmts\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_subexpressions_repr\",\"func_id\":9,\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}");
     tree inner = strip_nop_and_convert(from_save_maybe(expr));
 
     if (DECL_P(inner)) {
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_subexpressions_repr\",\"func_id\":9,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":806,\"ret_type\":\"const char *\",\"expr\":\"make_decl_subexpression_repr(expr, inner, stmts, params)\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_subexpressions_repr\",\"func_id\":9}");
         return make_decl_subexpression_repr(expr, inner, stmts, params);
     } else if (TREE_CODE(inner) == CALL_EXPR) {
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_subexpressions_repr\",\"func_id\":9,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":810,\"ret_type\":\"const char *\",\"expr\":\"make_call_subexpression_repr(expr, inner, stmts, params)\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_subexpressions_repr\",\"func_id\":9}");
         return make_call_subexpression_repr(expr, inner, stmts, params);
     } else if (get_expr_op_repr(inner)) {
         // another expression: for example 'func(8, n + 5)' will lead here when make_call_subexpression_repr()
@@ -1030,22 +1095,24 @@ static const char *make_subexpressions_repr(tree expr, tree *stmts, struct make_
         (void)make_subexpressions_repr(TREE_OPERAND(inner, 0), stmts, params);
         (void)make_subexpressions_repr(TREE_OPERAND(inner, 1), stmts, params);
         // no need to color the "value" of this expression.
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_subexpressions_repr\",\"func_id\":9,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":813,\"ret_type\":\"const char *\",\"expr\":\"NULL\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_subexpressions_repr\",\"func_id\":9}");
         return NULL;
     }
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"make_subexpressions_repr","func_id":9,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":816,"ret_type":"const char *","expr":"NULL"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_subexpressions_repr","func_id":9})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_subexpressions_repr\",\"func_id\":9,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":816,\"ret_type\":\"const char *\",\"expr\":\"NULL\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_subexpressions_repr\",\"func_id\":9}");
     return NULL;
 }
 
 // used when we're about to evaluate these again, they better be SAVE_EXPR.
 static void assert_both_operands_are_save(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"assert_both_operands_are_save","func_id":8,"num_params":1,"start_line":820,"end_line":824,"metrics":{"num_params":1,"call_count":6,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"assert_both_operands_are_save","func_id":8,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"assert_both_operands_are_save\",\"func_id\":8,\"num_params\":1,\"start_line\":820,\"end_line\":824,\"metrics\":{\"num_params\":1,\"call_count\":6,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"assert_both_operands_are_save\",\"func_id\":8,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     gcc_assert(TREE_OPERAND_LENGTH(expr) == 2);
     assert_tree_is_save(TREE_OPERAND(expr, 0));
     assert_tree_is_save(TREE_OPERAND(expr, 1));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"assert_both_operands_are_save","func_id":8})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"assert_both_operands_are_save\",\"func_id\":8}");
 }
 
 // this function is the core logic: it recursively generates a conditional expressions that walks
@@ -1053,9 +1120,9 @@ static void assert_both_operands_are_save(tree expr) {
 // have failed and which didn't. for example, if an && expression left-hand side fails, the generated
 // code will repr only the left side, without the right.
 static tree make_conditional_expr_repr(struct make_repr_params *params, tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_conditional_expr_repr","func_id":7,"num_params":2,"start_line":830,"end_line":916,"metrics":{"num_params":2,"call_count":4,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false},{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_conditional_expr_repr","func_id":7,"name":"params","type":"struct make_repr_params *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_conditional_expr_repr","func_id":7,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7,\"num_params\":2,\"start_line\":830,\"end_line\":916,\"metrics\":{\"num_params\":2,\"call_count\":4,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7,\"name\":\"params\",\"type\":\"struct make_repr_params *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     tree raw_expr = from_save_maybe(expr);
     const enum tree_code code = TREE_CODE(raw_expr);
 
@@ -1086,6 +1153,8 @@ static tree make_conditional_expr_repr(struct make_repr_params *params, tree exp
             simple_nop_void(here, right_stmts), NULL_TREE,
             simple_nop_void(here, left_stmts), NULL_TREE);
 
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":864,\"ret_type\":\"int\",\"expr\":\"cond\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7}");
         return cond;
     }
     // for TRUTH_ORIF_EXPR/TRUTH_OR_EXPR
@@ -1101,6 +1170,8 @@ static tree make_conditional_expr_repr(struct make_repr_params *params, tree exp
         append_to_statement_list(make_conditional_expr_repr(params, TREE_OPERAND(raw_expr, 1)), &stmts);
         append_to_statement_list(make_repr_sprintf(here, buf_param, buf_pos, ")", NULL_TREE), &stmts);
 
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":881,\"ret_type\":\"int\",\"expr\":\"_build_conditional_expr(here, raw_expr, simple_nop_void(here, integer_zero_node), NULL_TREE, simple_nop_void(here, stmts), NULL_TREE)\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7}");
         return _build_conditional_expr(here, raw_expr,
             simple_nop_void(here, integer_zero_node), NULL_TREE,
             simple_nop_void(here, stmts), NULL_TREE);
@@ -1139,17 +1210,20 @@ static tree make_conditional_expr_repr(struct make_repr_params *params, tree exp
                 tree_cons(NULL_TREE, expr, NULL_TREE)), &stmts);
         }
 
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":921,\"ret_type\":\"int\",\"expr\":\"stmts\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_conditional_expr_repr\",\"func_id\":7}");
         return stmts;
     }
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_conditional_expr_repr","func_id":7})JSON");
 }
 
 static bool function_decl_missing_error(location_t here, tree *func_decl, const char *name) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"function_decl_missing_error","func_id":6,"num_params":3,"start_line":918,"end_line":933,"metrics":{"num_params":3,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"func_decl","type":"int *","is_pointer":true,"is_const":false},{"name":"name","type":"const char *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"function_decl_missing_error","func_id":6,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"function_decl_missing_error","func_id":6,"name":"func_decl","type":"int *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"function_decl_missing_error","func_id":6,"name":"name","type":"const char *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"function_decl_missing_error\",\"func_id\":6,\"num_params\":3,\"start_line\":918,\"end_line\":933,\"metrics\":{\"num_params\":3,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"func_decl\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"name\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"function_decl_missing_error\",\"func_id\":6,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"function_decl_missing_error\",\"func_id\":6,\"name\":\"func_decl\",\"type\":\"int *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"function_decl_missing_error\",\"func_id\":6,\"name\":\"name\",\"type\":\"const char *\",\"is_pointer\":true,\"is_const\":false}");
     if (*func_decl != NULL_TREE) {
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"function_decl_missing_error\",\"func_id\":6,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":924,\"ret_type\":\"int\",\"expr\":\"false\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"function_decl_missing_error\",\"func_id\":6}");
         return false;
     }
 
@@ -1157,20 +1231,23 @@ static bool function_decl_missing_error(location_t here, tree *func_decl, const 
     *func_decl = lookup_name(ident);
     if (*func_decl == NULL_TREE) {
         error_at(here, PLUGIN_NAME ": plugin requires declaration of '%s', please include relevant header\n", name);
+        log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"function_decl_missing_error\",\"func_id\":6,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":933,\"ret_type\":\"int\",\"expr\":\"true\"}");
+        log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"function_decl_missing_error\",\"func_id\":6}");
         return true;
     }
 
     gcc_assert(TREE_CODE(*func_decl) == FUNCTION_DECL);
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"function_decl_missing_error\",\"func_id\":6,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":940,\"ret_type\":\"int\",\"expr\":\"false\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"function_decl_missing_error\",\"func_id\":6}");
     return false;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"function_decl_missing_error","func_id":6})JSON");
 }
 
 static tree make_assert_failed_body(location_t here, tree cond_expr, bool swapped) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"make_assert_failed_body","func_id":5,"num_params":3,"start_line":935,"end_line":1026,"metrics":{"num_params":3,"call_count":8,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"here","type":"int","is_pointer":false,"is_const":false},{"name":"cond_expr","type":"int","is_pointer":false,"is_const":false},{"name":"swapped","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_failed_body","func_id":5,"name":"here","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_failed_body","func_id":5,"name":"cond_expr","type":"int","is_pointer":false,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"make_assert_failed_body","func_id":5,"name":"swapped","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"make_assert_failed_body\",\"func_id\":5,\"num_params\":3,\"start_line\":935,\"end_line\":1026,\"metrics\":{\"num_params\":3,\"call_count\":8,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"cond_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false},{\"name\":\"swapped\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_failed_body\",\"func_id\":5,\"name\":\"here\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_failed_body\",\"func_id\":5,\"name\":\"cond_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"make_assert_failed_body\",\"func_id\":5,\"name\":\"swapped\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     // the patched expression is as follows:
     //
     // we create a new BIND_EXPR - local scope, in which we define
@@ -1194,9 +1271,9 @@ static tree make_assert_failed_body(location_t here, tree cond_expr, bool swappe
         function_decl_missing_error(here, &abort_decl, "abort")) {
 
         // continue unmodified.
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"make_assert_failed_body","func_id":5,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":959,"ret_type":"int","expr":"cond_expr"})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_assert_failed_body\",\"func_id\":5,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":959,\"ret_type\":\"int\",\"expr\":\"cond_expr\"}");
     printf("[LOG][RETURN_VALUE] %d\n", (cond_expr));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"make_assert_failed_body","func_id":5})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_assert_failed_body\",\"func_id\":5}");
         return cond_expr;
     }
 
@@ -1263,14 +1340,16 @@ static tree make_assert_failed_body(location_t here, tree cond_expr, bool swappe
     // concat the 2 lists
     append_to_statement_list(stmts, &first_stmts);
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"make_assert_failed_body\",\"func_id\":5,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":1032,\"ret_type\":\"int\",\"expr\":\"c_build_bind_expr(here, block, first_stmts)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"make_assert_failed_body\",\"func_id\":5}");
     return c_build_bind_expr(here, block, first_stmts);
 }
 
 // cond_expr is an expression that matched is_assert_fail_cond_expr().
 // this function returns a new expression that'll be used to replace it.
 static tree patch_assert(tree cond_expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"patch_assert","func_id":4,"num_params":1,"start_line":1030,"end_line":1051,"metrics":{"num_params":1,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":false,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"cond_expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"patch_assert","func_id":4,"name":"cond_expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"patch_assert\",\"func_id\":4,\"num_params\":1,\"start_line\":1030,\"end_line\":1051,\"metrics\":{\"num_params\":1,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":false,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"cond_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"patch_assert\",\"func_id\":4,\"name\":\"cond_expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     location_t here = EXPR_LOCATION(cond_expr);
 
     // comment out when you wanna see the expression we're about to instrument
@@ -1290,36 +1369,38 @@ static tree patch_assert(tree cond_expr) {
     tree new_cond = build3_loc(here, COND_EXPR, void_type_node, COND_EXPR_COND(cond_expr),
         swapped ? bind : nop, swapped ? nop : bind);
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"patch_assert\",\"func_id\":4,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":1052,\"ret_type\":\"int\",\"expr\":\"new_cond\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"patch_assert\",\"func_id\":4}");
     return new_cond;
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"patch_assert","func_id":4})JSON");
 }
 
 // for individual statements - check if they're the COND_EXPR of assert()s.
 // see the docs of is_assert_fail_cond_expr().
 static tree maybe_patch_statement(tree stmt) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"maybe_patch_statement","func_id":3,"num_params":1,"start_line":1055,"end_line":1069,"metrics":{"num_params":1,"call_count":6,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"stmt","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"maybe_patch_statement","func_id":3,"name":"stmt","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"maybe_patch_statement\",\"func_id\":3,\"num_params\":1,\"start_line\":1055,\"end_line\":1069,\"metrics\":{\"num_params\":1,\"call_count\":6,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"stmt\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"maybe_patch_statement\",\"func_id\":3,\"name\":\"stmt\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     if (is_assert_fail_cond_expr(stmt)) {
         gcc_assert(TREE_CODE(stmt) == COND_EXPR);
 
         // as far as I understand it, if there's any error inside COND_EXPR_COND,
         // the entire expression will be marked as error.
         if (!error_operand_p(COND_EXPR_COND(stmt))) {
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"maybe_patch_statement","func_id":3,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":1062,"ret_type":"int","expr":"patch_assert(stmt)"})JSON");
-    printf("[LOG][RETURN_VALUE] %d\n", (patch_assert(stmt)));
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"maybe_patch_statement","func_id":3})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"maybe_patch_statement\",\"func_id\":3,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":1062,\"ret_type\":\"int\",\"expr\":\"patch_assert(stmt)\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"maybe_patch_statement\",\"func_id\":3}");
             return patch_assert(stmt);
         } else {
             error_at(EXPR_LOCATION(stmt), PLUGIN_NAME ": previous error in expression, not rewriting assert\n");
         }
     }
 
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"maybe_patch_statement\",\"func_id\":3,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":1072,\"ret_type\":\"int\",\"expr\":\"NULL_TREE\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"maybe_patch_statement\",\"func_id\":3}");
     return NULL_TREE;
 }
 
 static void iterate_function_body(tree expr) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"iterate_function_body","func_id":2,"num_params":1,"start_line":1071,"end_line":1105,"metrics":{"num_params":1,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"expr","type":"int","is_pointer":false,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"iterate_function_body","func_id":2,"name":"expr","type":"int","is_pointer":false,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"iterate_function_body\",\"func_id\":2,\"num_params\":1,\"start_line\":1071,\"end_line\":1105,\"metrics\":{\"num_params\":1,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"iterate_function_body\",\"func_id\":2,\"name\":\"expr\",\"type\":\"int\",\"is_pointer\":false,\"is_const\":false}");
     tree body;
 
     if (TREE_CODE(expr) == BIND_EXPR) {
@@ -1353,13 +1434,13 @@ static void iterate_function_body(tree expr) {
             BIND_EXPR_BODY(expr) = patched;
         }
     }
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"iterate_function_body","func_id":2})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"iterate_function_body\",\"func_id\":2}");
 }
 
 static void pre_genericize_callback(void *event_data, void *user_data) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"pre_genericize_callback","func_id":1,"num_params":2,"start_line":1107,"end_line":1115,"metrics":{"num_params":2,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"event_data","type":"void *","is_pointer":true,"is_const":false},{"name":"user_data","type":"void *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"pre_genericize_callback","func_id":1,"name":"event_data","type":"void *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"pre_genericize_callback","func_id":1,"name":"user_data","type":"void *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"pre_genericize_callback\",\"func_id\":1,\"num_params\":2,\"start_line\":1107,\"end_line\":1115,\"metrics\":{\"num_params\":2,\"call_count\":0,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"event_data\",\"type\":\"void *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"user_data\",\"type\":\"void *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"pre_genericize_callback\",\"func_id\":1,\"name\":\"event_data\",\"type\":\"void *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"pre_genericize_callback\",\"func_id\":1,\"name\":\"user_data\",\"type\":\"void *\",\"is_pointer\":true,\"is_const\":false}");
     (void)user_data;
 
     tree t = (tree)event_data;
@@ -1367,23 +1448,25 @@ static void pre_genericize_callback(void *event_data, void *user_data) {
     if (TREE_CODE(t) == FUNCTION_DECL) {
         iterate_function_body(DECL_SAVED_TREE(t));
     }
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"pre_genericize_callback","func_id":1})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"pre_genericize_callback\",\"func_id\":1}");
 }
 
 int plugin_init(struct plugin_name_args *plugin_info, struct plugin_gcc_version *version) {
-    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","function":"plugin_init","func_id":0,"num_params":2,"start_line":1117,"end_line":1128,"metrics":{"num_params":2,"call_count":1,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"plugin_info","type":"struct plugin_name_args *","is_pointer":true,"is_const":false},{"name":"version","type":"struct plugin_gcc_version *","is_pointer":true,"is_const":false}]})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"plugin_init","func_id":0,"name":"plugin_info","type":"struct plugin_name_args *","is_pointer":true,"is_const":false})JSON");
-    log_with_timestamp(R"JSON({"event":"PARAM","function":"plugin_init","func_id":0,"name":"version","type":"struct plugin_gcc_version *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp("{\"event\":\"FUNC_ENTER\",\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"function\":\"plugin_init\",\"func_id\":0,\"num_params\":2,\"start_line\":1117,\"end_line\":1128,\"metrics\":{\"num_params\":2,\"call_count\":1,\"has_recursion\":false,\"has_loop\":false,\"has_if\":true,\"has_switch\":false,\"has_goto\":false,\"stmt_count\":0},\"flags\":{\"is_method\":false,\"is_static_method\":false,\"is_const_method\":false,\"is_virtual_method\":false,\"is_variadic\":false},\"params\":[{\"name\":\"plugin_info\",\"type\":\"struct plugin_name_args *\",\"is_pointer\":true,\"is_const\":false},{\"name\":\"version\",\"type\":\"struct plugin_gcc_version *\",\"is_pointer\":true,\"is_const\":false}]}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"plugin_init\",\"func_id\":0,\"name\":\"plugin_info\",\"type\":\"struct plugin_name_args *\",\"is_pointer\":true,\"is_const\":false}");
+    log_with_timestamp("{\"event\":\"PARAM\",\"function\":\"plugin_init\",\"func_id\":0,\"name\":\"version\",\"type\":\"struct plugin_gcc_version *\",\"is_pointer\":true,\"is_const\":false}");
     printf(PLUGIN_NAME " loaded, compiled for GCC %s\n", gcc_version.basever);
 
     if (!plugin_default_version_check(version, &gcc_version)) {
         error("incompatible gcc/plugin versions");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"plugin_init\",\"func_id\":0,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":1122,\"ret_type\":\"int\",\"expr\":\"1\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"plugin_init\",\"func_id\":0}");
         return 1;
     }
 
     register_callback(plugin_info->base_name, PLUGIN_PRE_GENERICIZE, pre_genericize_callback, NULL);
 
-    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c","line":1127,"ret_type":"int","expr":"0"})JSON");
-    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
+    log_with_timestamp("{\"event\":\"RETURN\",\"function\":\"plugin_init\",\"func_id\":0,\"file\":\"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/gcc_assert_introspect-master-instrumented/plugin.c\",\"line\":1127,\"ret_type\":\"int\",\"expr\":\"0\"}");
+    log_with_timestamp("{\"event\":\"FUNC_EXIT\",\"function\":\"plugin_init\",\"func_id\":0}");
     return 0;
 }
