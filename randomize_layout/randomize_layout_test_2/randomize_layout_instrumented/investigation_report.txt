@@ -1,0 +1,1241 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 LIKELY_BUG       4          116        yes   COMPLEXITY_CHANGE
+  O2                 LIKELY_BUG       7          120        yes   COMPLEXITY_CHANGE
+  O3                 LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  O3_LOOPS           LIKELY_BUG       8          119        yes   COMPLEXITY_CHANGE
+  OS                 LIKELY_BUG       4          117        yes   COMPLEXITY_CHANGE
+  NO_INLINE          LIKELY_BUG       5          143        yes   COMPLEXITY_CHANGE
+  INLINE_ALL         LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  NO_TREE_OPTS       LIKELY_BUG       7          120        yes   COMPLEXITY_CHANGE
+  EXTRA_TREE_OPTS    LIKELY_BUG       7          120        yes   COMPLEXITY_CHANGE
+  LTO                LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  LTO_IPA            LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  NO_VECT            LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  VECT               LIKELY_BUG       9          118        yes   COMPLEXITY_CHANGE
+  STRICT_ALIAS       LIKELY_BUG       7          120        yes   COMPLEXITY_CHANGE
+  NO_ALIAS           LIKELY_BUG       7          120        yes   COMPLEXITY_CHANGE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+171/-67 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+165/-97 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (116):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 101
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 98 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (97 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 76
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+153/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (120):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 105
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 102 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 76
+    SIZE_GROWN    : 11  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+468/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+309/-145 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+427/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-194 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 100 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 71
+    SIZE_GROWN    : 19  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 8 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (8):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+468/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+309/-145 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+516/-194 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (119):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 104
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 101 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 71
+    SIZE_REDUCED  : 1
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+138/-67 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+127/-97 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (117):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 102
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 99 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (98 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 77
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 5 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (5):
+    !! [COMPLEXITY_CHANGE]  randomize_type(tree_node*) [clone .cold]
+       randomize_type(tree_node*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  relayout_struct(tree_node*) [clone .isra.0]
+       relayout_struct(tree_node*) [clone .isra.0] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+52/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  relayout_struct(tree_node*) [clone .isra.0] [clone .cold]
+       relayout_struct(tree_node*) [clone .isra.0] [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+6/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (143):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 128
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 125 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (125 functions changed):
+    INLINED       : 4
+    BRANCH_ELIM   : 87
+    SIZE_GROWN    : 29  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 4  added: 0)
+    removed: ['gsi_end_p(gimple_stmt_iterator)', 'gsi_stmt(gimple_stmt_iterator)', 'ranval(ranctx*)', 'relayout_struct(tree_node*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+468/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+309/-145 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+427/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-194 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 100 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 71
+    SIZE_GROWN    : 19  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+203/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (120):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 105
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c grew in binary size but has no if/loop 
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 102 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 75
+    SIZE_GROWN    : 12  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+153/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (120):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 105
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 102 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 76
+    SIZE_GROWN    : 11  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+468/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+9/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+309/-145 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+427/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-194 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 100 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 72
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+468/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+9/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+309/-145 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+427/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-194 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 100 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 72
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+468/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+309/-145 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+427/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-194 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 100 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 71
+    SIZE_GROWN    : 19  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+468/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*)
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+309/-145 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+427/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+328/-194 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (118):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 103
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 100 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 71
+    SIZE_GROWN    : 19  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+153/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (120):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 105
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 102 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 76
+    SIZE_GROWN    : 11  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+153/-67 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*) [clone .cold]
+       finish_type(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+10/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  randomize_type(tree_node*)
+       randomize_type(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  relayout_struct(tree_node*)
+       relayout_struct(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold]
+       handle_randomize_layout_attr(tree_node**, tree_node*, tree_node*, int, bool*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*)
+       randomize_layout_finish_decl(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+167/-97 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  randomize_layout_finish_decl(void*, void*) [clone .cold]
+       randomize_layout_finish_decl(void*, void*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (120):
+    [ALL_PATHS_COVERED] × 2
+      randomize_layout_finish_decl: randomize_layout_finish_decl hit 3 different return lines [528, 531, 534] — good
+      finish_type: finish_type hit 2 different return lines [559, 569] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 856–914) but only one return path (lin
+      handle_randomize_layout_attr: handle_randomize_layout_attr has if/switch branches (lines 71–111) but only one 
+    [INLINED_SIMPLE] × 105
+      _GLOBAL__sub_I_randomize_layout_plugin.c: _GLOBAL__sub_I_randomize_layout_plugin.c had branch elimination (2 branch instru
+      gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*): gcall const* GIMPLE_CHECK2<gcall const*>(gimple const*) had branch elimination (
+      gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*): gcond const* GIMPLE_CHECK2<gcond const*>(gimple const*) had branch elimination (
+      ... and 102 more
+    [RETURN_CONSISTENT] × 9
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      randomize_layout_finish_decl: randomize_layout_finish_decl returned the same expression across all 54 invocati
+      handle_randomize_layout_attr: handle_randomize_layout_attr returned the same expression across all 6 invocatio
+      ... and 6 more
+    [VOID_COMPLEX_FUNCTION] × 2
+      randomize_type: randomize_type has if/loop complexity (lines 448–470) but is void — internal bra
+      relayout_struct: relayout_struct has if/loop complexity (lines 310–404) but is void — internal br
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == check_global_variables            1         1         [None]
+    == dominated_by_is_err               1         1         [685]
+    == find_bad_casts_execute            5         5         [849, 849, 849, 849, 849]
+    == finish_type                       17        17        [569, 569, 569, 569, 569, 569, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559, 559]
+    == get_field_type                    1         1         [409]
+    == handle_local_var_initializers     5         5         [None, None, None, None, None]
+    == handle_randomize_layout_attr      6         6         [126, 126, 126, 126, 126, 126]
+    == is_fptr                           1         1         [418]
+    == is_pure_ops_struct                1         1         [447]
+    == plugin_init                       1         1         [913]
+    == randomize_layout_finish_decl      54        54        [528, 531, 531, 531, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 528, 531, 528, 528, 534, 528, 534, 534, 534, 534, 534, 534, 534, 534, 534]
+    == randomize_type                    6         6         [None, None, None, None, None, None]
+    == register_attributes               1         1         [None]
+    == relayout_struct                   5         5         [None, None, None, None, None]
+
+  DISASM  (104 functions changed):
+    INLINED       : 13
+    BRANCH_ELIM   : 76
+    SIZE_GROWN    : 11  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 13  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'find_bad_casts_execute()', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_end_p(gimple_stmt_iterator)']  (+8 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_randomize_layout_plugin.c           randomize_layout_plugin.c:1197
+    plugin_init                                        randomize_layout_plugin.c:1129
+
+================================================================================
+  15 LIKELY_BUG
+================================================================================

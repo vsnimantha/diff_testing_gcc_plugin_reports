@@ -1,0 +1,590 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O3                 LIKELY_BUG       1          41         yes   COMPLEXITY_CHANGE
+  O3_LOOPS           LIKELY_BUG       1          41         yes   COMPLEXITY_CHANGE
+  NO_INLINE          LIKELY_BUG       1          48         yes   COMPLEXITY_CHANGE
+  INLINE_ALL         LIKELY_BUG       1          41         yes   COMPLEXITY_CHANGE
+  LTO                LIKELY_BUG       1          42         yes   COMPLEXITY_CHANGE
+  LTO_IPA            LIKELY_BUG       1          42         yes   COMPLEXITY_CHANGE
+  NO_VECT            LIKELY_BUG       1          41         yes   COMPLEXITY_CHANGE
+  VECT               LIKELY_BUG       1          41         yes   COMPLEXITY_CHANGE
+  O1                 OPTIMISED_AWAY   0          39         yes   INLINED_SIMPLE
+  O2                 OPTIMISED_AWAY   0          42         yes   INLINED_SIMPLE
+  OS                 OPTIMISED_AWAY   0          40         yes   INLINED_SIMPLE
+  NO_TREE_OPTS       OPTIMISED_AWAY   0          42         yes   INLINED_SIMPLE
+  EXTRA_TREE_OPTS    OPTIMISED_AWAY   0          42         yes   INLINED_SIMPLE
+  STRICT_ALIAS       OPTIMISED_AWAY   0          42         yes   INLINED_SIMPLE
+  NO_ALIAS           OPTIMISED_AWAY   0          42         yes   INLINED_SIMPLE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 39 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (39):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 37
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      __sanitizer_cov_trace_pc(): __sanitizer_cov_trace_pc() had branch elimination (1 branch instructions removed
+      ... and 34 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (36 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 25
+    SIZE_GROWN    : 1  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 42 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (42):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 40
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 37 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+231/-99 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (41):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 39
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 36 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+342/-99 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (41):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 39
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 36 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 40 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (40):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 38
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +22/-21 instructions changed
+      __sanitizer_cov_trace_pc(): __sanitizer_cov_trace_pc() had branch elimination (1 branch instructions removed
+      ... and 35 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (37 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+99/-80 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (48):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 46
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass() had branch elimination (3 branch instructions removed) — opti
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 43 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (46 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 31
+    SIZE_GROWN    : 12  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 2  added: 0)
+    removed: ['gsi_end_p(gimple_stmt_iterator)', 'gsi_stmt(gimple_stmt_iterator)']
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+231/-99 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (41):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 39
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 36 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 42 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (42):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 40
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c grew in binary size but has no if/loop — likely a
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 37 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 23
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 42 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (42):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 40
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 37 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+231/-99 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (42):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 40
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 37 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (40 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+231/-99 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (42):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 40
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 37 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (40 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 6  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+231/-99 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (41):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 39
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 36 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+231/-99 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (41):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 39
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 36 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 42 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (42):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 40
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 37 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : OPTIMISED_AWAY
+  Rationale: All 42 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  BENIGN / EXPLANATORY TAGS (42):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 90–141) but only one return path (line
+    [INLINED_SIMPLE] × 40
+      _GLOBAL__sub_I_sancov_plugin.c: _GLOBAL__sub_I_sancov_plugin.c had branch elimination (2 branch instructions rem
+      make_sancov_pass(): make_sancov_pass(): REWRITE — +23/-21 instructions changed
+      make_sancov_pass() [clone .cold]: make_sancov_pass() [clone .cold] grew in binary size but has no if/loop — likely
+      ... and 37 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [140]
+
+  DISASM  (39 functions changed):
+    INLINED       : 9
+    BRANCH_ELIM   : 24
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 9  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)', 'gsi_end_p(gimple_stmt_iterator)']  (+4 more)
+
+  SOURCE LOCATIONS (3 resolved):
+    _GLOBAL__sub_I_sancov_plugin.c                     sancov_plugin.c:177
+    main                                               test.c:24
+    plugin_init                                        sancov_plugin.c:117
+
+================================================================================
+  8 LIKELY_BUG  |  7 OPTIMISED_AWAY
+================================================================================
