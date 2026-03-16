@@ -1,0 +1,275 @@
+
+================================================================================
+DIFFERENTIAL TESTING REPORT
+================================================================================
+
+Summary: 0 BUG  |  15 SUSPICIOUS  |  2 NOISY  |  0 OK
+
+No bugs detected.
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O1  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+  (56 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 0 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O2  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (62 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O3  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (60 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O3_LOOPS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (60 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: OS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+  (59 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 0 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_INLINE  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  plugin.cpp:?
+  (76 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 0 removed, 1 added
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: INLINE_ALL  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (60 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_TREE_OPTS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (62 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: EXTRA_TREE_OPTS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (62 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: LTO  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /usr/include/c++/13/bits/allocator.h:184
+  (59 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: LTO_IPA  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /usr/include/c++/13/bits/allocator.h:184
+  (59 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_VECT  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (60 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: VECT  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (60 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: STRICT_ALIAS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (62 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_ALIAS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:315
+    plugin_init.cold  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/SecRetAddress/SecRetAddress-master-instrumented/plugin.cpp:34
+  (62 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 1 added
+    Removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+    Added:   ['plugin_init.cold']
+
+  Log: trace_plugin.cpp_BASE.log
+    Base:    313 frames / 1649 events
+    Variant: 313 frames / 1649 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+================================================================================

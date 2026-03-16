@@ -1,0 +1,1118 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 CONFIRMED_BENIGN 3          72         yes   INLINED_COMPLEX_LOGIC
+  O2                 CONFIRMED_BENIGN 6          76         yes   INLINED_COMPLEX_LOGIC
+  O3                 CONFIRMED_BENIGN 6          74         yes   INLINED_COMPLEX_LOGIC
+  O3_LOOPS           CONFIRMED_BENIGN 6          74         yes   INLINED_COMPLEX_LOGIC
+  OS                 CONFIRMED_BENIGN 2          76         yes   INLINED_COMPLEX_LOGIC
+  NO_INLINE          CONFIRMED_BENIGN 4          92         yes   COMPLEXITY_CHANGE
+  INLINE_ALL         CONFIRMED_BENIGN 6          74         yes   INLINED_COMPLEX_LOGIC
+  NO_TREE_OPTS       CONFIRMED_BENIGN 6          76         yes   INLINED_COMPLEX_LOGIC
+  EXTRA_TREE_OPTS    CONFIRMED_BENIGN 6          76         yes   INLINED_COMPLEX_LOGIC
+  LTO                CONFIRMED_BENIGN 5          74         yes   INLINED_COMPLEX_LOGIC
+  LTO_IPA            CONFIRMED_BENIGN 5          74         yes   INLINED_COMPLEX_LOGIC
+  NO_VECT            CONFIRMED_BENIGN 6          74         yes   INLINED_COMPLEX_LOGIC
+  VECT               CONFIRMED_BENIGN 6          74         yes   INLINED_COMPLEX_LOGIC
+  STRICT_ALIAS       CONFIRMED_BENIGN 6          76         yes   INLINED_COMPLEX_LOGIC
+  NO_ALIAS           CONFIRMED_BENIGN 6          76         yes   INLINED_COMPLEX_LOGIC
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O1 instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+285/-126 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (72):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 62
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 59 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (57 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 2  added: 0)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        plugin.cpp:315
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O2 instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+367/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+118/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (76):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 66
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 63 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (64 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 11  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O3 instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+366/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+118/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (74):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 64
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 61 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (62 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 9  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O3_LOOPS instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+434/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+117/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (74):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 64
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 61 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (62 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 9  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 2 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and OS instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (76):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 66
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 63 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (60 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 53
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 2  added: 0)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        plugin.cpp:315
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_INLINE instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  to_instrument(function*) [clone .cold]
+       to_instrument(function*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+2/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  instrument_functions(function*) [clone .cold]
+       instrument_functions(function*) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (92):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 82
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*): REWRITE — +25/-25 instructions changed
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 79 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (78 functions changed):
+    BRANCH_ELIM   : 54
+    SIZE_GROWN    : 21  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 0  added: 1)
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:?
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and INLINE_ALL instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+366/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+118/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (74):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 64
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 61 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (62 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 9  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_TREE_OPTS instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+363/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+9/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+117/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (76):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 66
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 63 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (64 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 11  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and EXTRA_TREE_OPTS instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+367/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+118/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (76):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 66
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 63 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (64 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 11  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 5 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and LTO instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (5):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+366/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+9/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+6/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (74):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 64
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 61 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (61 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 7  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   allocator.h:184
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 5 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and LTO_IPA instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (5):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+366/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+9/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+6/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (74):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 64
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 61 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (61 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 7  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   allocator.h:184
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_VECT instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+367/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+118/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (74):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 64
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 61 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (62 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 9  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and VECT instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+366/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+118/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (74):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 64
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 61 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (62 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 9  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and STRICT_ALIAS instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+367/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+118/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (76):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 66
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 63 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (64 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 11  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: 6 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_ALIAS instrument exactly the same 4 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 4 function(s), variant instruments 4 function(s)
+
+  BUG-INDICATING TAGS (6):
+    !! [INLINED_COMPLEX_LOGIC]  to_instrument(function*)
+       to_instrument(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=True) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+367/-126 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold]
+       create_clobbers(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [clone .cold] grew in binary size AND has if/loop logic (has_if=False has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+8/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  instrument_functions(function*)
+       instrument_functions(function*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+118/-94 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  plugin_init.cold
+       plugin_init.cold grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (76):
+    [ALL_PATHS_COVERED] × 1
+      instrument_functions: instrument_functions hit 2 different return lines [195, 212] — good path coverag
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 248–271) but only one return path (lin
+      to_instrument: to_instrument has if/switch branches (lines 173–190) but only one return path (l
+    [INLINED_SIMPLE] × 66
+      bb_seq_addr(basic_block_def*): bb_seq_addr(basic_block_def*) had branch elimination (3 branch instructions remo
+      gsi_last_bb(basic_block_def*): gsi_last_bb(basic_block_def*) had branch elimination (1 branch instructions remo
+      single_pred(basic_block_def const*): single_pred(basic_block_def const*) had branch elimination (1 branch instruction
+      ... and 63 more
+    [LOOP_PRESENT] × 1
+      create_clobbers: create_clobbers has a loop (no if) — loop may have been unrolled or vectorised b
+    [RETURN_CONSISTENT] × 6
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      instrument_functions: instrument_functions returned the same expression across all 9 invocation(s): '0
+      to_instrument: to_instrument returned the same expression across all 9 invocation(s): 'to_instr
+      ... and 3 more
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == build_const_char_string           76        76        [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    == create_clobbers                   20        20        [65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65]
+    == create_pointer                    4         4         [74, 74, 74, 74]
+    == insert_asm_instr_after            12        12        [None, None, None, None, None, None, None, None, None, None, None, None]
+    == insert_asm_instr_before           8         8         [None, None, None, None, None, None, None, None]
+    == instrument_entry                  4         4         [None, None, None, None]
+    == instrument_exit                   4         4         [None, None, None, None]
+    == instrument_functions              9         9         [195, 195, 195, 195, 195, 212, 212, 212, 212]
+    == plugin_init                       1         1         [270]
+    == to_instrument                     9         9         [189, 189, 189, 189, 189, 189, 189, 189, 189]
+
+  DISASM  (64 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 51
+    SIZE_GROWN    : 11  <- review
+
+  SYMBOLS  (removed: 2  added: 1)
+    removed: ['instrument_functions(function*)', 'to_instrument(function*)']
+
+  SOURCE LOCATIONS (2 resolved):
+    plugin_init                                        plugin.cpp:315
+    plugin_init.cold                                   plugin.cpp:34
+
+================================================================================
+  15 CONFIRMED_BENIGN
+================================================================================
