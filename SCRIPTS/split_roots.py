@@ -1,7 +1,7 @@
 import os
 
 CHUNK_SIZE_MB = 20  # adjust as needed
-THRESHOLD_MB = 50   # split files larger than this
+THRESHOLD_MB = 90   # split files larger than this
 ROOT = "."          # root folder to scan
 
 def split_file(path, chunk_size_mb=20):
