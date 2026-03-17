@@ -1,0 +1,51 @@
+#include <ctime>
+#include <fstream>
+#include <iostream>
+
+// This is the first gcc header to be included
+#include "gcc-plugin.h"
+#include "plugin-version.h"
+static void log_with_timestamp(const char *msg);
+
+static void log_with_timestamp(const char *msg) {
+    time_t t = time(NULL);
+    tm *tm_info = localtime(&t);
+    char time_buf[26];
+    strftime(time_buf, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    std::ofstream log_file("/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/rofirrim_github/gcc-plugins-master/02_help_version_instrumented/trace_help_version.cc.log", std::ios::app);
+    log_file << "{\"ts\":\"" << time_buf
+             << "\",\"file\":\"help_version.cc\",\"msg\":" << msg
+             << "}" << std::endl;
+}
+
+
+// We must assert that this plugin is GPL compatible
+int plugin_is_GPL_compatible;
+
+static struct plugin_info my_gcc_plugin_info = { "1.0", "This is a very simple plugin" };
+
+int plugin_init (struct plugin_name_args *plugin_info,
+		struct plugin_gcc_version *version)
+{
+    log_with_timestamp(R"JSON({"event":"FUNC_ENTER","file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/rofirrim_github/gcc-plugins-master/02_help_version_instrumented/help_version.cc","function":"plugin_init","func_id":0,"num_params":2,"start_line":13,"end_line":30,"metrics":{"num_params":2,"call_count":0,"has_recursion":false,"has_loop":false,"has_if":true,"has_switch":false,"has_goto":false,"stmt_count":0},"flags":{"is_method":false,"is_static_method":false,"is_const_method":false,"is_virtual_method":false,"is_variadic":false},"params":[{"name":"plugin_info","type":"struct plugin_name_args *","is_pointer":true,"is_const":false},{"name":"version","type":"struct plugin_gcc_version *","is_pointer":true,"is_const":false}]})JSON");
+    log_with_timestamp(R"JSON({"event":"PARAM","function":"plugin_init","func_id":0,"name":"plugin_info","type":"struct plugin_name_args *","is_pointer":true,"is_const":false})JSON");
+    log_with_timestamp(R"JSON({"event":"PARAM","function":"plugin_init","func_id":0,"name":"version","type":"struct plugin_gcc_version *","is_pointer":true,"is_const":false})JSON");
+	// We check the current gcc loading this plugin against the gcc we used to
+	// created this plugin
+	if (!plugin_default_version_check (version, &gcc_version))
+    {
+        std::cerr << "This GCC plugin is for version " << GCCPLUGIN_VERSION_MAJOR << "." << GCCPLUGIN_VERSION_MINOR << "\n";
+    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/rofirrim_github/gcc-plugins-master/02_help_version_instrumented/help_version.cc","line":21,"ret_type":"int","expr":"1"})JSON");
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
+		return 1;
+    }
+
+    // Register the plugin itself
+    register_callback(plugin_info->base_name,
+            /* event */ PLUGIN_INFO,
+            /* callback */ NULL, /* user_data */ &my_gcc_plugin_info);
+
+    log_with_timestamp(R"JSON({"event":"RETURN","function":"plugin_init","func_id":0,"file":"/home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Web_Repos/rofirrim_github/gcc-plugins-master/02_help_version_instrumented/help_version.cc","line":29,"ret_type":"int","expr":"0"})JSON");
+    log_with_timestamp(R"JSON({"event":"FUNC_EXIT","function":"plugin_init","func_id":0})JSON");
+    return 0;
+}

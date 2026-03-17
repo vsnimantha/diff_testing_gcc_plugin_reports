@@ -1,0 +1,549 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  O2                 CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  O3                 CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  O3_LOOPS           CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  OS                 CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  NO_INLINE          CONFIRMED_BENIGN 0          8          yes   INLINED_SIMPLE
+  INLINE_ALL         CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  NO_TREE_OPTS       CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  EXTRA_TREE_OPTS    CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  LTO                CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  LTO_IPA            CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  NO_VECT            CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  VECT               CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  STRICT_ALIAS       CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+  NO_ALIAS           CONFIRMED_BENIGN 0          9          yes   INLINED_SIMPLE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O1 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) had branch elimination (14 branch instruction
+      swap(int*, int*): swap(int*, int*) had branch elimination (5 branch instructions removed) — optimi
+      partition(int*, int, int): partition(int*, int, int) had branch elimination (10 branch instructions removed
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (5 functions changed):
+    BRANCH_ELIM   : 4
+    SIZE_GROWN    : 1  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O2 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) had branch elimination (14 branch instruction
+      swap(int*, int*): swap(int*, int*) had branch elimination (5 branch instructions removed) — optimi
+      partition(int*, int, int): partition(int*, int, int) had branch elimination (10 branch instructions removed
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 4
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O3 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) grew in binary size but has no if/loop — like
+      swap(int*, int*): swap(int*, int*) grew in binary size but has no if/loop — likely absorbed inline
+      partition(int*, int, int): partition(int*, int, int) grew in binary size but has no if/loop — likely absorb
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 1
+    SIZE_GROWN    : 6  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O3_LOOPS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) grew in binary size but has no if/loop — like
+      swap(int*, int*): swap(int*, int*) grew in binary size but has no if/loop — likely absorbed inline
+      partition(int*, int, int): partition(int*, int, int) grew in binary size but has no if/loop — likely absorb
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 1
+    SIZE_GROWN    : 6  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and OS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) had branch elimination (14 branch instruction
+      swap(int*, int*): swap(int*, int*) had branch elimination (5 branch instructions removed) — optimi
+      partition(int*, int, int): partition(int*, int, int) had branch elimination (10 branch instructions removed
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (5 functions changed):
+    BRANCH_ELIM   : 5
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 8 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_INLINE instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (8):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 6
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) had branch elimination (14 branch instruction
+      swap(int*, int*): swap(int*, int*) had branch elimination (5 branch instructions removed) — optimi
+      partition(int*, int, int): partition(int*, int, int) had branch elimination (10 branch instructions removed
+      ... and 3 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (6 functions changed):
+    BRANCH_ELIM   : 5
+    SIZE_GROWN    : 1  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and INLINE_ALL instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) grew in binary size but has no if/loop — like
+      swap(int*, int*): swap(int*, int*) grew in binary size but has no if/loop — likely absorbed inline
+      partition(int*, int, int): partition(int*, int, int) grew in binary size but has no if/loop — likely absorb
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 1
+    SIZE_GROWN    : 6  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_TREE_OPTS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) had branch elimination (14 branch instruction
+      swap(int*, int*): swap(int*, int*) had branch elimination (5 branch instructions removed) — optimi
+      partition(int*, int, int): partition(int*, int, int) had branch elimination (10 branch instructions removed
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 4
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and EXTRA_TREE_OPTS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) had branch elimination (14 branch instruction
+      swap(int*, int*): swap(int*, int*) had branch elimination (5 branch instructions removed) — optimi
+      partition(int*, int, int): partition(int*, int, int) had branch elimination (10 branch instructions removed
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 4
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and LTO instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) grew in binary size but has no if/loop — like
+      swap(int*, int*): swap(int*, int*) grew in binary size but has no if/loop — likely absorbed inline
+      partition(int*, int, int): partition(int*, int, int) grew in binary size but has no if/loop — likely absorb
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 2
+    SIZE_GROWN    : 5  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and LTO_IPA instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) grew in binary size but has no if/loop — like
+      swap(int*, int*): swap(int*, int*) grew in binary size but has no if/loop — likely absorbed inline
+      partition(int*, int, int): partition(int*, int, int) grew in binary size but has no if/loop — likely absorb
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 2
+    SIZE_GROWN    : 5  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_VECT instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) grew in binary size but has no if/loop — like
+      swap(int*, int*): swap(int*, int*) grew in binary size but has no if/loop — likely absorbed inline
+      partition(int*, int, int): partition(int*, int, int) grew in binary size but has no if/loop — likely absorb
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 1
+    SIZE_GROWN    : 6  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and VECT instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) grew in binary size but has no if/loop — like
+      swap(int*, int*): swap(int*, int*) grew in binary size but has no if/loop — likely absorbed inline
+      partition(int*, int, int): partition(int*, int, int) grew in binary size but has no if/loop — likely absorb
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 1
+    SIZE_GROWN    : 6  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and STRICT_ALIAS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) had branch elimination (14 branch instruction
+      swap(int*, int*): swap(int*, int*) had branch elimination (5 branch instructions removed) — optimi
+      partition(int*, int, int): partition(int*, int, int) had branch elimination (10 branch instructions removed
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 4
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 9 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_ALIAS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (9):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 13–30) but only one return path (line 
+    [INLINED_SIMPLE] × 7
+      quickSortIterative(int*, int, int): quickSortIterative(int*, int, int) had branch elimination (14 branch instruction
+      swap(int*, int*): swap(int*, int*) had branch elimination (5 branch instructions removed) — optimi
+      partition(int*, int, int): partition(int*, int, int) had branch elimination (10 branch instructions removed
+      ... and 4 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [29]
+
+  DISASM  (7 functions changed):
+    BRANCH_ELIM   : 4
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        help_version.cc:29
+
+================================================================================
+  15 CONFIRMED_BENIGN
+================================================================================
