@@ -1,0 +1,931 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 LIKELY_BUG       2          70         yes   INLINED_COMPLEX_LOGIC
+  O2                 LIKELY_BUG       2          73         yes   INLINED_COMPLEX_LOGIC
+  O3                 LIKELY_BUG       4          71         yes   INLINED_COMPLEX_LOGIC
+  O3_LOOPS           LIKELY_BUG       3          72         yes   INLINED_COMPLEX_LOGIC
+  OS                 LIKELY_BUG       2          71         yes   INLINED_COMPLEX_LOGIC
+  NO_INLINE          LIKELY_BUG       1          92         yes   COMPLEXITY_CHANGE
+  INLINE_ALL         LIKELY_BUG       4          71         yes   INLINED_COMPLEX_LOGIC
+  NO_TREE_OPTS       LIKELY_BUG       2          73         yes   INLINED_COMPLEX_LOGIC
+  EXTRA_TREE_OPTS    LIKELY_BUG       2          73         yes   INLINED_COMPLEX_LOGIC
+  LTO                LIKELY_BUG       4          71         yes   INLINED_COMPLEX_LOGIC
+  LTO_IPA            LIKELY_BUG       4          71         yes   INLINED_COMPLEX_LOGIC
+  NO_VECT            LIKELY_BUG       4          71         yes   INLINED_COMPLEX_LOGIC
+  VECT               LIKELY_BUG       4          71         yes   INLINED_COMPLEX_LOGIC
+  STRICT_ALIAS       LIKELY_BUG       2          73         yes   INLINED_COMPLEX_LOGIC
+  NO_ALIAS           LIKELY_BUG       2          73         yes   INLINED_COMPLEX_LOGIC
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (70):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 62
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 59 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (61 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 45
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (73):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 65
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 62 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 43
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-57 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+313/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (71):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 63
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 60 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 42
+    SIZE_GROWN    : 9  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 3 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (3):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-57 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (72):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 64
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 61 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 42
+    SIZE_GROWN    : 8  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (71):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 63
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 60 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (62 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 46
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 1 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (1):
+    !! [COMPLEXITY_CHANGE]  structleak_execute() [clone .cold]
+       structleak_execute() [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+12/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (92):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 84
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 81 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (82 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 55
+    SIZE_GROWN    : 22  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 2  added: 0)
+    removed: ['gsi_end_p(gimple_stmt_iterator)', 'gsi_stmt(gimple_stmt_iterator)']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-57 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+313/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (71):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 63
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 60 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 42
+    SIZE_GROWN    : 9  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (73):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 65
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c grew in binary size but has no if/loop — like
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 62 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 42
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (73):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 65
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 62 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 43
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-57 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+313/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (71):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 63
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 60 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 42
+    SIZE_GROWN    : 9  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-57 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+313/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (71):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 63
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 60 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 42
+    SIZE_GROWN    : 9  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-57 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+313/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (71):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 63
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 60 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 42
+    SIZE_GROWN    : 9  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (4):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  finish_type(void*, void*)
+       finish_type(void*, void*) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+168/-57 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+313/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (71):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 63
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 60 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 42
+    SIZE_GROWN    : 9  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (73):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 65
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 62 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 43
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 2 bug-indicating tag(s) found: INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: cannot load plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/struck_Leak_instrumented/compiled_plugin_BASE.so: /home/nimantha/Desktop/KU_Leuven_
+
+  BUG-INDICATING TAGS (2):
+    !! [INLINED_COMPLEX_LOGIC]  initialize(tree_node*)
+       initialize(tree_node*) was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  structleak_execute()
+       structleak_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (73):
+    [ALL_PATHS_COVERED] × 1
+      finish_type: finish_type hit 2 different return lines [114, 120] — good path coverage
+    [BRANCH_NOT_TAKEN] × 2
+      plugin_init: plugin_init has if/switch branches (lines 219–267) but only one return path (lin
+      structleak_execute: structleak_execute has if/switch branches (lines 178–211) but only one return pa
+    [INLINED_SIMPLE] × 65
+      _GLOBAL__sub_I_structleak_plugin.c: _GLOBAL__sub_I_structleak_plugin.c had branch elimination (2 branch instructions
+      gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*): gassign const* GIMPLE_CHECK2<gassign const*>(gimple const*) had branch eliminati
+      unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> const*): unsigned int vec_safe_length<edge_def*, va_gc>(vec<edge_def*, va_gc, vl_embed> c
+      ... and 62 more
+    [RETURN_CONSISTENT] × 4
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      handle_user_attribute: handle_user_attribute returned the same expression across all 1 invocation(s): '
+      finish_type: finish_type returned the same expression across all 6 invocation(s): ''
+      ... and 1 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      initialize: initialize has if/loop complexity (lines 126–176) but is void — internal branchi
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == finish_type                       6         6         [120, 114, 120, 114, 120, 114]
+    == handle_user_attribute             1         1         [81]
+    == initialize                        1         1         [None]
+    == plugin_init                       1         1         [266]
+    == register_attributes               1         1         [None]
+    == structleak_execute                1         1         [211]
+
+  DISASM  (64 functions changed):
+    INLINED       : 12
+    BRANCH_ELIM   : 43
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 5
+
+  SYMBOLS  (removed: 12  added: 0)
+    removed: ['bb_seq_addr(basic_block_def*)', 'get_field_type(tree_node*)', 'get_gimple_rhs_class(tree_code)', 'gimple_seq_first(gimple*)', 'gsi_after_labels(basic_block_def*)']  (+7 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_structleak_plugin.c                 structleak_plugin.c:343
+    plugin_init                                        structleak_plugin.c:289
+
+================================================================================
+  15 LIKELY_BUG
+================================================================================
