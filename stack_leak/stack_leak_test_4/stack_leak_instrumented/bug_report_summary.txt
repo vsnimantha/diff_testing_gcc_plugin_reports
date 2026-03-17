@@ -1,0 +1,265 @@
+
+================================================================================
+DIFFERENTIAL TESTING REPORT
+================================================================================
+
+Summary: 0 BUG  |  15 SUSPICIOUS  |  2 NOISY  |  0 OK
+
+No bugs detected.
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O1  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (101 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O2  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (109 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O3  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (110 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: O3_LOOPS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (110 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: OS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (103 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_INLINE  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (139 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 2 removed, 0 added
+    Removed: ['gsi_end_p(gimple_stmt_iterator)', 'gsi_stmt(gimple_stmt_iterator)']
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: INLINE_ALL  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (110 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_TREE_OPTS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (109 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: EXTRA_TREE_OPTS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (109 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: LTO  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (110 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: LTO_IPA  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (110 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_VECT  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (110 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: VECT  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (110 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: STRICT_ALIAS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (109 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT: NO_ALIAS  [SUSPICIOUS]
+
+  Binary-level fault localisation (addr2line):
+    _GLOBAL__sub_I_stackleak_plugin.c  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:797
+    plugin_init  ->  /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/stackleak_plugin.c:672
+  (109 symbol(s) could not be resolved — likely inlined STL/GCC internals)
+
+  Symbol diff: 20 removed, 0 added
+    Removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()'] (+16 more)
+
+  Log: trace_stackleak_plugin.c_BASE.log
+    Base:    215 frames / 839 events
+    Variant: 215 frames / 839 events
+    Issues:  0 real  |  0 noise-filtered
+    Log content identical to BASE — plugin execution path unchanged across this variant
+
+================================================================================

@@ -1,0 +1,1335 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 LIKELY_BUG       5          128        yes   COMPLEXITY_CHANGE
+  O2                 LIKELY_BUG       7          134        yes   COMPLEXITY_CHANGE
+  O3                 LIKELY_BUG       9          133        yes   COMPLEXITY_CHANGE
+  O3_LOOPS           LIKELY_BUG       9          133        yes   COMPLEXITY_CHANGE
+  OS                 LIKELY_BUG       4          131        yes   COMPLEXITY_CHANGE
+  NO_INLINE          LIKELY_BUG       4          167        yes   COMPLEXITY_CHANGE
+  INLINE_ALL         LIKELY_BUG       9          133        yes   COMPLEXITY_CHANGE
+  NO_TREE_OPTS       LIKELY_BUG       7          134        yes   COMPLEXITY_CHANGE
+  EXTRA_TREE_OPTS    LIKELY_BUG       7          134        yes   COMPLEXITY_CHANGE
+  LTO                LIKELY_BUG       9          133        yes   COMPLEXITY_CHANGE
+  LTO_IPA            LIKELY_BUG       9          133        yes   COMPLEXITY_CHANGE
+  NO_VECT            LIKELY_BUG       9          133        yes   COMPLEXITY_CHANGE
+  VECT               LIKELY_BUG       9          133        yes   COMPLEXITY_CHANGE
+  STRICT_ALIAS       LIKELY_BUG       7          134        yes   COMPLEXITY_CHANGE
+  NO_ALIAS           LIKELY_BUG       7          134        yes   COMPLEXITY_CHANGE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 5 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (5):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+249/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool)
+       add_stack_tracking(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+191/-44 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (128):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 109
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 106 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (103 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 75
+    SIZE_GROWN    : 4  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+267/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool)
+       add_stack_tracking(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+191/-44 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (134):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 115
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 112 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (111 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 75
+    SIZE_GROWN    : 13  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+978/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+343/-102 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+142/-70 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+388/-290 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (133):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 114
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 111 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (112 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 72
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+979/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+341/-102 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+142/-70 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+518/-290 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (133):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 114
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 111 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (112 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 73
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool)
+       add_stack_tracking(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+172/-44 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (131):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 112
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 109 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (105 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 76
+    SIZE_GROWN    : 5  <- review
+    REWRITE       : 4
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 4 bug-indicating tag(s) found: COMPLEXITY_CHANGE
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (4):
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  stackleak_instrument_execute()
+       stackleak_instrument_execute() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+203/-52 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  stackleak_instrument_execute() [clone .cold]
+       stackleak_instrument_execute() [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+9/-0 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (167):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 148
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&) [clone .isra.0]: tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      ... and 145 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (141 functions changed):
+    INLINED       : 2
+    BRANCH_ELIM   : 96
+    SIZE_GROWN    : 40  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 2  added: 0)
+    removed: ['gsi_end_p(gimple_stmt_iterator)', 'gsi_stmt(gimple_stmt_iterator)']
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+978/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+343/-102 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+142/-70 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+388/-290 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (133):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 114
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 111 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (112 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 72
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+267/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool)
+       add_stack_tracking(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+191/-44 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (134):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 115
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c grew in binary size but has no if/loop — likel
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 112 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (111 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 74
+    SIZE_GROWN    : 14  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+267/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool)
+       add_stack_tracking(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+191/-44 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (134):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 115
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 112 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (111 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 75
+    SIZE_GROWN    : 13  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+978/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+343/-102 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+142/-70 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+388/-290 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (133):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 114
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 111 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (112 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 71
+    SIZE_REDUCED  : 1
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+978/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+343/-102 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+142/-70 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+388/-290 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (133):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 114
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 111 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (112 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 71
+    SIZE_REDUCED  : 1
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+978/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+343/-102 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+142/-70 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+388/-290 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (133):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 114
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 111 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (112 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 73
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 9 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (9):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+978/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+343/-102 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gasm(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool)
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+142/-70 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+4/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [COMPLEXITY_CHANGE]  plugin_init
+       plugin_init grew in binary size AND has if/loop logic (has_if=True has_loop=True) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+388/-290 insns) + metrics
+
+  BENIGN / EXPLANATORY TAGS (133):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 114
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 111 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (112 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 72
+    SIZE_GROWN    : 18  <- review
+    REWRITE       : 2
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+267/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool)
+       add_stack_tracking(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+191/-44 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (134):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 115
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 112 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (111 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 75
+    SIZE_GROWN    : 13  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : LIKELY_BUG
+  Rationale: 7 bug-indicating tag(s) found: COMPLEXITY_CHANGE, INLINED_COMPLEX_LOGIC
+
+  [Stage 6 — Runtime Confirmation]
+    Unavailable: BASE compilation failed: cc1plus: error: incompatible gcc/plugin versions
+cc1plus: error: failed to initialize plugin /home/nimantha/Desktop/KU_Leuven_App_Gen/Experimentation_Program_Gen/Linux_Kernal/stack_leak_instrumented/c
+
+  BUG-INDICATING TAGS (7):
+    !! [COMPLEXITY_CHANGE]  stackleak_gate()
+       stackleak_gate() grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+267/-130 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool)
+       add_stack_tracking(gimple_stmt_iterator*, bool) grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+191/-44 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [COMPLEXITY_CHANGE]  add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold]
+       add_stack_tracking_gcall(gimple_stmt_iterator*, bool) [clone .cold] grew in binary size AND has if/loop logic (has_if=True has_loop=False) — a new code path may have been inserted or loop unrolled
+       evidence: disasm: SIZE_GROWN (+3/-0 insns) + metrics
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_cleanup_execute()
+       stackleak_cleanup_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  stackleak_instrument_execute()
+       stackleak_instrument_execute() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+    !! [INLINED_COMPLEX_LOGIC]  get_current_stack_pointer_decl()
+       get_current_stack_pointer_decl() was inlined into its caller, but contained if/loop/switch logic (has_if=True has_loop=False) — inlining may alter observable branching behaviour
+       evidence: disasm: INLINED + metrics from FUNC_ENTER
+
+  BENIGN / EXPLANATORY TAGS (134):
+    [ALL_PATHS_COVERED] × 1
+      stackleak_instrument_execute: stackleak_instrument_execute hit 3 different return lines [246, 252, 267] — good
+    [BRANCH_NOT_TAKEN] × 5
+      plugin_init: plugin_init has if/switch branches (lines 536–646) but only one return path (lin
+      stackleak_gate: stackleak_gate has if/switch branches (lines 460–486) but only one return path (
+      add_stack_tracking_gasm: add_stack_tracking_gasm has if/switch branches (lines 124–159) but only one retu
+      ... and 2 more
+    [INLINED_SIMPLE] × 115
+      _GLOBAL__sub_I_stackleak_plugin.c: _GLOBAL__sub_I_stackleak_plugin.c had branch elimination (2 branch instructions 
+      tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&, tree_node* const&): tree_node** vec_safe_push<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed>*&,
+      bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, unsigned int): bool vec_safe_space<tree_node*, va_gc>(vec<tree_node*, va_gc, vl_embed> const*, 
+      ... and 112 more
+    [RETURN_CONSISTENT] × 12
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+      stackleak_instrument_gate: stackleak_instrument_gate returned the same expression across all 9 invocation(s
+      stackleak_gate: stackleak_gate returned the same expression across all 18 invocation(s): 'track_
+      ... and 9 more
+    [VOID_COMPLEX_FUNCTION] × 1
+      add_stack_tracking: add_stack_tracking has if/loop complexity (lines 161–175) but is void — internal
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == add_stack_tracking                7         7         [None, None, None, None, None, None, None]
+    == add_stack_tracking_gasm           7         7         [146, 146, 146, 146, 146, 146, 146]
+    == add_stack_tracking_gcall          7         7         [None, None, None, None, None, None, None]
+    == get_current_stack_pointer_decl    7         7         [124, 124, 124, 124, 124, 124, 124]
+    == is_alloca                         62        62        [106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106]
+    == large_stack_frame                 9         9         [274, 274, 274, 274, 274, 274, 274, 274, 274]
+    == plugin_init                       1         1         [645]
+    == remove_stack_tracking_gasm        9         9         [399, 399, 399, 399, 399, 399, 399, 399, 399]
+    == remove_stack_tracking_gcall       9         9         [None, None, None, None, None, None, None, None, None]
+    == stackleak_cleanup_execute         9         9         [440, 440, 440, 440, 440, 440, 440, 440, 440]
+    == stackleak_cleanup_gate            9         9         [524, 524, 524, 524, 524, 524, 524, 524, 524]
+    == stackleak_gate                    18        18        [485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485, 485]
+    == stackleak_instrument_execute      9         9         [267, 267, 267, 246, 252, 267, 267, 267, 267]
+    == stackleak_instrument_gate         9         9         [512, 512, 512, 512, 512, 512, 512, 512, 512]
+    == stackleak_start_unit              1         1         [None]
+    == string_equal                      42        42        [None, 454, 454, 454, 454, None, None, None, 454, 454, 454, 454, None, None, 459, None, None, None, None, 459, 459, 459, None, None, None, None, 459, 459, 459, 454, 454, 454, 454, None, 459, 459, 454, 454, 454, 454, None, 459]
+
+  DISASM  (111 functions changed):
+    INLINED       : 20
+    BRANCH_ELIM   : 75
+    SIZE_GROWN    : 13  <- review
+    REWRITE       : 3
+
+  SYMBOLS  (removed: 20  added: 0)
+    removed: ['as_a_gcall(gimple*)', 'bb_seq_addr(basic_block_def*)', 'get_current_sequence()', 'get_current_stack_pointer_decl()', 'get_insns()']  (+15 more)
+
+  SOURCE LOCATIONS (2 resolved):
+    _GLOBAL__sub_I_stackleak_plugin.c                  stackleak_plugin.c:797
+    plugin_init                                        stackleak_plugin.c:672
+
+================================================================================
+  15 LIKELY_BUG
+================================================================================
