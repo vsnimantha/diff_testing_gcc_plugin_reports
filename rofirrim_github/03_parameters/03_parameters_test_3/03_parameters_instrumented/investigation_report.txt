@@ -1,0 +1,547 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 CONFIRMED_BENIGN 0          5          yes   INLINED_SIMPLE
+  O2                 CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  O3                 CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  O3_LOOPS           CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  OS                 CONFIRMED_BENIGN 0          4          yes   INLINED_SIMPLE
+  NO_INLINE          CONFIRMED_BENIGN 0          6          yes   INLINED_SIMPLE
+  INLINE_ALL         CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  NO_TREE_OPTS       CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  EXTRA_TREE_OPTS    CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  LTO                CONFIRMED_BENIGN 0          6          yes   INLINED_SIMPLE
+  LTO_IPA            CONFIRMED_BENIGN 0          6          yes   INLINED_SIMPLE
+  NO_VECT            CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  VECT               CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  STRICT_ALIAS       CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+  NO_ALIAS           CONFIRMED_BENIGN 0          7          yes   INLINED_SIMPLE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 5 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O1 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (5):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 3
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      plugin_init: plugin_init had branch elimination (12 branch instructions removed) — optimiser 
+      plugin_init: plugin_init statically makes 4 call(s) to other functions — if those callees are
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (2 functions changed):
+    BRANCH_ELIM   : 1
+    SIZE_GROWN    : 1  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O2 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O3 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O3_LOOPS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 4 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and OS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (4):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 2
+      plugin_init: plugin_init: REWRITE — +130/-121 instructions changed
+      plugin_init: plugin_init statically makes 4 call(s) to other functions — if those callees are
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (2 functions changed):
+    REWRITE       : 1
+    IDENTICAL     : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 6 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_INLINE instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (6):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 4
+      log_with_timestamp(char const*): log_with_timestamp(char const*) had branch elimination (4 branch instructions re
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      plugin_init: plugin_init had branch elimination (12 branch instructions removed) — optimiser 
+      ... and 1 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (3 functions changed):
+    BRANCH_ELIM   : 2
+    SIZE_GROWN    : 1  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and INLINE_ALL instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_TREE_OPTS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and EXTRA_TREE_OPTS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 6 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and LTO instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (6):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 4
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      plugin_init: plugin_init: REWRITE — +132/-122 instructions changed
+      ... and 1 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (3 functions changed):
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 6 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and LTO_IPA instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (6):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 4
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      plugin_init: plugin_init: REWRITE — +132/-122 instructions changed
+      ... and 1 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (3 functions changed):
+    SIZE_GROWN    : 2  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_VECT instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and VECT instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and STRICT_ALIAS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 7 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_ALIAS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (7):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 12–35) but only one return path (line 
+    [INLINED_SIMPLE] × 5
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      std::ctype<char>::do_widen(char) const: std::ctype<char>::do_widen(char) const grew in binary size but has no if/loop — 
+      ... and 2 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == plugin_init                       1         1         [34]
+
+  DISASM  (4 functions changed):
+    SIZE_GROWN    : 3  <- review
+    REWRITE       : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        my_parameters.cc:28
+
+================================================================================
+  15 CONFIRMED_BENIGN
+================================================================================

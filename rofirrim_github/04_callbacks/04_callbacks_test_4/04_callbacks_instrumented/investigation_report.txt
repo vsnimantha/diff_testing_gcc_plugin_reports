@@ -1,0 +1,701 @@
+================================================================================
+SUSPICIOUS VARIANT INVESTIGATION REPORT
+================================================================================
+
+  VARIANT            VERDICT          BUG_TAGS   SAFE_TAGS  LOGS  TOP TAG
+  ------------------------------------------------------------------------------
+  O1                 CONFIRMED_BENIGN 0          25         yes   INLINED_SIMPLE
+  O2                 CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  O3                 CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  O3_LOOPS           CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  OS                 CONFIRMED_BENIGN 0          24         yes   INLINED_SIMPLE
+  NO_INLINE          CONFIRMED_BENIGN 0          26         yes   INLINED_SIMPLE
+  INLINE_ALL         CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  NO_TREE_OPTS       CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  EXTRA_TREE_OPTS    CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  LTO                CONFIRMED_BENIGN 0          26         yes   INLINED_SIMPLE
+  LTO_IPA            CONFIRMED_BENIGN 0          26         yes   INLINED_SIMPLE
+  NO_VECT            CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  VECT               CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  STRICT_ALIAS       CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+  NO_ALIAS           CONFIRMED_BENIGN 0          27         yes   INLINED_SIMPLE
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O1
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 25 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O1 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (25):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 23
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      callback_start_unit(void*, void*): callback_start_unit(void*, void*) had branch elimination (5 branch instructions 
+      ... and 20 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (13 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 1  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O2
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O2 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O3 instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : O3_LOOPS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and O3_LOOPS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : OS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 24 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and OS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (24):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 22
+      callback_finish(void*, void*): callback_finish(void*, void*) grew in binary size but has no if/loop — likely ab
+      callback_start_unit(void*, void*): callback_start_unit(void*, void*) had branch elimination (4 branch instructions 
+      callback_finish_type(void*, void*): callback_finish_type(void*, void*) had branch elimination (5 branch instructions
+      ... and 19 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (13 functions changed):
+    BRANCH_ELIM   : 10
+    SIZE_GROWN    : 2  <- review
+    IDENTICAL     : 1
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_INLINE
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 26 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_INLINE instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (26):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 24
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) had branch elimination (4 branch instructions re
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 21 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (14 functions changed):
+    BRANCH_ELIM   : 13
+    SIZE_GROWN    : 1  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : INLINE_ALL
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and INLINE_ALL instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_TREE_OPTS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : EXTRA_TREE_OPTS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and EXTRA_TREE_OPTS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 26 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and LTO instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (26):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 24
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 21 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (14 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 2  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : LTO_IPA
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 26 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and LTO_IPA instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (26):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 24
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 21 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (14 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 2  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_VECT
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_VECT instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : VECT
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and VECT instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : STRICT_ALIAS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and STRICT_ALIAS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+────────────────────────────────────────────────────────────────────────────────
+VARIANT : NO_ALIAS
+  Tester   : SUSPICIOUS   Investigation : CONFIRMED_BENIGN
+  Rationale: All 27 tag(s) are benign: BRANCH_NOT_TAKEN, INLINED_SIMPLE, RETURN_CONSISTENT
+
+  [Stage 6 — Runtime Confirmation]
+    Verdict : CONFIRMED_BENIGN
+    Detail  : Both BASE and NO_ALIAS instrument exactly the same 0 function(s). Binary differences are due to compiler optimisations only — plugin semantics are preserved.
+    BASE instruments 0 function(s), variant instruments 0 function(s)
+
+  BENIGN / EXPLANATORY TAGS (27):
+    [BRANCH_NOT_TAKEN] × 1
+      plugin_init: plugin_init has if/switch branches (lines 67–127) but only one return path (line
+    [INLINED_SIMPLE] × 25
+      callback_finish(void*, void*): callback_finish(void*, void*) had branch elimination (5 branch instructions remo
+      log_with_timestamp(char const*): log_with_timestamp(char const*) grew in binary size but has no if/loop — likely 
+      log_with_timestamp(char const*) [clone .cold]: log_with_timestamp(char const*) [clone .cold] grew in binary size but has no if/
+      ... and 22 more
+    [RETURN_CONSISTENT] × 1
+      plugin_init: plugin_init returned the same expression across all 1 invocation(s): '0'
+
+  EXECUTION PROFILE  (BASE vs variant):
+    FUNCTION                            B_CALLS   V_CALLS   RETURN LINES (BASE)
+    --------------------------------------------------------------------
+    == callback_all_passes_end           3         3         [None, None, None]
+    == callback_all_passes_start         3         3         [None, None, None]
+    == callback_finish                   1         1         [None]
+    == callback_finish_declaration       2         2         [None, None]
+    == callback_finish_unit              1         1         [None]
+    == callback_pass_execution           210       210       [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+    == callback_pre_genericize           3         3         [None, None, None]
+    == callback_register_attribute       1         1         [None]
+    == callback_registering_pragmas      1         1         [None]
+    == callback_start_unit               1         1         [None]
+    == plugin_init                       1         1         [126]
+
+  DISASM  (15 functions changed):
+    BRANCH_ELIM   : 12
+    SIZE_GROWN    : 3  <- review
+
+  SYMBOLS  (removed: 0  added: 0)
+
+  SOURCE LOCATIONS (1 resolved):
+    plugin_init                                        callbacks.cc:127
+
+================================================================================
+  15 CONFIRMED_BENIGN
+================================================================================

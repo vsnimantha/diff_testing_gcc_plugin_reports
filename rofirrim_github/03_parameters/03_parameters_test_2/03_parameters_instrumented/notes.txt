@@ -1,0 +1,3 @@
+tested and working
+
+use the config file
