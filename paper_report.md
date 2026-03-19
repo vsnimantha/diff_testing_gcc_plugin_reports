@@ -18,11 +18,14 @@
 | `latent_entropy` | 4 | 68 | 0 | *60* | 0 | 0 | 52.3% |
 | `oi` | 4 | 68 | 0 | *56* | 4 | 0 | 72.2% |
 | `randomize_layout` | 4 | 68 | 0 | *60* | 0 | 0 | 48.9% |
-| `reftrack` | 1 | 15 | 0 | *15* | 0 | 0 | 53.3% |
+| `roffirim_01_first` | 4 | 68 | 0 | 0 | 0 | 60 | 80.8% |
+| `roffirim_02_help_version` | 4 | 68 | 0 | 0 | 0 | 60 | 80.8% |
+| `roffirim_03_parameters` | 4 | 68 | 0 | 0 | 0 | 60 | 66.7% |
+| `roffirim_04_callbacks` | 4 | 68 | 0 | 0 | 0 | 60 | 94.5% |
 | `sancov` | 4 | 68 | 0 | *32* | 28 | 0 | 35.9% |
 | `stack_leak` | 4 | 68 | 0 | *60* | 0 | 0 | 64.5% |
 | `struck_leak` | 4 | 68 | 0 | *60* | 0 | 0 | 65.0% |
-| **TOTAL** | **54** | **906** | **0** | **645** | **90** | **60** | 64.0% |
+| **TOTAL** | **69** | **1163** | **0** | **630** | **90** | **300** | 68.6% |
 
 ## Variant Sensitivity
 
@@ -30,21 +33,21 @@ Which compiler flag variants triggered bugs across all plugins:
 
 | Variant | Total Bugs | Confirmed | Likely | Severity |
 |---------|----------:|----------:|-------:|----------|
-| `INLINE_ALL` | 49 | 0 | 49 | 🟠 LIKELY |
-| `LTO` | 49 | 0 | 49 | 🟠 LIKELY |
-| `LTO_IPA` | 49 | 0 | 49 | 🟠 LIKELY |
-| `NO_VECT` | 49 | 0 | 49 | 🟠 LIKELY |
-| `O3` | 49 | 0 | 49 | 🟠 LIKELY |
-| `O3_LOOPS` | 49 | 0 | 49 | 🟠 LIKELY |
-| `VECT` | 49 | 0 | 49 | 🟠 LIKELY |
-| `EXTRA_TREE_OPTS` | 39 | 0 | 39 | 🟠 LIKELY |
-| `NO_ALIAS` | 39 | 0 | 39 | 🟠 LIKELY |
-| `NO_INLINE` | 39 | 0 | 39 | 🟠 LIKELY |
-| `NO_TREE_OPTS` | 39 | 0 | 39 | 🟠 LIKELY |
-| `O2` | 39 | 0 | 39 | 🟠 LIKELY |
-| `STRICT_ALIAS` | 39 | 0 | 39 | 🟠 LIKELY |
-| `O1` | 34 | 0 | 34 | 🟠 LIKELY |
-| `OS` | 34 | 0 | 34 | 🟠 LIKELY |
+| `INLINE_ALL` | 48 | 0 | 48 | 🟠 LIKELY |
+| `LTO` | 48 | 0 | 48 | 🟠 LIKELY |
+| `LTO_IPA` | 48 | 0 | 48 | 🟠 LIKELY |
+| `NO_VECT` | 48 | 0 | 48 | 🟠 LIKELY |
+| `O3` | 48 | 0 | 48 | 🟠 LIKELY |
+| `O3_LOOPS` | 48 | 0 | 48 | 🟠 LIKELY |
+| `VECT` | 48 | 0 | 48 | 🟠 LIKELY |
+| `EXTRA_TREE_OPTS` | 38 | 0 | 38 | 🟠 LIKELY |
+| `NO_ALIAS` | 38 | 0 | 38 | 🟠 LIKELY |
+| `NO_INLINE` | 38 | 0 | 38 | 🟠 LIKELY |
+| `NO_TREE_OPTS` | 38 | 0 | 38 | 🟠 LIKELY |
+| `O2` | 38 | 0 | 38 | 🟠 LIKELY |
+| `STRICT_ALIAS` | 38 | 0 | 38 | 🟠 LIKELY |
+| `O1` | 33 | 0 | 33 | 🟠 LIKELY |
+| `OS` | 33 | 0 | 33 | 🟠 LIKELY |
 
 ## Bug Tag Analysis
 
@@ -52,9 +55,9 @@ Frequency of bug-indicating tags across all plugins and test runs:
 
 | Tag | Count | Meaning |
 |-----|------:|---------|
-| `COMPLEXITY_CHANGE` | 580 | Binary grew AND has if/loop — possible new code path |
-| `INLINED_COMPLEX_LOGIC` | 493 | Inlined function had if/loop — inlining may alter flow |
-| `VOLATILE_RETURN` | 270 | Return expression varies across invocations |
+| `COMPLEXITY_CHANGE` | 617 | Binary grew AND has if/loop — possible new code path |
+| `INLINED_COMPLEX_LOGIC` | 479 | Inlined function had if/loop — inlining may alter flow |
+| `VOLATILE_RETURN` | 255 | Return expression varies across invocations |
 
 ## Code Coverage Analysis
 
@@ -103,7 +106,22 @@ Plugin code coverage achieved across test runs (from `coverage_summary.txt`):
 | `randomize_layout` | randomize_layout_test_2 | 53.4% | 36.4% | 80.6% |
 | `randomize_layout` | randomize_layout_test_3 | 51.2% | 35.6% | 77.4% |
 | `randomize_layout` | randomize_layout_test_4 | 58.8% | 42.7% | 83.9% |
-| `reftrack` | reftrack_test_4 | 53.3% | 25.0% | 57.9% |
+| `roffirim_01_first` | 01_first_test_1 | 80.8% | 50.0% | 100.0% |
+| `roffirim_01_first` | 01_first_test_2 | 80.8% | 50.0% | 100.0% |
+| `roffirim_01_first` | 01_first_test_3 | 80.8% | 50.0% | 100.0% |
+| `roffirim_01_first` | 01_first_test_4 | 80.8% | 50.0% | 100.0% |
+| `roffirim_02_help_version` | 02_help_version_test_1 | 80.8% | 50.0% | 100.0% |
+| `roffirim_02_help_version` | 02_help_version_test_2 | 80.8% | 50.0% | 100.0% |
+| `roffirim_02_help_version` | 02_help_version_test_3 | 80.8% | 50.0% | 100.0% |
+| `roffirim_02_help_version` | 02_help_version_test_4 | 80.8% | 50.0% | 100.0% |
+| `roffirim_03_parameters` | 03_parameters_test_1 | 66.7% | 50.0% | 100.0% |
+| `roffirim_03_parameters` | 03_parameters_test_2 | 66.7% | 50.0% | 100.0% |
+| `roffirim_03_parameters` | 03_parameters_test_3 | 66.7% | 50.0% | 100.0% |
+| `roffirim_03_parameters` | 03_parameters_test_4 | 66.7% | 50.0% | 100.0% |
+| `roffirim_04_callbacks` | 04_callbacks_test_1 | 96.0% | 50.0% | 100.0% |
+| `roffirim_04_callbacks` | 04_callbacks_test_2 | 96.0% | 50.0% | 100.0% |
+| `roffirim_04_callbacks` | 04_callbacks_test_3 | 96.0% | 50.0% | 100.0% |
+| `roffirim_04_callbacks` | 04_callbacks_test_4 | 90.0% | 50.0% | 91.7% |
 | `sancov` | sancov_test_1 | 35.9% | 23.3% | 37.5% |
 | `sancov` | sancov_test_2 | 35.9% | 23.3% | 37.5% |
 | `sancov` | sancov_test_3 | 35.9% | 23.3% | 37.5% |
@@ -1872,71 +1890,457 @@ Average line coverage across 4 test run(s): **48.9%**
 
 ---
 
-## Plugin: `reftrack`
+## Plugin: `roffirim_01_first`
 
 ### Verdict Summary
 
 | Verdict | Count |
 |---------|------:|
-| 🟠 LIKELY_BUG | 15 |
+| ✅ CONFIRMED_BENIGN | 60 |
 
 ### Coverage
 
-Average line coverage across 1 test run(s): **53.3%**
+Average line coverage across 4 test run(s): **80.8%**
 
 ### Bug Tags Observed
 
 | Tag | Count |
 |-----|------:|
-| `COMPLEXITY_CHANGE` | 15 |
-| `VOLATILE_RETURN` | 15 |
-| `INLINED_COMPLEX_LOGIC` | 14 |
-
-### 🟠 Likely Bugs
-
-> Stage 6 runtime confirmation was not run for these variants. Binary analysis suggests a bug but it has not been verified by re-running the plugin.
-
-| Test | Variant | Symbols Removed | Bug Tags |
-|------|---------|----------------|----------|
-| reftrack_test_4 | `EXTRA_TREE_OPTS` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `INLINE_ALL` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `LTO` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `LTO_IPA` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `NO_ALIAS` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `NO_INLINE` | 0 | `COMPLEXITY_CHANGE`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `NO_TREE_OPTS` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `NO_VECT` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `O1` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `O2` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `O3` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `O3_LOOPS` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `OS` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `STRICT_ALIAS` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
-| reftrack_test_4 | `VECT` | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` |
+| `COMPLEXITY_CHANGE` | 52 |
 
 ### Per-Test Run Detail
 
-#### reftrack_test_4
+#### 01_first_test_1
 
-*Coverage:* line 53.3% | branch 25.0% | function 57.9%
+*Coverage:* line 80.8% | branch 50.0% | function 100.0%
 
 | Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
 |---------|--------|--------------|---------|------------:|----------|------------|
-| `EXTRA_TREE_OPTS` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `INLINE_ALL` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `LTO` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `LTO_IPA` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `NO_ALIAS` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `NO_INLINE` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `VOLATILE_RETURN` | —/— |
-| `NO_TREE_OPTS` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `NO_VECT` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `O1` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `O2` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `O3` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `O3_LOOPS` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `OS` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `STRICT_ALIAS` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
-| `VECT` | ? | 🟠 LIKELY_BUG | — | 0 | `COMPLEXITY_CHANGE`, `INLINED_COMPLEX_LOGIC`, `VOLATILE_RETURN` | —/— |
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+
+#### 01_first_test_2
+
+*Coverage:* line 80.8% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+
+#### 01_first_test_3
+
+*Coverage:* line 80.8% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+
+#### 01_first_test_4
+
+*Coverage:* line 80.8% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | `COMPLEXITY_CHANGE` | 1/1 *(=)* |
+
+---
+
+## Plugin: `roffirim_02_help_version`
+
+### Verdict Summary
+
+| Verdict | Count |
+|---------|------:|
+| ✅ CONFIRMED_BENIGN | 60 |
+
+### Coverage
+
+Average line coverage across 4 test run(s): **80.8%**
+
+### Per-Test Run Detail
+
+#### 02_help_version_test_1
+
+*Coverage:* line 80.8% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+
+#### 02_help_version_test_2
+
+*Coverage:* line 80.8% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+
+#### 02_help_version_test_3
+
+*Coverage:* line 80.8% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+
+#### 02_help_version_test_4
+
+*Coverage:* line 80.8% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+
+---
+
+## Plugin: `roffirim_03_parameters`
+
+### Verdict Summary
+
+| Verdict | Count |
+|---------|------:|
+| ✅ CONFIRMED_BENIGN | 60 |
+
+### Coverage
+
+Average line coverage across 4 test run(s): **66.7%**
+
+### Per-Test Run Detail
+
+#### 03_parameters_test_1
+
+*Coverage:* line 66.7% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+
+#### 03_parameters_test_2
+
+*Coverage:* line 66.7% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+
+#### 03_parameters_test_3
+
+*Coverage:* line 66.7% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+
+#### 03_parameters_test_4
+
+*Coverage:* line 66.7% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1/1 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1/1 *(=)* |
+
+---
+
+## Plugin: `roffirim_04_callbacks`
+
+### Verdict Summary
+
+| Verdict | Count |
+|---------|------:|
+| ✅ CONFIRMED_BENIGN | 60 |
+
+### Coverage
+
+Average line coverage across 4 test run(s): **94.5%**
+
+### Per-Test Run Detail
+
+#### 04_callbacks_test_1
+
+*Coverage:* line 96.0% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 172/172 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 172/172 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 172/172 *(=)* |
+
+#### 04_callbacks_test_2
+
+*Coverage:* line 96.0% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 234/234 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 234/234 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 234/234 *(=)* |
+
+#### 04_callbacks_test_3
+
+*Coverage:* line 96.0% | branch 50.0% | function 100.0%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 1519/1519 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 1519/1519 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 1519/1519 *(=)* |
+
+#### 04_callbacks_test_4
+
+*Coverage:* line 90.0% | branch 50.0% | function 91.7%
+
+| Variant | Tester | Investigation | Stage 6 | Sym Removed | Bug Tags | Frames B/V |
+|---------|--------|--------------|---------|------------:|----------|------------|
+| `DEBUG` | NOISY_ONLY | ❓ ? | — | 0 | — | 227/227 *(=)* |
+| `EXTRA_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `INLINE_ALL` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `LTO` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `LTO_IPA` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `NO_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `NO_INLINE` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `NO_TREE_OPTS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `NO_VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `O0` | NOISY_ONLY | ❓ ? | — | 0 | — | 227/227 *(=)* |
+| `O1` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `O2` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `O3` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `O3_LOOPS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `OS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `STRICT_ALIAS` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
+| `VECT` | SUSPICIOUS | ✅ CONFIRMED_BENIGN | ✅ CONFIRMED_BENIGN | 0 | — | 227/227 *(=)* |
 
 ---
 
