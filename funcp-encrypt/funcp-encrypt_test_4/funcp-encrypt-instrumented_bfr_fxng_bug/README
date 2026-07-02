@@ -1,0 +1,43 @@
+This is a GCC plugin for warning on function calls through a pointer
+which may not have been decrypted.
+
+To compile this plugins, you need a recent GCC.  The GCC plugin API
+is a moving target so it is unlikely to work with anything but what I
+compiled these with (GCC 6.3 as of writing).
+
+I tested this on an x86-64 Fedora 25 installation with GCC 6 and 7.
+On Fedora, you probably need to install the GCC plugin development RPM
+with:
+
+	 $ sudo dnf install gcc-plugin-devel
+
+Build the plugin in the source directory with `make'.  Yes, the source
+directory-- I'm that lazy.
+
+Finally, use the compiler you built, plus the plugin, to build whatever 
+you want to test:
+
+	$ export CC="/blah/bin/gcc -fplugin=/path/to/plugin.so"
+	$ export CXX="/blah/bin/gcc -fplugin=/path/to/plugin.so"
+	$ make stuff
+
+Et voila.  You should see warnings such as these while building things:
+
+foo.c: In function ‘init’:
+foo.c:49:21: warning: copy of a function pointer to memory
+   __resume = resume;
+   ~~~~~~~~~^~~~~~~~
+...
+
+bar.c:88:8: warning: possible use of non decrypted function pointer
+       (*__init [i]) (argc, argv, envp);
+       ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For examples on what is and is not handled, see the tests in test-*.c.
+
+Please send any suggestions or bugfixes to me,
+
+Aldy Hernandez
+aldyh@redhat.com
+
+[Master repository kept here: https://pagure.io/funcp-encrypt]

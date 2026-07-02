@@ -1,0 +1,215 @@
+/* Testcases for GCC plugin to discover possible calls through an
+   unencrypted function pointer.
+
+   Copyright (C) 2017 Free Software Foundation, Inc.
+   Contributed by Aldy Hernandez <aldyh@redhat.com>.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+typedef void (*funcp) (void);
+
+/* Binary operations on a function pointer is a recognized form of
+   pointer encryption.
+
+   The decryption must be done in place (to a local/temporary or a
+   register), and never written to memory, otherwise it is considered
+   unsafe.  */
+#define PTR_DEMANGLE(var) \
+  (var) = (__typeof(var)) ((unsigned long) (var) ^ 0xc00ffee)
+
+/* A function with __attribute__((decryptor)) is considered an
+   acceptable way to decrypt a function pointer.  Similar to
+   PTR_DEMANGLE above, the decryption must be done in place.
+
+   Note: It would be neat if we could tag the attribute directly onto the
+   asm statement, but GCC currently doesn't do this, and it would
+   probably be over kill.  */
+__attribute__((decryptor))
+static funcp asm_demangler (funcp f)
+{
+  asm ("#decrypt_operation $2, $0" : "=r" (f) : "0" (f));
+  return f;
+}
+
+void (*encrypted_funcp) (void);
+void (*plain_funcp) (void);
+void direct_function (void);
+extern void qsort(funcp callback);
+
+extern int bar();
+
+void foo()
+{
+  PTR_DEMANGLE (encrypted_funcp); // WARN, copied to mem
+  encrypted_funcp ();		// WARN, written to memory.
+
+  encrypted_funcp = asm_demangler (encrypted_funcp); // WARN, copied to mem
+  encrypted_funcp ();		// WARN, written to memory.
+
+  plain_funcp ();		// WARN, no decryption at all.
+
+  direct_function();		// OK.  Don't care about plain func calls.
+
+  funcp f = encrypted_funcp;
+  f = asm_demangler (f);
+  f();				// OK.  Decryption to a temporary, not memory.
+
+  f = encrypted_funcp;
+  f();				// WARN, no decryption at all.
+
+  PTR_DEMANGLE (f);
+  f();				// OK. Decryption in place.
+
+  f = encrypted_funcp;
+  if (bar())
+    PTR_DEMANGLE (f);
+  f ();				// WARN, path not demangled.
+
+  // Test that phi convergence code works.
+  f = encrypted_funcp;
+  if (bar())
+    PTR_DEMANGLE (f);
+  else
+    {
+      funcp g = f;
+      PTR_DEMANGLE (g);
+      f = g;
+    }
+  f ();				// OK, all paths demangled.
+
+  f = encrypted_funcp;
+  if (bar())
+    PTR_DEMANGLE (f);
+  f();				// WARN, only one path mangled.
+
+  qsort (encrypted_funcp); // WARN, passing non decrypted funcp in argument
+
+  qsort(0);		    // OK to pass a constant even though it's
+			    // not decrypted.
+
+  if (encrypted_funcp == 0) // WARN, comparing non-decrypted with constant.
+    direct_function();
+
+  f = encrypted_funcp;
+  PTR_DEMANGLE (f);
+  if (f != 0)		    // OK to compare with constant, we've been
+			    // demangled.
+    direct_function();
+}
+
+void foo2()
+{
+  funcp f = encrypted_funcp;
+  funcp g = plain_funcp;
+  PTR_DEMANGLE (f);
+  if (f == g)		   // WARN, incompatible encryptness comparison
+    bar();
+
+  f = encrypted_funcp;     // OK to compare same encryption type.
+  if (f == g)
+    bar();
+}
+
+void foo3()
+{
+  qsort (&foo3);	// OK to pass address of a function.
+}
+
+void foo4(funcp callback)
+{
+  callback();		// OK to call callback passed as argument,
+			// inasmuch as the callback is not written out
+			// anywhere.
+
+  volatile funcp f = callback;
+  f();			// WARN, writing out callback is not allowed.
+}
+
+void foo5(funcp callback)
+{
+  qsort (callback);	// OK to pass unmodified parameter that is a callback.
+}
+
+void foo6(funcp callback)
+{
+  extern funcp global;
+  global = callback;	// WARN, should not copy callback to memory.
+
+  extern funcp global2;
+  funcp f = callback;
+  global2 = f;		// WARN, should not copy callback to memory even
+			// if through a temporary.
+
+  funcp g = callback;
+  PTR_DEMANGLE (g);
+  global2 = g;		// WARN, should not copy callback to memory
+			// even if demangled.
+
+  extern funcp global3;
+  global3 = &foo3;	// WARN, copying a function pointer to memory.
+}
+
+void foo7()
+{
+  extern funcp get_callback();
+  extern funcp global;
+  global = get_callback();	// WARN, copy of funcp to memory.
+}
+
+struct obj
+{
+  funcp callback;
+};
+
+void
+foo8 (funcp f, struct obj *result)
+{
+  result->callback = f;		// WARN, copy of funcp to memory.
+}
+
+void foo9 ()
+{
+  struct obj arg;
+
+  extern void function (struct obj *);
+  function (&arg); // WARN, funcp passed in obj in memory
+}
+
+void foo10 (struct obj *o)
+{
+  o->callback();	// WARN, use of non decrypted funcp
+
+  funcp p = o->callback;
+  PTR_DEMANGLE (p);
+  p();			// OK, demangled.
+}
+
+// Test that the propagator doesn't go into an infinite loop.
+
+void
+bad_inifinite_loop (const signed char *inptr)
+{
+  while (1)
+    {
+      signed char ch = *inptr;
+
+      if (!ch)
+        continue;
+
+      ch &= 0x1f;
+
+      for (unsigned i = 1; i < 10000; ++i)
+        ch |= inptr[0] & 0x3f;
+    }
+}
